@@ -1,0 +1,1 @@
+openapi-merge-cli && openapi-generator-cli.cmd generate -i .output.swagger.json -g dart -o backend-client-api --additional-properties=pubLibrary=Backend.ClientApi --additional-properties=pubName=BackendClientApi

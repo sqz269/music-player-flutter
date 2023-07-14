@@ -1,0 +1,142 @@
+//
+// AUTO-GENERATED FILE, DO NOT MODIFY!
+//
+// @dart=2.12
+
+// ignore_for_file: unused_element, unused_import
+// ignore_for_file: always_put_required_named_parameters_first
+// ignore_for_file: constant_identifier_names
+// ignore_for_file: lines_longer_than_80_chars
+
+part of Backend.ClientApi;
+
+class LocalizedField {
+  /// Returns a new [LocalizedField] instance.
+  LocalizedField({
+    required this.default_,
+    this.en,
+    this.zh,
+    this.jp,
+  });
+
+  String default_;
+
+  String? en;
+
+  String? zh;
+
+  String? jp;
+
+  @override
+  bool operator ==(Object other) => identical(this, other) || other is LocalizedField &&
+     other.default_ == default_ &&
+     other.en == en &&
+     other.zh == zh &&
+     other.jp == jp;
+
+  @override
+  int get hashCode =>
+    // ignore: unnecessary_parenthesis
+    (default_.hashCode) +
+    (en == null ? 0 : en!.hashCode) +
+    (zh == null ? 0 : zh!.hashCode) +
+    (jp == null ? 0 : jp!.hashCode);
+
+  @override
+  String toString() => 'LocalizedField[default_=$default_, en=$en, zh=$zh, jp=$jp]';
+
+  Map<String, dynamic> toJson() {
+    final json = <String, dynamic>{};
+      json[r'default'] = this.default_;
+    if (this.en != null) {
+      json[r'en'] = this.en;
+    } else {
+      json[r'en'] = null;
+    }
+    if (this.zh != null) {
+      json[r'zh'] = this.zh;
+    } else {
+      json[r'zh'] = null;
+    }
+    if (this.jp != null) {
+      json[r'jp'] = this.jp;
+    } else {
+      json[r'jp'] = null;
+    }
+    return json;
+  }
+
+  /// Returns a new [LocalizedField] instance and imports its values from
+  /// [value] if it's a [Map], null otherwise.
+  // ignore: prefer_constructors_over_static_methods
+  static LocalizedField? fromJson(dynamic value) {
+    if (value is Map) {
+      final json = value.cast<String, dynamic>();
+
+      // Ensure that the map contains the required keys.
+      // Note 1: the values aren't checked for validity beyond being non-null.
+      // Note 2: this code is stripped in release mode!
+      assert(() {
+        requiredKeys.forEach((key) {
+          assert(json.containsKey(key), 'Required key "LocalizedField[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "LocalizedField[$key]" has a null value in JSON.');
+        });
+        return true;
+      }());
+
+      return LocalizedField(
+        default_: mapValueOfType<String>(json, r'default')!,
+        en: mapValueOfType<String>(json, r'en'),
+        zh: mapValueOfType<String>(json, r'zh'),
+        jp: mapValueOfType<String>(json, r'jp'),
+      );
+    }
+    return null;
+  }
+
+  static List<LocalizedField> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <LocalizedField>[];
+    if (json is List && json.isNotEmpty) {
+      for (final row in json) {
+        final value = LocalizedField.fromJson(row);
+        if (value != null) {
+          result.add(value);
+        }
+      }
+    }
+    return result.toList(growable: growable);
+  }
+
+  static Map<String, LocalizedField> mapFromJson(dynamic json) {
+    final map = <String, LocalizedField>{};
+    if (json is Map && json.isNotEmpty) {
+      json = json.cast<String, dynamic>(); // ignore: parameter_assignments
+      for (final entry in json.entries) {
+        final value = LocalizedField.fromJson(entry.value);
+        if (value != null) {
+          map[entry.key] = value;
+        }
+      }
+    }
+    return map;
+  }
+
+  // maps a json object with a list of LocalizedField-objects as value to a dart map
+  static Map<String, List<LocalizedField>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<LocalizedField>>{};
+    if (json is Map && json.isNotEmpty) {
+      // ignore: parameter_assignments
+      json = json.cast<String, dynamic>();
+      for (final entry in json.entries) {
+        map[entry.key] = LocalizedField.listFromJson(entry.value, growable: growable,);
+      }
+    }
+    return map;
+  }
+
+  /// The list of required keys that must be present in a JSON.
+  static const requiredKeys = <String>{
+    'default',
+  };
+}
+
