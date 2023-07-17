@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:BackendClientApi/api.dart';
 
 import 'package:get/get.dart';
+import 'package:tlmc_player_flutter/components/track_tile.dart';
+import 'package:tlmc_player_flutter/utils/utils.dart';
+
+import '../../ui_state/appbar_controller.dart';
 
 class MobileAlbumPage extends StatefulWidget {
   const MobileAlbumPage({super.key});
@@ -30,15 +34,6 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
     print("Request sent");
   }
 
-  static timeStrNoHours(String timeString) {
-    // remove the hours if it is 00
-    if (timeString.startsWith("00:")) {
-      return timeString.substring(3);
-    } else {
-      return timeString;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -60,17 +55,57 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
           _albumData.tracks?.forEach((element) {
             print(element.name!.default_);
           });
+
+          // update appbar
+          WidgetsBinding.instance!.addPostFrameCallback(
+            (_) {
+              Get.find<AppBarController>().updateFlexibleSpace(
+                FlexibleSpaceBar(
+                  title: GestureDetector(
+                    onTap: () {
+                      print("Tapped");
+                    },
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        text: _albumData.albumArtist![0].name!,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: '\nAlbum',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: Colors.grey.shade600),
+                          ),
+                          TextSpan(
+                            text: ' · ',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: Colors.grey.shade600),
+                          ),
+                          TextSpan(
+                            text: '${_albumData.releaseDate!.year}',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(color: Colors.grey.shade600),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  centerTitle: true,
+                ),
+              );
+            },
+          );
         }
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("data"),
-              ],
-            ),
             // Display album image
             Container(
               width: 200,
@@ -89,7 +124,9 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
               padding: const EdgeInsets.symmetric(horizontal: 36.0),
               child: Text(
                 _albumData.albumName!.default_,
-                style: TextStyle(fontSize: 24),
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -106,7 +143,7 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
                 IconButton.filled(
                   onPressed: () {},
                   icon: Icon(Icons.play_arrow),
-                  iconSize: 36,
+                  iconSize: 42,
                 ),
                 IconButton.outlined(
                   onPressed: () {},
@@ -117,35 +154,21 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
             ListView.builder(
               padding: EdgeInsets.zero,
               itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      _albumData.tracks![index].index.toString(),
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                    ),
-                  ),
-                  title: Text(
-                    _albumData.tracks![index].name!.default_,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                  subtitle: Text(
-                      timeStrNoHours(_albumData.tracks![index].duration!),
-                      style: Theme.of(context).textTheme.labelMedium),
-                  trailing: IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.more_vert),
-                  ),
-                );
+                return TrackTile(
+                    trackData: _albumData.tracks![index],
+                    albumData: _albumData);
               },
               itemCount: _albumData.tracks!.length,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-            )
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: Center(
+                child: Text(
+                    "${_albumData.tracks!.length} tracks · ${Util.sumTimeStr(Util.getTrackDurationList(_albumData.tracks!))}"),
+              ),
+            ),
           ],
         );
       },
