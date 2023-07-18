@@ -23,14 +23,11 @@ class TrackTile extends StatelessWidget {
           ),
         );
       },
-      leading: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          trackData.index.toString(),
-          style: Theme.of(context).textTheme.labelLarge!.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
-        ),
+      leading: Text(
+        trackData.index.toString(),
+        style: Theme.of(context).textTheme.labelLarge!.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
       ),
       title: Text(
         trackData.name!.default_,

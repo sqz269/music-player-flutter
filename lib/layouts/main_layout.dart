@@ -28,10 +28,10 @@ class _MainLayoutState extends State<MainLayout> {
               slivers: [
                 GetBuilder<AppBarController>(
                   builder: (builder) => SliverAppBar(
-                    backgroundColor: Colors.red,
+                    backgroundColor: Colors.transparent,
                     elevation: 0.0,
                     flexibleSpace: builder.flexibleSpaceWidget.value,
-                    pinned: true,
+                    // pinned: true,
                     actions: [
                       IconButton(
                         onPressed: () {},
