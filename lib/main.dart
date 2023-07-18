@@ -7,6 +7,7 @@ import 'package:tlmc_player_flutter/layouts/main_layout.dart';
 import 'package:tlmc_player_flutter/states/audio_controller.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/views/homepage.dart';
+import 'package:tlmc_player_flutter/views/mobile/audio_test_page.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_album_page.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_explore.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_homepage.dart';
@@ -33,29 +34,44 @@ Future<void> main() async {
       ),
     ),
     darkTheme: ThemeData.dark(),
-    initialRoute: '/album/09f5674e-cca2-4a84-8d08-19ca143456ce',
+    initialRoute: "/",
     getPages: [
       GetPage(
         name: '/',
         page: () => MainLayout(
           child: HomePage(),
         ),
-        transition: Transition.noTransition,
+        transition: Transition.rightToLeft,
+        transitionDuration: const Duration(milliseconds: 100),
       ),
       GetPage(
         name: '/album/:albumId',
         page: () => MainLayout(
           child: MobileAlbumPage(),
         ),
-        transition: Transition.noTransition,
+        transition: Transition.rightToLeft,
+        transitionDuration: const Duration(milliseconds: 100),
+      ),
+      GetPage(
+        name: '/audio_test/:trackId',
+        page: () => MainLayout(
+          child: AudioTestPage(),
+        ),
       ),
       GetPage(
         name: '/explore',
         page: () => MainLayout(
           child: ExplorePage(),
         ),
-        transition: Transition.noTransition,
+        transition: Transition.rightToLeft,
+        transitionDuration: const Duration(milliseconds: 100),
       ),
+      // GetPage(
+      //   name: '/audio_test/',
+      //   page: () => MainLayout(
+      //     child: AudioTestPage(),
+      //   ),
+      // ),
     ],
   ));
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:BackendClientApi/api.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class BottomSheetTrackOps extends StatelessWidget {
   final AlbumReadDto albumData;
@@ -61,6 +63,31 @@ class BottomSheetTrackOps extends StatelessWidget {
             title: Text('Go to artist'),
             onTap: () {},
           ),
+          ListTile(
+            leading: Icon(Icons.quiz),
+            title: Text('[DEBUG] Play in HLS Audio Test Page'),
+            onTap: () {
+              Get.toNamed(
+                '/audio_test/${trackData.id!}',
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.copy),
+            title: Text('[DEBUG] Copy track UUID to clipboard'),
+            onTap: () {
+              Clipboard.setData(
+                ClipboardData(text: trackData.id!),
+              );
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Copied track UUID to clipboard'),
+                  behavior: SnackBarBehavior.floating,
+                ),
+              );
+            },
+          )
         ],
       ),
     );
