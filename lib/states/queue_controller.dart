@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:tlmc_player_flutter/states/i_audio_controller.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:BackendClientApi/api.dart';
@@ -13,6 +14,8 @@ class QueueController extends GetxController {
   var currentTrack = Rx<QueuedTrack?>(null);
 
   int _index = 0;
+
+  final _audioController = Get.find<IAudioController>();
 
   void addTrack(QueuedTrack track, {int? position}) {
     track.index = _index++;
@@ -117,5 +120,19 @@ class QueueController extends GetxController {
     currentTrack.value = history.removeLast();
 
     return true;
+  }
+
+  void clearQueue() {
+    queue.clear();
+  }
+
+  void clearHistory() {
+    history.clear();
+  }
+
+  void clearAll() {
+    clearQueue();
+    playNext();
+    clearHistory();
   }
 }
