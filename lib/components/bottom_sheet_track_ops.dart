@@ -67,6 +67,7 @@ class BottomSheetTrackOps extends StatelessWidget {
             leading: Icon(Icons.quiz),
             title: Text('[DEBUG] Play in HLS Audio Test Page'),
             onTap: () {
+              Navigator.of(context).pop();
               Get.toNamed(
                 '/audio_test/${trackData.id!}',
               );
@@ -79,7 +80,7 @@ class BottomSheetTrackOps extends StatelessWidget {
               Clipboard.setData(
                 ClipboardData(text: trackData.id!),
               );
-
+              Navigator.of(context).pop();
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text('Copied track UUID to clipboard'),

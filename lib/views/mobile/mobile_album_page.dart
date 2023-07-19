@@ -61,6 +61,8 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
             (_) {
               Get.find<AppBarController>().updateFlexibleSpace(
                 FlexibleSpaceBar(
+                  titlePadding: const EdgeInsets.only(left: 0.0),
+                  expandedTitleScale: 1,
                   title: GestureDetector(
                     onTap: () {
                       print("Tapped");
@@ -69,27 +71,27 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
                       textAlign: TextAlign.center,
                       text: TextSpan(
                         text: _albumData.albumArtist![0].name!,
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyMedium,
                         children: <TextSpan>[
                           TextSpan(
                             text: '\nAlbum',
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyMedium!
+                                .bodySmall!
                                 .copyWith(color: Colors.grey.shade600),
                           ),
                           TextSpan(
                             text: ' · ',
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyMedium!
+                                .bodySmall!
                                 .copyWith(color: Colors.grey.shade600),
                           ),
                           TextSpan(
                             text: '${_albumData.releaseDate!.year}',
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyMedium!
+                                .bodySmall!
                                 .copyWith(color: Colors.grey.shade600),
                           ),
                         ],
@@ -103,73 +105,76 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
           );
         }
 
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            // Display album image
-            Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: NetworkImage(_albumData.thumbnail!.large!.url!),
-                  fit: BoxFit.cover,
+        return Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              // Display album image
+              Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(_albumData.thumbnail!.large!.url!),
+                    fit: BoxFit.cover,
+                  ),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                borderRadius: BorderRadius.circular(8),
               ),
-            ),
-            const SizedBox(height: 16),
-            // Display album title
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 36.0),
-              child: Text(
-                _albumData.albumName!.default_,
-                style: Theme.of(context).textTheme.headlineSmall!.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(height: 16),
-            // controls
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              // add padding to all children
-              children: [
-                IconButton.outlined(
-                  onPressed: () {},
-                  icon: Icon(Icons.library_add_outlined),
-                ),
-                IconButton.filled(
-                  onPressed: () {},
-                  icon: Icon(Icons.play_arrow),
-                  iconSize: 42,
-                ),
-                IconButton.outlined(
-                  onPressed: () {},
-                  icon: Icon(Icons.more_vert),
-                ),
-              ],
-            ),
-            ListView.builder(
-              padding: EdgeInsets.zero,
-              itemBuilder: (context, index) {
-                return TrackTile(
-                    trackData: _albumData.tracks![index],
-                    albumData: _albumData);
-              },
-              itemCount: _albumData.tracks!.length,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Center(
+              const SizedBox(height: 16),
+              // Display album title
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 36.0),
                 child: Text(
-                    "${_albumData.tracks!.length} tracks · ${Util.sumTimeStr(Util.getTrackDurationList(_albumData.tracks!))}"),
+                  _albumData.albumName!.default_,
+                  style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 16),
+              // controls
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                // add padding to all children
+                children: [
+                  IconButton.outlined(
+                    onPressed: () {},
+                    icon: Icon(Icons.library_add_outlined),
+                  ),
+                  IconButton.filled(
+                    onPressed: () {},
+                    icon: Icon(Icons.play_arrow),
+                    iconSize: 42,
+                  ),
+                  IconButton.outlined(
+                    onPressed: () {},
+                    icon: Icon(Icons.more_vert),
+                  ),
+                ],
+              ),
+              ListView.builder(
+                padding: EdgeInsets.zero,
+                itemBuilder: (context, index) {
+                  return TrackTile(
+                      trackData: _albumData.tracks![index],
+                      albumData: _albumData);
+                },
+                itemCount: _albumData.tracks!.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Center(
+                  child: Text(
+                      "${_albumData.tracks!.length} tracks · ${Util.sumTimeStr(Util.getTrackDurationList(_albumData.tracks!))}"),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
