@@ -51,6 +51,7 @@ dev_dependencies:
   get: ^4.6.5
   uuid: ^3.0.7
   video_player: ^2.7.0
+  miniplayer: ^1.0.1
 
   BackendClientApi:
     path: backend-client-api

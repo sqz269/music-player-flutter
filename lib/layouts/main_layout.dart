@@ -4,6 +4,8 @@ import 'package:get/get.dart';
 
 import 'package:tlmc_player_flutter/components/mobile_bottom_bar.dart';
 import 'package:tlmc_player_flutter/ui_state/appbar_controller.dart';
+import 'package:miniplayer/miniplayer.dart';
+import 'package:tlmc_player_flutter/views/mobile/mobile_playing_bar.dart';
 
 class MainLayout extends StatefulWidget {
   final Widget child;
@@ -24,32 +26,43 @@ class _MainLayoutState extends State<MainLayout> {
       body: LayoutBuilder(
         builder: (context, constraints) {
           if (constraints.maxWidth < 450) {
-            return CustomScrollView(
-              slivers: [
-                GetBuilder<AppBarController>(
-                  builder: (builder) => SliverAppBar(
-                    backgroundColor: Colors.transparent,
-                    elevation: 0.0,
-                    flexibleSpace: builder.flexibleSpaceWidget.value,
-                    // pinned: true,
-                    actions: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.search),
+            return Stack(
+              children: [
+                SafeArea(
+                  child: CustomScrollView(
+                    slivers: [
+                      GetBuilder<AppBarController>(
+                        builder: (builder) => SliverAppBar(
+                          backgroundColor: Colors.transparent,
+                          flexibleSpace: builder.flexibleSpaceWidget.value,
+                          actions: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.search),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(Icons.account_circle_outlined),
+                            ),
+                          ],
+                          pinned: false,
+                          primary: true,
+                        ),
                       ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.account_circle_outlined),
+                      SliverToBoxAdapter(
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 66.0),
+                              child: Container(child: widget.child),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
                 ),
-                SliverToBoxAdapter(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 0),
-                    child: Container(child: widget.child),
-                  ),
-                ),
+                MobilePlayingBar(),
               ],
             );
           } else {
