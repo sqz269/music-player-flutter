@@ -5,13 +5,17 @@ import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:miniplayer/miniplayer.dart';
 
-class MobilePlayingBar extends StatelessWidget {
-  const MobilePlayingBar({super.key});
+class MobileMiniplayerBar extends StatelessWidget {
+  const MobileMiniplayerBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // don't build if there is no current track
+    // // don't build if there is no current track
+    // if (QueueController.to.currentTrack.value == null) {
+    //   return const SizedBox.shrink();
+    // }
     if (QueueController.to.currentTrack.value == null) {
+      print("Shrink");
       return const SizedBox.shrink();
     }
 
@@ -30,19 +34,23 @@ class MobilePlayingBar extends StatelessWidget {
                 leading: AspectRatio(
                   aspectRatio: 1,
                   child: Image.network(
-                    "https://api-music.marisad.me/api/asset/c9c5dd60-560f-46aa-902c-f37b3a994dcc",
+                    QueueController.to.currentTrack.value!.track.album!
+                        .thumbnail!.medium!.url!,
                   ),
                 ),
-                title: Text(
-                  "Song name",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                title: Obx(
+                  () => Text(
+                    QueueController.to.currentTrack.value!.track.name!.default_,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                subtitle: Text("Artist name"),
+                subtitle: Text(QueueController
+                    .to.currentTrack.value!.track.album!.albumArtist![0].name!),
                 trailing: IconButton(
                   onPressed: () {},
                   icon: const Icon(Icons.play_arrow),

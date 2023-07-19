@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/components/mobile_bottom_bar.dart';
 import 'package:tlmc_player_flutter/ui_state/appbar_controller.dart';
 import 'package:miniplayer/miniplayer.dart';
-import 'package:tlmc_player_flutter/views/mobile/mobile_playing_bar.dart';
+import 'package:tlmc_player_flutter/views/mobile/mobile_miniplayer_bar.dart';
 
 class MainLayout extends StatefulWidget {
   final Widget child;
@@ -62,7 +62,7 @@ class _MainLayoutState extends State<MainLayout> {
                     ],
                   ),
                 ),
-                MobilePlayingBar(),
+                MobileMiniplayerBar(),
               ],
             );
           } else {
