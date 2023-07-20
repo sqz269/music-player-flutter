@@ -22,16 +22,13 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
   @override
   void initState() {
     super.initState();
-    print("Init state");
     var albumId = Get.parameters['albumId'];
 
-    print("Param: $albumId");
     if (albumId == null) throw Exception('Album ID is null');
 
     var albumApi = AlbumApi(Get.find<ApiClient>());
 
     _albumFuture = albumApi.getAlbum(albumId);
-    print("Request sent");
   }
 
   @override
@@ -51,10 +48,6 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
           _albumData = snapshot.data as AlbumReadDto;
           // sort the tracks
           _albumData.tracks!.sort((a, b) => a.index!.compareTo(b.index!));
-          print("Data: ${_albumData.tracks!.length}");
-          _albumData.tracks?.forEach((element) {
-            print(element.name!.default_);
-          });
 
           // update appbar
           WidgetsBinding.instance!.addPostFrameCallback(
@@ -142,21 +135,21 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
                 children: [
                   IconButton.outlined(
                     onPressed: () {},
-                    icon: Icon(Icons.library_add_outlined),
+                    icon: const Icon(Icons.library_add_outlined),
                   ),
                   IconButton.filled(
                     onPressed: () {},
-                    icon: Icon(Icons.play_arrow),
+                    icon: const Icon(Icons.play_arrow),
                     iconSize: 42,
                   ),
                   IconButton.outlined(
                     onPressed: () {},
-                    icon: Icon(Icons.more_vert),
+                    icon: const Icon(Icons.more_vert),
                   ),
                 ],
               ),
               ListView.builder(
-                padding: EdgeInsets.zero,
+                padding: const EdgeInsets.only(top: 8),
                 itemBuilder: (context, index) {
                   return TrackTile(
                       trackData: _albumData.tracks![index],
@@ -164,7 +157,7 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
                 },
                 itemCount: _albumData.tracks!.length,
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
