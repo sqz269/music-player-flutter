@@ -17,11 +17,8 @@ class MainLayout extends StatefulWidget {
 }
 
 class _MainLayoutState extends State<MainLayout> {
-  final AppBarController appBarController = Get.put(AppBarController());
-
   @override
   Widget build(BuildContext context) {
-    print("Child: ${widget.child}");
     return Scaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
@@ -31,10 +28,11 @@ class _MainLayoutState extends State<MainLayout> {
                 SafeArea(
                   child: CustomScrollView(
                     slivers: [
-                      GetBuilder<AppBarController>(
-                        builder: (builder) => SliverAppBar(
+                      Obx(
+                        () => SliverAppBar(
                           backgroundColor: Colors.transparent,
-                          flexibleSpace: builder.flexibleSpaceWidget.value,
+                          flexibleSpace:
+                              AppBarController.to.flexibleSpaceWidget.value,
                           actions: [
                             IconButton(
                               onPressed: () {},
@@ -70,7 +68,36 @@ class _MainLayoutState extends State<MainLayout> {
           }
         },
       ),
-      bottomNavigationBar: const MobileBottomNavigationBar(),
+      bottomNavigationBar: Obx(
+        () {
+          var opacity = 1 - playerExpandProgressPerc.value;
+          if (opacity < 0) {
+            opacity = 0;
+          }
+          if (opacity > 1) {
+            opacity = 1;
+          }
+
+          return SizedBox(
+            height: kBottomNavigationBarHeight -
+                kBottomNavigationBarHeight * playerExpandProgressPerc.value,
+            child: Transform.translate(
+              offset: Offset(
+                  0.0,
+                  kBottomNavigationBarHeight *
+                      playerExpandProgressPerc.value *
+                      0.5),
+              child: Opacity(
+                opacity: opacity,
+                child: OverflowBox(
+                  maxHeight: kBottomNavigationBarHeight,
+                  child: MobileBottomNavigationBar(),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
