@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:BackendClientApi/api.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:tlmc_player_flutter/states/queue_controller.dart';
+import 'package:tlmc_player_flutter/ui_state/mobile_minibar_controller.dart';
 
 class BottomSheetTrackOps extends StatelessWidget {
   final AlbumReadDto albumData;
@@ -46,7 +48,20 @@ class BottomSheetTrackOps extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.playlist_play),
             title: Text('Play next'),
-            onTap: () {},
+            onTap: () {
+              QueueController.to.addTrackById(trackData.id!).then(
+                (value) {
+                  Navigator.of(context).pop();
+                  // MobileMiniplayerBarController.to.expand();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Added to queue'),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                },
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.queue_music),

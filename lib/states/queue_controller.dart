@@ -11,7 +11,7 @@ class QueueController extends GetxController {
 
   final queue = <QueuedTrack>[].obs;
   final history = <QueuedTrack>[].obs;
-  var currentTrack = Rx<QueuedTrack?>(null);
+  final currentTrack = Rx<QueuedTrack?>(null);
 
   int _index = 0;
 
@@ -23,6 +23,9 @@ class QueueController extends GetxController {
       queue.insert(position, track);
     } else {
       queue.add(track);
+    }
+    if (currentTrack.value == null) {
+      playNext();
     }
   }
 
@@ -95,7 +98,10 @@ class QueueController extends GetxController {
     }
 
     if (queue.isNotEmpty) {
+      print("Playing next");
       currentTrack.value = queue.removeAt(0);
+      update();
+
       return true;
     }
 
@@ -135,4 +141,6 @@ class QueueController extends GetxController {
     playNext();
     clearHistory();
   }
+
+  Stream<QueuedTrack?> get currentTrackStream => currentTrack.stream;
 }

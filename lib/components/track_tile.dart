@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:BackendClientApi/api.dart';
 import 'package:tlmc_player_flutter/components/bottom_sheet_track_ops.dart';
 import 'package:tlmc_player_flutter/utils/utils.dart';
+import 'package:tlmc_player_flutter/states/queue_controller.dart';
 
 class TrackTile extends StatelessWidget {
   final TrackReadDto trackData;
@@ -13,7 +14,9 @@ class TrackTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
+      onTap: () {
+        QueueController.to.addTrackById(trackData.id!);
+      },
       onLongPress: () {
         showModalBottomSheet(
           context: context,
