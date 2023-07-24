@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
+import 'package:tlmc_player_flutter/views/mobile/mobile_miniplayer_bot_sheet.dart';
 import 'package:miniplayer/miniplayer.dart';
 
 final playerExpandProgressPerc = 0.0.obs;
@@ -53,105 +54,49 @@ class _MobileMiniplayerBarState extends State<MobileMiniplayerBar> {
               .to.currentTrack.value!.track.album!.thumbnail!.large!.url!,
         );
 
-        return Miniplayer(
-          minHeight: 66,
-          maxHeight: MediaQuery.of(context).size.height,
-          onDismissed: () {
-            QueueController.to.clearAll();
-          },
-          controller: _miniplayerController,
-          builder: (height, perc) {
-            WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-              playerExpandProgressPerc.value = perc;
-            });
+        return Stack(children: [
+          Miniplayer(
+            minHeight: 66,
+            maxHeight: MediaQuery.of(context).size.height,
+            onDismissed: () {
+              QueueController.to.clearAll();
+            },
+            controller: _miniplayerController,
+            builder: (height, perc) {
+              WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                playerExpandProgressPerc.value = perc;
+              });
 
-            var elementOpacity = 1 - perc * 10;
+              var elementOpacity = 1 - perc * 10;
 
-            if (perc < 0.1) {
-              return MiniplayerTileCurrentlyPlaying(
-                  image: image, elementOpacity: elementOpacity);
-            }
+              if (perc < 0.1) {
+                return MiniplayerTileCurrentlyPlaying(
+                    image: image, elementOpacity: elementOpacity);
+              }
 
-            return SafeArea(
-              top: perc >= 0.8,
-              child: Stack(
-                children: [
-                  MiniplayerExpandedCurrentlyPlaying(
-                    image: image,
-                    perc: perc,
-                    height: height,
-                  ),
-                  MiniplayerQueueBottomSheet(
-                    perc: perc,
-                  ),
-                ],
-              ),
-            );
-          },
-          elevation: 5,
-          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        );
-      },
-    );
-  }
-}
-
-class MiniplayerQueueBottomSheet extends StatelessWidget {
-  const MiniplayerQueueBottomSheet({
-    super.key,
-    required this.perc,
-  });
-
-  final double perc;
-
-  @override
-  Widget build(BuildContext context) {
-    if (perc < 0.4) {
-      return const SizedBox.shrink();
-    }
-
-    return DraggableScrollableSheet(
-      initialChildSize: 0.06,
-      minChildSize: 0.06,
-      maxChildSize: 0.9,
-      builder: (context, scrollController) {
-        return Opacity(
-          opacity: perc,
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(16),
-                topRight: Radius.circular(16),
-              ),
-              color: Colors.white,
-            ),
-            child: Column(
-              children: [
-                Container(
-                  height: 4,
-                  width: 40,
-                  margin: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(2),
-                    color: Colors.grey.shade600,
-                  ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    controller: scrollController,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text("Item $index"),
-                      );
-                    },
-                    shrinkWrap: true,
-                    itemCount: 100,
-                  ),
-                ),
-              ],
-            ),
+              return SafeArea(
+                top: perc >= 0.8,
+                child: MiniplayerExpandedCurrentlyPlaying(
+                    perc: perc, image: image, height: height),
+              );
+            },
+            elevation: 5,
+            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
           ),
-        );
+          Obx(
+            () {
+              if (playerExpandProgressPerc.value != 1) {
+                return const SizedBox.shrink();
+              }
+
+              return SafeArea(
+                child: MiniplayerQueueBottomSheet(
+                  perc: playerExpandProgressPerc.value,
+                ),
+              );
+            },
+          ),
+        ]);
       },
     );
   }
@@ -277,7 +222,7 @@ class MiniplayerExpandedCurrentlyPlaying extends StatelessWidget {
             ),
           ),
         ),
-        Expanded(
+        Flexible(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 33),
             child: Opacity(

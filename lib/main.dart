@@ -7,6 +7,7 @@ import 'package:tlmc_player_flutter/layouts/main_layout.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:tlmc_player_flutter/states/i_audio_controller.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
+import 'package:tlmc_player_flutter/ui_state/appbar_controller.dart';
 import 'package:tlmc_player_flutter/views/homepage.dart';
 import 'package:tlmc_player_flutter/views/mobile/audio_test_page.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_album_page.dart';
@@ -24,6 +25,8 @@ Future<void> main() async {
 
   Get.lazyPut<IAudioController>(() => AudioControllerJustAudio());
   Get.lazyPut<QueueController>(() => QueueController());
+
+  Get.lazyPut(() => AppBarController());
 
   runApp(
     GetMaterialApp(
