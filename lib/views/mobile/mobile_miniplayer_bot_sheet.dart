@@ -1,5 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:tlmc_player_flutter/components/track_tile_thumb.dart';
+import 'package:tlmc_player_flutter/states/queue_controller.dart';
 
 class MiniplayerQueueBottomSheet extends StatelessWidget {
   MiniplayerQueueBottomSheet({
@@ -218,7 +220,7 @@ class MiniplayerQueueBottomSheet extends StatelessWidget {
       builder: (context, scrollController) => DefaultTabController(
         length: 2,
         child: ClipRRect(
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(24),
             topRight: Radius.circular(24),
           ),
@@ -246,6 +248,7 @@ class MiniplayerQueueBottomSheet extends StatelessWidget {
                 ),
                 SliverToBoxAdapter(
                   child: TabBar(
+                    dividerColor: Colors.grey.shade100,
                     tabs: [
                       Tab(text: 'Queue'),
                       Tab(text: 'History'),
@@ -258,14 +261,21 @@ class MiniplayerQueueBottomSheet extends StatelessWidget {
                       Center(
                         child: ListView.builder(
                           itemBuilder: (context, index) {
-                            return ListTile(
-                              title: Text('Item $index'),
-                            );
+                            var trackData = QueueController.to.queue[index];
+                            return TrackTileThumb(trackData: trackData.track!);
                           },
-                          itemCount: 50,
+                          itemCount: QueueController.to.queue.length,
                         ),
                       ),
-                      Center(child: Text('Tab 2')),
+                      Center(
+                        child: ListView.builder(
+                          itemBuilder: (context, index) {
+                            var trackData = QueueController.to.history[index];
+                            return TrackTileThumb(trackData: trackData.track!);
+                          },
+                          itemCount: QueueController.to.history.length,
+                        ),
+                      ),
                     ],
                   ),
                 ),
