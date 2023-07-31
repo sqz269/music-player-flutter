@@ -24,10 +24,12 @@ Method | HTTP request | Description
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = CircleApi();
 final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
@@ -56,7 +58,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -73,10 +75,12 @@ Name | Type | Description  | Notes
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = CircleApi();
 final name = name_example; // String | 
@@ -105,7 +109,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -122,10 +126,12 @@ Name | Type | Description  | Notes
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = CircleApi();
 final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
@@ -150,7 +156,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -167,10 +173,12 @@ Name | Type | Description  | Notes
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = CircleApi();
 final name = name_example; // String | 
@@ -195,7 +203,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -212,10 +220,12 @@ Name | Type | Description  | Notes
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = CircleApi();
 final start = 56; // int | 
@@ -242,7 +252,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 

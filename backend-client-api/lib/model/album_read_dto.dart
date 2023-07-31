@@ -19,10 +19,14 @@ class AlbumReadDto {
     this.releaseConvention,
     this.catalogNumber,
     this.numberOfDiscs,
+    this.discNumber,
+    this.discName,
     this.website = const [],
     this.albumArtist = const [],
     this.dataSource = const [],
     this.tracks = const [],
+    this.childAlbums = const [],
+    this.parentAlbum,
     this.thumbnail,
     this.otherFiles = const [],
   });
@@ -51,6 +55,10 @@ class AlbumReadDto {
 
   int? numberOfDiscs;
 
+  int? discNumber;
+
+  String? discName;
+
   List<String>? website;
 
   List<CircleReadDto>? albumArtist;
@@ -58,6 +66,16 @@ class AlbumReadDto {
   List<String>? dataSource;
 
   List<TrackReadDto>? tracks;
+
+  List<AlbumReadDto>? childAlbums;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  AlbumReadDto? parentAlbum;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -77,10 +95,14 @@ class AlbumReadDto {
      other.releaseConvention == releaseConvention &&
      other.catalogNumber == catalogNumber &&
      other.numberOfDiscs == numberOfDiscs &&
+     other.discNumber == discNumber &&
+     other.discName == discName &&
      other.website == website &&
      other.albumArtist == albumArtist &&
      other.dataSource == dataSource &&
      other.tracks == tracks &&
+     other.childAlbums == childAlbums &&
+     other.parentAlbum == parentAlbum &&
      other.thumbnail == thumbnail &&
      other.otherFiles == otherFiles;
 
@@ -93,15 +115,19 @@ class AlbumReadDto {
     (releaseConvention == null ? 0 : releaseConvention!.hashCode) +
     (catalogNumber == null ? 0 : catalogNumber!.hashCode) +
     (numberOfDiscs == null ? 0 : numberOfDiscs!.hashCode) +
+    (discNumber == null ? 0 : discNumber!.hashCode) +
+    (discName == null ? 0 : discName!.hashCode) +
     (website == null ? 0 : website!.hashCode) +
     (albumArtist == null ? 0 : albumArtist!.hashCode) +
     (dataSource == null ? 0 : dataSource!.hashCode) +
     (tracks == null ? 0 : tracks!.hashCode) +
+    (childAlbums == null ? 0 : childAlbums!.hashCode) +
+    (parentAlbum == null ? 0 : parentAlbum!.hashCode) +
     (thumbnail == null ? 0 : thumbnail!.hashCode) +
     (otherFiles == null ? 0 : otherFiles!.hashCode);
 
   @override
-  String toString() => 'AlbumReadDto[id=$id, albumName=$albumName, releaseDate=$releaseDate, releaseConvention=$releaseConvention, catalogNumber=$catalogNumber, numberOfDiscs=$numberOfDiscs, website=$website, albumArtist=$albumArtist, dataSource=$dataSource, tracks=$tracks, thumbnail=$thumbnail, otherFiles=$otherFiles]';
+  String toString() => 'AlbumReadDto[id=$id, albumName=$albumName, releaseDate=$releaseDate, releaseConvention=$releaseConvention, catalogNumber=$catalogNumber, numberOfDiscs=$numberOfDiscs, discNumber=$discNumber, discName=$discName, website=$website, albumArtist=$albumArtist, dataSource=$dataSource, tracks=$tracks, childAlbums=$childAlbums, parentAlbum=$parentAlbum, thumbnail=$thumbnail, otherFiles=$otherFiles]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -135,6 +161,16 @@ class AlbumReadDto {
     } else {
       json[r'numberOfDiscs'] = null;
     }
+    if (this.discNumber != null) {
+      json[r'discNumber'] = this.discNumber;
+    } else {
+      json[r'discNumber'] = null;
+    }
+    if (this.discName != null) {
+      json[r'discName'] = this.discName;
+    } else {
+      json[r'discName'] = null;
+    }
     if (this.website != null) {
       json[r'website'] = this.website;
     } else {
@@ -154,6 +190,16 @@ class AlbumReadDto {
       json[r'tracks'] = this.tracks;
     } else {
       json[r'tracks'] = null;
+    }
+    if (this.childAlbums != null) {
+      json[r'childAlbums'] = this.childAlbums;
+    } else {
+      json[r'childAlbums'] = null;
+    }
+    if (this.parentAlbum != null) {
+      json[r'parentAlbum'] = this.parentAlbum;
+    } else {
+      json[r'parentAlbum'] = null;
     }
     if (this.thumbnail != null) {
       json[r'thumbnail'] = this.thumbnail;
@@ -193,6 +239,8 @@ class AlbumReadDto {
         releaseConvention: mapValueOfType<String>(json, r'releaseConvention'),
         catalogNumber: mapValueOfType<String>(json, r'catalogNumber'),
         numberOfDiscs: mapValueOfType<int>(json, r'numberOfDiscs'),
+        discNumber: mapValueOfType<int>(json, r'discNumber'),
+        discName: mapValueOfType<String>(json, r'discName'),
         website: json[r'website'] is List
             ? (json[r'website'] as List).cast<String>()
             : const [],
@@ -201,6 +249,8 @@ class AlbumReadDto {
             ? (json[r'dataSource'] as List).cast<String>()
             : const [],
         tracks: TrackReadDto.listFromJson(json[r'tracks']),
+        childAlbums: AlbumReadDto.listFromJson(json[r'childAlbums']),
+        parentAlbum: AlbumReadDto.fromJson(json[r'parentAlbum']),
         thumbnail: ThumbnailReadDto.fromJson(json[r'thumbnail']),
         otherFiles: AssetReadDto.listFromJson(json[r'otherFiles']),
       );

@@ -9,28 +9,31 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addAlbum**](AlbumApi.md#addalbum) | **POST** /api/music/album | 
-[**addTrack**](AlbumApi.md#addtrack) | **POST** /api/music/album/{albumId}/track | 
+[**addAlbum**](AlbumApi.md#addalbum) | **POST** /api/music/album/create | 
+[**addTrack**](AlbumApi.md#addtrack) | **POST** /api/music/album/{albumId}/track/create | 
 [**getAlbum**](AlbumApi.md#getalbum) | **GET** /api/music/album/{id} | 
 [**getAlbumFiltered**](AlbumApi.md#getalbumfiltered) | **GET** /api/music/album/filter | 
 [**getAlbums**](AlbumApi.md#getalbums) | **GET** /api/music/album | 
+[**getAlbumsByIds**](AlbumApi.md#getalbumsbyids) | **POST** /api/music/album | 
 [**getRandomSampleTrack**](AlbumApi.md#getrandomsampletrack) | **GET** /api/music/random | 
 [**getTrack**](AlbumApi.md#gettrack) | **GET** /api/music/track/{id} | 
 [**getTracks**](AlbumApi.md#gettracks) | **POST** /api/music/track | 
 
 
 # **addAlbum**
-> AlbumReadDtoActionResult addAlbum(albumWriteDto)
+> AlbumReadDto addAlbum(albumWriteDto)
 
 
 
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = AlbumApi();
 final albumWriteDto = AlbumWriteDto(); // AlbumWriteDto | 
@@ -51,11 +54,11 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**AlbumReadDtoActionResult**](AlbumReadDtoActionResult.md)
+[**AlbumReadDto**](AlbumReadDto.md)
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -65,17 +68,19 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **addTrack**
-> TrackReadDtoActionResult addTrack(albumId, trackWriteDto)
+> TrackReadDto addTrack(albumId, trackWriteDto)
 
 
 
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = AlbumApi();
 final albumId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
@@ -98,11 +103,11 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**TrackReadDtoActionResult**](TrackReadDtoActionResult.md)
+[**TrackReadDto**](TrackReadDto.md)
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -119,10 +124,12 @@ Name | Type | Description  | Notes
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = AlbumApi();
 final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
@@ -147,7 +154,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -164,10 +171,12 @@ Name | Type | Description  | Notes
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = AlbumApi();
 final title = title_example; // String | 
@@ -208,7 +217,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -225,10 +234,12 @@ Name | Type | Description  | Notes
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = AlbumApi();
 final start = 56; // int | 
@@ -255,7 +266,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -264,18 +275,67 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getRandomSampleTrack**
-> TrackReadDtoActionResult getRandomSampleTrack(limit)
+# **getAlbumsByIds**
+> List<AlbumReadDto> getAlbumsByIds(requestBody)
 
 
 
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = AlbumApi();
+final requestBody = [List<String>()]; // List<String> | 
+
+try {
+    final result = api_instance.getAlbumsByIds(requestBody);
+    print(result);
+} catch (e) {
+    print('Exception when calling AlbumApi->getAlbumsByIds: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **requestBody** | [**List<String>**](String.md)|  | [optional] 
+
+### Return type
+
+[**List<AlbumReadDto>**](AlbumReadDto.md)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
+ - **Accept**: text/plain, application/json, text/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getRandomSampleTrack**
+> List<TrackReadDto> getRandomSampleTrack(limit)
+
+
+
+### Example
+```dart
+import 'package:BackendClientApi/api.dart';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = AlbumApi();
 final limit = 56; // int | 
@@ -296,11 +356,11 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**TrackReadDtoActionResult**](TrackReadDtoActionResult.md)
+[**List<TrackReadDto>**](TrackReadDto.md)
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -317,10 +377,12 @@ Name | Type | Description  | Notes
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = AlbumApi();
 final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
@@ -345,7 +407,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -362,10 +424,12 @@ Name | Type | Description  | Notes
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = AlbumApi();
 final requestBody = [List<String>()]; // List<String> | 
@@ -390,7 +454,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 

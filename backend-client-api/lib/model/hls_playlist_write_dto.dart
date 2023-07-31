@@ -10,18 +10,35 @@
 
 part of Backend.ClientApi;
 
-class OriginalAlbumReadDto {
-  /// Returns a new [OriginalAlbumReadDto] instance.
-  OriginalAlbumReadDto({
+class HlsPlaylistWriteDto {
+  /// Returns a new [HlsPlaylistWriteDto] instance.
+  HlsPlaylistWriteDto({
     this.id,
     this.type,
-    this.fullName,
-    this.shortName,
+    this.bitrate,
+    this.hlsPlaylistPath,
+    this.trackId,
   });
 
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
   String? id;
 
-  String? type;
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  HlsPlaylistType? type;
+
+  int? bitrate;
+
+  String? hlsPlaylistPath;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -29,33 +46,27 @@ class OriginalAlbumReadDto {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  LocalizedField? fullName;
-
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  LocalizedField? shortName;
+  String? trackId;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is OriginalAlbumReadDto &&
+  bool operator ==(Object other) => identical(this, other) || other is HlsPlaylistWriteDto &&
      other.id == id &&
      other.type == type &&
-     other.fullName == fullName &&
-     other.shortName == shortName;
+     other.bitrate == bitrate &&
+     other.hlsPlaylistPath == hlsPlaylistPath &&
+     other.trackId == trackId;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (id == null ? 0 : id!.hashCode) +
     (type == null ? 0 : type!.hashCode) +
-    (fullName == null ? 0 : fullName!.hashCode) +
-    (shortName == null ? 0 : shortName!.hashCode);
+    (bitrate == null ? 0 : bitrate!.hashCode) +
+    (hlsPlaylistPath == null ? 0 : hlsPlaylistPath!.hashCode) +
+    (trackId == null ? 0 : trackId!.hashCode);
 
   @override
-  String toString() => 'OriginalAlbumReadDto[id=$id, type=$type, fullName=$fullName, shortName=$shortName]';
+  String toString() => 'HlsPlaylistWriteDto[id=$id, type=$type, bitrate=$bitrate, hlsPlaylistPath=$hlsPlaylistPath, trackId=$trackId]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -69,23 +80,28 @@ class OriginalAlbumReadDto {
     } else {
       json[r'type'] = null;
     }
-    if (this.fullName != null) {
-      json[r'fullName'] = this.fullName;
+    if (this.bitrate != null) {
+      json[r'bitrate'] = this.bitrate;
     } else {
-      json[r'fullName'] = null;
+      json[r'bitrate'] = null;
     }
-    if (this.shortName != null) {
-      json[r'shortName'] = this.shortName;
+    if (this.hlsPlaylistPath != null) {
+      json[r'hlsPlaylistPath'] = this.hlsPlaylistPath;
     } else {
-      json[r'shortName'] = null;
+      json[r'hlsPlaylistPath'] = null;
+    }
+    if (this.trackId != null) {
+      json[r'trackId'] = this.trackId;
+    } else {
+      json[r'trackId'] = null;
     }
     return json;
   }
 
-  /// Returns a new [OriginalAlbumReadDto] instance and imports its values from
+  /// Returns a new [HlsPlaylistWriteDto] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static OriginalAlbumReadDto? fromJson(dynamic value) {
+  static HlsPlaylistWriteDto? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -94,27 +110,28 @@ class OriginalAlbumReadDto {
       // Note 2: this code is stripped in release mode!
       assert(() {
         requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "OriginalAlbumReadDto[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "OriginalAlbumReadDto[$key]" has a null value in JSON.');
+          assert(json.containsKey(key), 'Required key "HlsPlaylistWriteDto[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "HlsPlaylistWriteDto[$key]" has a null value in JSON.');
         });
         return true;
       }());
 
-      return OriginalAlbumReadDto(
+      return HlsPlaylistWriteDto(
         id: mapValueOfType<String>(json, r'id'),
-        type: mapValueOfType<String>(json, r'type'),
-        fullName: LocalizedField.fromJson(json[r'fullName']),
-        shortName: LocalizedField.fromJson(json[r'shortName']),
+        type: HlsPlaylistType.fromJson(json[r'type']),
+        bitrate: mapValueOfType<int>(json, r'bitrate'),
+        hlsPlaylistPath: mapValueOfType<String>(json, r'hlsPlaylistPath'),
+        trackId: mapValueOfType<String>(json, r'trackId'),
       );
     }
     return null;
   }
 
-  static List<OriginalAlbumReadDto> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <OriginalAlbumReadDto>[];
+  static List<HlsPlaylistWriteDto> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <HlsPlaylistWriteDto>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = OriginalAlbumReadDto.fromJson(row);
+        final value = HlsPlaylistWriteDto.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -123,12 +140,12 @@ class OriginalAlbumReadDto {
     return result.toList(growable: growable);
   }
 
-  static Map<String, OriginalAlbumReadDto> mapFromJson(dynamic json) {
-    final map = <String, OriginalAlbumReadDto>{};
+  static Map<String, HlsPlaylistWriteDto> mapFromJson(dynamic json) {
+    final map = <String, HlsPlaylistWriteDto>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = OriginalAlbumReadDto.fromJson(entry.value);
+        final value = HlsPlaylistWriteDto.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -137,14 +154,14 @@ class OriginalAlbumReadDto {
     return map;
   }
 
-  // maps a json object with a list of OriginalAlbumReadDto-objects as value to a dart map
-  static Map<String, List<OriginalAlbumReadDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
-    final map = <String, List<OriginalAlbumReadDto>>{};
+  // maps a json object with a list of HlsPlaylistWriteDto-objects as value to a dart map
+  static Map<String, List<HlsPlaylistWriteDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<HlsPlaylistWriteDto>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = OriginalAlbumReadDto.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = HlsPlaylistWriteDto.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

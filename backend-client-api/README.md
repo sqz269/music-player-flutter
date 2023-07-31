@@ -39,10 +39,12 @@ Please follow the [installation procedure](#installation--usage) and then run th
 ```dart
 import 'package:BackendClientApi/api.dart';
 
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = AlbumApi();
 final albumWriteDto = AlbumWriteDto(); // AlbumWriteDto | 
@@ -62,28 +64,33 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AlbumApi* | [**addAlbum**](doc\/AlbumApi.md#addalbum) | **POST** /api/music/album | 
-*AlbumApi* | [**addTrack**](doc\/AlbumApi.md#addtrack) | **POST** /api/music/album/{albumId}/track | 
+*AlbumApi* | [**addAlbum**](doc\/AlbumApi.md#addalbum) | **POST** /api/music/album/create | 
+*AlbumApi* | [**addTrack**](doc\/AlbumApi.md#addtrack) | **POST** /api/music/album/{albumId}/track/create | 
 *AlbumApi* | [**getAlbum**](doc\/AlbumApi.md#getalbum) | **GET** /api/music/album/{id} | 
 *AlbumApi* | [**getAlbumFiltered**](doc\/AlbumApi.md#getalbumfiltered) | **GET** /api/music/album/filter | 
 *AlbumApi* | [**getAlbums**](doc\/AlbumApi.md#getalbums) | **GET** /api/music/album | 
+*AlbumApi* | [**getAlbumsByIds**](doc\/AlbumApi.md#getalbumsbyids) | **POST** /api/music/album | 
 *AlbumApi* | [**getRandomSampleTrack**](doc\/AlbumApi.md#getrandomsampletrack) | **GET** /api/music/random | 
 *AlbumApi* | [**getTrack**](doc\/AlbumApi.md#gettrack) | **GET** /api/music/track/{id} | 
 *AlbumApi* | [**getTracks**](doc\/AlbumApi.md#gettracks) | **POST** /api/music/track | 
 *AssetApi* | [**getAsset**](doc\/AssetApi.md#getasset) | **GET** /api/asset/{id} | 
-*AuthApi* | [**getJwtPublicKey**](doc\/AuthApi.md#getjwtpublickey) | **GET** /api/auth/jwt/key | 
-*AuthApi* | [**getNewToken**](doc\/AuthApi.md#getnewtoken) | **POST** /api/auth/token | 
 *CircleApi* | [**getCircleAlbumsById**](doc\/CircleApi.md#getcirclealbumsbyid) | **GET** /api/entity/circle/{id}/albums | 
 *CircleApi* | [**getCircleAlbumsByName**](doc\/CircleApi.md#getcirclealbumsbyname) | **GET** /api/entity/circle/{name}/albums | 
 *CircleApi* | [**getCircleById**](doc\/CircleApi.md#getcirclebyid) | **GET** /api/entity/circle/{id} | 
 *CircleApi* | [**getCircleByName**](doc\/CircleApi.md#getcirclebyname) | **GET** /api/entity/circle/{name} | 
 *CircleApi* | [**getCircles**](doc\/CircleApi.md#getcircles) | **GET** /api/entity/circle | 
-*InternalApi* | [**apiInternalAlbumAddAlbumIdPost**](doc\/InternalApi.md#apiinternalalbumaddalbumidpost) | **POST** /api/internal/album/add/{albumId} | 
+*HlsAssetApi* | [**apiAssetTrackTrackIdGet**](doc\/HlsAssetApi.md#apiassettracktrackidget) | **GET** /api/asset/track/{trackId} | 
+*HlsAssetApi* | [**apiAssetTrackTrackIdHlsQualitykSegmentGet**](doc\/HlsAssetApi.md#apiassettracktrackidhlsqualityksegmentget) | **GET** /api/asset/track/{trackId}/hls/{quality}k/{segment} | 
+*HlsAssetApi* | [**getMediaPlaylist**](doc\/HlsAssetApi.md#getmediaplaylist) | **GET** /api/asset/track/{trackId}/hls/{quality}k/playlist.m3u8 | 
+*InternalApi* | [**apiInternalAlbumAddAlbumIdPut**](doc\/InternalApi.md#apiinternalalbumaddalbumidput) | **PUT** /api/internal/album/add/{albumId} | 
 *InternalApi* | [**apiInternalAlbumAlbumIdPatch**](doc\/InternalApi.md#apiinternalalbumalbumidpatch) | **PATCH** /api/internal/album/{albumId} | 
-*InternalApi* | [**apiInternalAlbumAlbumIdTrackAddTrackIdPost**](doc\/InternalApi.md#apiinternalalbumalbumidtrackaddtrackidpost) | **POST** /api/internal/album/{albumId}/track/add/{trackId} | 
-*InternalApi* | [**apiInternalAssetAddPost**](doc\/InternalApi.md#apiinternalassetaddpost) | **POST** /api/internal/asset/add | 
+*InternalApi* | [**apiInternalAlbumAlbumIdTrackAddTrackIdPut**](doc\/InternalApi.md#apiinternalalbumalbumidtrackaddtrackidput) | **PUT** /api/internal/album/{albumId}/track/add/{trackId} | 
+*InternalApi* | [**apiInternalAssetAddPut**](doc\/InternalApi.md#apiinternalassetaddput) | **PUT** /api/internal/asset/add | 
+*InternalApi* | [**apiInternalAssetTrackTrackIdPlaylistPut**](doc\/InternalApi.md#apiinternalassettracktrackidplaylistput) | **PUT** /api/internal/asset/track/{trackId}/playlist | 
+*InternalApi* | [**apiInternalAssetTrackTrackIdSegmentPut**](doc\/InternalApi.md#apiinternalassettracktrackidsegmentput) | **PUT** /api/internal/asset/track/{trackId}/segment | 
 *InternalApi* | [**apiInternalCircleAddIdPut**](doc\/InternalApi.md#apiinternalcircleaddidput) | **PUT** /api/internal/circle/add/{id} | 
 *InternalApi* | [**apiInternalCircleIdPatch**](doc\/InternalApi.md#apiinternalcircleidpatch) | **PATCH** /api/internal/circle/{id} | 
+*InternalApi* | [**apiInternalTrackJsonpatchTrackIdPatch**](doc\/InternalApi.md#apiinternaltrackjsonpatchtrackidpatch) | **PATCH** /api/internal/track/jsonpatch/{trackId} | 
 *InternalApi* | [**apiInternalTrackTrackIdPatch**](doc\/InternalApi.md#apiinternaltracktrackidpatch) | **PATCH** /api/internal/track/{trackId} | 
 *OriginalAlbumApi* | [**addOriginalAlbum**](doc\/OriginalAlbumApi.md#addoriginalalbum) | **POST** /api/source/album | 
 *OriginalAlbumApi* | [**addOriginalTrack**](doc\/OriginalAlbumApi.md#addoriginaltrack) | **POST** /api/source/album/{albumId}/track | 
@@ -91,47 +98,43 @@ Class | Method | HTTP request | Description
 *OriginalAlbumApi* | [**getOriginalAlbums**](doc\/OriginalAlbumApi.md#getoriginalalbums) | **GET** /api/source/album | 
 *OriginalAlbumApi* | [**getOriginalTrack**](doc\/OriginalAlbumApi.md#getoriginaltrack) | **GET** /api/source/track/{id} | 
 *OriginalAlbumApi* | [**getOriginalTracks**](doc\/OriginalAlbumApi.md#getoriginaltracks) | **GET** /api/source/track | 
-*PlaylistApi* | [**apiPlaylistPost**](doc\/PlaylistApi.md#apiplaylistpost) | **POST** /api/playlist | 
+*PlaylistApi* | [**createPlaylist**](doc\/PlaylistApi.md#createplaylist) | **POST** /api/playlist | 
+*PlaylistApi* | [**deletePlaylist**](doc\/PlaylistApi.md#deleteplaylist) | **DELETE** /api/playlist/{playlistId} | 
 *PlaylistApi* | [**getCurrentUserFavorite**](doc\/PlaylistApi.md#getcurrentuserfavorite) | **GET** /api/playlist/user/me/favorite | 
 *PlaylistApi* | [**getCurrentUserHistory**](doc\/PlaylistApi.md#getcurrentuserhistory) | **GET** /api/playlist/user/me/history | 
 *PlaylistApi* | [**getCurrentUserPlaylist**](doc\/PlaylistApi.md#getcurrentuserplaylist) | **GET** /api/playlist/user/me | 
 *PlaylistApi* | [**getCurrentUserQueue**](doc\/PlaylistApi.md#getcurrentuserqueue) | **GET** /api/playlist/user/me/queue | 
-*PlaylistApi* | [**getPlaylist**](doc\/PlaylistApi.md#getplaylist) | **GET** /api/playlist/{playlistId} | 
+*PlaylistApi* | [**getPlaylist**](doc\/PlaylistApi.md#getplaylist) | **GET** /api/playlist | 
 *PlaylistApi* | [**getUserPlaylist**](doc\/PlaylistApi.md#getuserplaylist) | **GET** /api/playlist/user/{userId} | 
 *PlaylistItemApi* | [**addPlaylistItemToPlaylist**](doc\/PlaylistItemApi.md#addplaylistitemtoplaylist) | **POST** /api/playlistItem | 
 *PlaylistItemApi* | [**deletePlaylistItemFromPlaylist**](doc\/PlaylistItemApi.md#deleteplaylistitemfromplaylist) | **DELETE** /api/playlistItem | 
+*PlaylistItemApi* | [**incrementPlayCount**](doc\/PlaylistItemApi.md#incrementplaycount) | **POST** /api/playlistItem/inc | 
 *RadioApi* | [**apiRadioGet**](doc\/RadioApi.md#apiradioget) | **GET** /api/radio | 
 *SearchApi* | [**searchAlbums**](doc\/SearchApi.md#searchalbums) | **GET** /api/search/albums | 
 *SearchApi* | [**searchTracks**](doc\/SearchApi.md#searchtracks) | **GET** /api/search/tracks | 
-*UserApi* | [**apiUserLogoutPost**](doc\/UserApi.md#apiuserlogoutpost) | **POST** /api/user/logout | 
-*UserApi* | [**getAllUsers**](doc\/UserApi.md#getallusers) | **GET** /api/user/all | 
-*UserApi* | [**login**](doc\/UserApi.md#login) | **POST** /api/user/login | 
-*UserApi* | [**register**](doc\/UserApi.md#register) | **POST** /api/user/register | 
 
 
 ## Documentation For Models
 
  - [AlbumReadDto](doc\/AlbumReadDto.md)
  - [AlbumReadDto1](doc\/AlbumReadDto1.md)
- - [AlbumReadDtoActionResult](doc\/AlbumReadDtoActionResult.md)
  - [AlbumWriteDto](doc\/AlbumWriteDto.md)
  - [Asset](doc\/Asset.md)
  - [AssetReadDto](doc\/AssetReadDto.md)
- - [AuthToken](doc\/AuthToken.md)
  - [CircleReadDto](doc\/CircleReadDto.md)
  - [CircleReadDto1](doc\/CircleReadDto1.md)
  - [CircleStatus](doc\/CircleStatus.md)
  - [CircleStatus1](doc\/CircleStatus1.md)
  - [CircleWebsiteReadDto](doc\/CircleWebsiteReadDto.md)
  - [CircleWriteDto](doc\/CircleWriteDto.md)
- - [JwtKeyResponse](doc\/JwtKeyResponse.md)
- - [JwtRenewResult](doc\/JwtRenewResult.md)
+ - [HlsPlaylistType](doc\/HlsPlaylistType.md)
+ - [HlsPlaylistWriteDto](doc\/HlsPlaylistWriteDto.md)
+ - [HlsSegmentWriteDto](doc\/HlsSegmentWriteDto.md)
  - [LocalizedField](doc\/LocalizedField.md)
  - [LocalizedField1](doc\/LocalizedField1.md)
- - [LoginResult](doc\/LoginResult.md)
- - [OkResult](doc\/OkResult.md)
  - [Operation](doc\/Operation.md)
  - [OriginalAlbumReadDto](doc\/OriginalAlbumReadDto.md)
+ - [OriginalAlbumReadDto1](doc\/OriginalAlbumReadDto1.md)
  - [OriginalAlbumReadDtoActionResult](doc\/OriginalAlbumReadDtoActionResult.md)
  - [OriginalAlbumWriteDto](doc\/OriginalAlbumWriteDto.md)
  - [OriginalTrackReadDto](doc\/OriginalTrackReadDto.md)
@@ -146,29 +149,22 @@ Class | Method | HTTP request | Description
  - [PlaylistVisibility](doc\/PlaylistVisibility.md)
  - [ProblemDetails](doc\/ProblemDetails.md)
  - [RadioSong](doc\/RadioSong.md)
- - [RefreshToken](doc\/RefreshToken.md)
- - [Role](doc\/Role.md)
  - [ThumbnailReadDto](doc\/ThumbnailReadDto.md)
  - [TimeSpan](doc\/TimeSpan.md)
  - [TrackGetMultipleResp](doc\/TrackGetMultipleResp.md)
  - [TrackReadDto](doc\/TrackReadDto.md)
  - [TrackReadDto1](doc\/TrackReadDto1.md)
- - [TrackReadDtoActionResult](doc\/TrackReadDtoActionResult.md)
  - [TrackUpdateDto](doc\/TrackUpdateDto.md)
  - [TrackWriteDto](doc\/TrackWriteDto.md)
- - [User](doc\/User.md)
- - [UserCredentialsDto](doc\/UserCredentialsDto.md)
 
 
 ## Documentation For Authorization
 
 
 Authentication schemes defined for the API:
-### Jwt
+### Bearer
 
-- **Type**: API key
-- **API key parameter name**: Authorization
-- **Location**: HTTP header
+- **Type**: HTTP Bearer authentication
 
 
 ## Author

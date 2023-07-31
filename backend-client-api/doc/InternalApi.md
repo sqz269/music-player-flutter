@@ -9,36 +9,42 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**apiInternalAlbumAddAlbumIdPost**](InternalApi.md#apiinternalalbumaddalbumidpost) | **POST** /api/internal/album/add/{albumId} | 
+[**apiInternalAlbumAddAlbumIdPut**](InternalApi.md#apiinternalalbumaddalbumidput) | **PUT** /api/internal/album/add/{albumId} | 
 [**apiInternalAlbumAlbumIdPatch**](InternalApi.md#apiinternalalbumalbumidpatch) | **PATCH** /api/internal/album/{albumId} | 
-[**apiInternalAlbumAlbumIdTrackAddTrackIdPost**](InternalApi.md#apiinternalalbumalbumidtrackaddtrackidpost) | **POST** /api/internal/album/{albumId}/track/add/{trackId} | 
-[**apiInternalAssetAddPost**](InternalApi.md#apiinternalassetaddpost) | **POST** /api/internal/asset/add | 
+[**apiInternalAlbumAlbumIdTrackAddTrackIdPut**](InternalApi.md#apiinternalalbumalbumidtrackaddtrackidput) | **PUT** /api/internal/album/{albumId}/track/add/{trackId} | 
+[**apiInternalAssetAddPut**](InternalApi.md#apiinternalassetaddput) | **PUT** /api/internal/asset/add | 
+[**apiInternalAssetTrackTrackIdPlaylistPut**](InternalApi.md#apiinternalassettracktrackidplaylistput) | **PUT** /api/internal/asset/track/{trackId}/playlist | 
+[**apiInternalAssetTrackTrackIdSegmentPut**](InternalApi.md#apiinternalassettracktrackidsegmentput) | **PUT** /api/internal/asset/track/{trackId}/segment | 
 [**apiInternalCircleAddIdPut**](InternalApi.md#apiinternalcircleaddidput) | **PUT** /api/internal/circle/add/{id} | 
 [**apiInternalCircleIdPatch**](InternalApi.md#apiinternalcircleidpatch) | **PATCH** /api/internal/circle/{id} | 
+[**apiInternalTrackJsonpatchTrackIdPatch**](InternalApi.md#apiinternaltrackjsonpatchtrackidpatch) | **PATCH** /api/internal/track/jsonpatch/{trackId} | 
 [**apiInternalTrackTrackIdPatch**](InternalApi.md#apiinternaltracktrackidpatch) | **PATCH** /api/internal/track/{trackId} | 
 
 
-# **apiInternalAlbumAddAlbumIdPost**
-> apiInternalAlbumAddAlbumIdPost(albumId, albumWriteDto)
+# **apiInternalAlbumAddAlbumIdPut**
+> apiInternalAlbumAddAlbumIdPut(albumId, parentId, albumWriteDto)
 
 
 
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = InternalApi();
 final albumId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final parentId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 final albumWriteDto = AlbumWriteDto(); // AlbumWriteDto | 
 
 try {
-    api_instance.apiInternalAlbumAddAlbumIdPost(albumId, albumWriteDto);
+    api_instance.apiInternalAlbumAddAlbumIdPut(albumId, parentId, albumWriteDto);
 } catch (e) {
-    print('Exception when calling InternalApi->apiInternalAlbumAddAlbumIdPost: $e\n');
+    print('Exception when calling InternalApi->apiInternalAlbumAddAlbumIdPut: $e\n');
 }
 ```
 
@@ -47,6 +53,7 @@ try {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **albumId** | **String**|  | 
+ **parentId** | **String**|  | [optional] 
  **albumWriteDto** | [**AlbumWriteDto**](AlbumWriteDto.md)|  | [optional] 
 
 ### Return type
@@ -55,7 +62,7 @@ void (empty response body)
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -72,10 +79,12 @@ void (empty response body)
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = InternalApi();
 final albumId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
@@ -101,7 +110,7 @@ void (empty response body)
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -110,18 +119,20 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiInternalAlbumAlbumIdTrackAddTrackIdPost**
-> apiInternalAlbumAlbumIdTrackAddTrackIdPost(albumId, trackId, trackWriteDto)
+# **apiInternalAlbumAlbumIdTrackAddTrackIdPut**
+> apiInternalAlbumAlbumIdTrackAddTrackIdPut(albumId, trackId, trackWriteDto)
 
 
 
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = InternalApi();
 final albumId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
@@ -129,9 +140,9 @@ final trackId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String |
 final trackWriteDto = TrackWriteDto(); // TrackWriteDto | 
 
 try {
-    api_instance.apiInternalAlbumAlbumIdTrackAddTrackIdPost(albumId, trackId, trackWriteDto);
+    api_instance.apiInternalAlbumAlbumIdTrackAddTrackIdPut(albumId, trackId, trackWriteDto);
 } catch (e) {
-    print('Exception when calling InternalApi->apiInternalAlbumAlbumIdTrackAddTrackIdPost: $e\n');
+    print('Exception when calling InternalApi->apiInternalAlbumAlbumIdTrackAddTrackIdPut: $e\n');
 }
 ```
 
@@ -149,7 +160,7 @@ void (empty response body)
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -158,26 +169,28 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **apiInternalAssetAddPost**
-> apiInternalAssetAddPost(asset)
+# **apiInternalAssetAddPut**
+> apiInternalAssetAddPut(asset)
 
 
 
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = InternalApi();
 final asset = Asset(); // Asset | 
 
 try {
-    api_instance.apiInternalAssetAddPost(asset);
+    api_instance.apiInternalAssetAddPut(asset);
 } catch (e) {
-    print('Exception when calling InternalApi->apiInternalAssetAddPost: $e\n');
+    print('Exception when calling InternalApi->apiInternalAssetAddPut: $e\n');
 }
 ```
 
@@ -193,7 +206,105 @@ void (empty response body)
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiInternalAssetTrackTrackIdPlaylistPut**
+> apiInternalAssetTrackTrackIdPlaylistPut(trackId, hlsPlaylistWriteDto)
+
+
+
+### Example
+```dart
+import 'package:BackendClientApi/api.dart';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = InternalApi();
+final trackId = trackId_example; // String | 
+final hlsPlaylistWriteDto = HlsPlaylistWriteDto(); // HlsPlaylistWriteDto | 
+
+try {
+    api_instance.apiInternalAssetTrackTrackIdPlaylistPut(trackId, hlsPlaylistWriteDto);
+} catch (e) {
+    print('Exception when calling InternalApi->apiInternalAssetTrackTrackIdPlaylistPut: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **trackId** | **String**|  | 
+ **hlsPlaylistWriteDto** | [**HlsPlaylistWriteDto**](HlsPlaylistWriteDto.md)|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiInternalAssetTrackTrackIdSegmentPut**
+> apiInternalAssetTrackTrackIdSegmentPut(trackId, quality, hlsSegmentWriteDto)
+
+
+
+### Example
+```dart
+import 'package:BackendClientApi/api.dart';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = InternalApi();
+final trackId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final quality = 56; // int | 
+final hlsSegmentWriteDto = HlsSegmentWriteDto(); // HlsSegmentWriteDto | 
+
+try {
+    api_instance.apiInternalAssetTrackTrackIdSegmentPut(trackId, quality, hlsSegmentWriteDto);
+} catch (e) {
+    print('Exception when calling InternalApi->apiInternalAssetTrackTrackIdSegmentPut: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **trackId** | **String**|  | 
+ **quality** | **int**|  | [optional] 
+ **hlsSegmentWriteDto** | [**HlsSegmentWriteDto**](HlsSegmentWriteDto.md)|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -210,10 +321,12 @@ void (empty response body)
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = InternalApi();
 final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
@@ -239,7 +352,7 @@ void (empty response body)
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -256,10 +369,12 @@ void (empty response body)
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = InternalApi();
 final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
@@ -285,7 +400,55 @@ void (empty response body)
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **apiInternalTrackJsonpatchTrackIdPatch**
+> apiInternalTrackJsonpatchTrackIdPatch(trackId, operation)
+
+
+
+### Example
+```dart
+import 'package:BackendClientApi/api.dart';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = InternalApi();
+final trackId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final operation = [List<Operation>()]; // List<Operation> | 
+
+try {
+    api_instance.apiInternalTrackJsonpatchTrackIdPatch(trackId, operation);
+} catch (e) {
+    print('Exception when calling InternalApi->apiInternalTrackJsonpatchTrackIdPatch: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **trackId** | **String**|  | 
+ **operation** | [**List<Operation>**](Operation.md)|  | [optional] 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -302,10 +465,12 @@ void (empty response body)
 ### Example
 ```dart
 import 'package:BackendClientApi/api.dart';
-// TODO Configure API key authorization: Jwt
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKey = 'YOUR_API_KEY';
-// uncomment below to setup prefix (e.g. Bearer) for API key, if needed
-//defaultApiClient.getAuthentication<ApiKeyAuth>('Jwt').apiKeyPrefix = 'Bearer';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = InternalApi();
 final trackId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
@@ -331,7 +496,7 @@ void (empty response body)
 
 ### Authorization
 
-[Jwt](../README.md#Jwt)
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 

@@ -10,23 +10,18 @@
 
 part of Backend.ClientApi;
 
-class OriginalTrackReadDto {
-  /// Returns a new [OriginalTrackReadDto] instance.
-  OriginalTrackReadDto({
+class OriginalAlbumReadDto1 {
+  /// Returns a new [OriginalAlbumReadDto1] instance.
+  OriginalAlbumReadDto1({
     this.id,
-    this.title,
-    this.album,
+    this.type,
+    this.fullName,
+    this.shortName,
   });
 
   String? id;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  LocalizedField1? title;
+  String? type;
 
   ///
   /// Please note: This property should have been non-nullable! Since the specification file
@@ -34,23 +29,33 @@ class OriginalTrackReadDto {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  OriginalAlbumReadDto1? album;
+  LocalizedField1? fullName;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  LocalizedField1? shortName;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is OriginalTrackReadDto &&
+  bool operator ==(Object other) => identical(this, other) || other is OriginalAlbumReadDto1 &&
      other.id == id &&
-     other.title == title &&
-     other.album == album;
+     other.type == type &&
+     other.fullName == fullName &&
+     other.shortName == shortName;
 
   @override
   int get hashCode =>
     // ignore: unnecessary_parenthesis
     (id == null ? 0 : id!.hashCode) +
-    (title == null ? 0 : title!.hashCode) +
-    (album == null ? 0 : album!.hashCode);
+    (type == null ? 0 : type!.hashCode) +
+    (fullName == null ? 0 : fullName!.hashCode) +
+    (shortName == null ? 0 : shortName!.hashCode);
 
   @override
-  String toString() => 'OriginalTrackReadDto[id=$id, title=$title, album=$album]';
+  String toString() => 'OriginalAlbumReadDto1[id=$id, type=$type, fullName=$fullName, shortName=$shortName]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -59,23 +64,28 @@ class OriginalTrackReadDto {
     } else {
       json[r'id'] = null;
     }
-    if (this.title != null) {
-      json[r'title'] = this.title;
+    if (this.type != null) {
+      json[r'type'] = this.type;
     } else {
-      json[r'title'] = null;
+      json[r'type'] = null;
     }
-    if (this.album != null) {
-      json[r'album'] = this.album;
+    if (this.fullName != null) {
+      json[r'fullName'] = this.fullName;
     } else {
-      json[r'album'] = null;
+      json[r'fullName'] = null;
+    }
+    if (this.shortName != null) {
+      json[r'shortName'] = this.shortName;
+    } else {
+      json[r'shortName'] = null;
     }
     return json;
   }
 
-  /// Returns a new [OriginalTrackReadDto] instance and imports its values from
+  /// Returns a new [OriginalAlbumReadDto1] instance and imports its values from
   /// [value] if it's a [Map], null otherwise.
   // ignore: prefer_constructors_over_static_methods
-  static OriginalTrackReadDto? fromJson(dynamic value) {
+  static OriginalAlbumReadDto1? fromJson(dynamic value) {
     if (value is Map) {
       final json = value.cast<String, dynamic>();
 
@@ -84,26 +94,27 @@ class OriginalTrackReadDto {
       // Note 2: this code is stripped in release mode!
       assert(() {
         requiredKeys.forEach((key) {
-          assert(json.containsKey(key), 'Required key "OriginalTrackReadDto[$key]" is missing from JSON.');
-          assert(json[key] != null, 'Required key "OriginalTrackReadDto[$key]" has a null value in JSON.');
+          assert(json.containsKey(key), 'Required key "OriginalAlbumReadDto1[$key]" is missing from JSON.');
+          assert(json[key] != null, 'Required key "OriginalAlbumReadDto1[$key]" has a null value in JSON.');
         });
         return true;
       }());
 
-      return OriginalTrackReadDto(
+      return OriginalAlbumReadDto1(
         id: mapValueOfType<String>(json, r'id'),
-        title: LocalizedField1.fromJson(json[r'title']),
-        album: OriginalAlbumReadDto1.fromJson(json[r'album']),
+        type: mapValueOfType<String>(json, r'type'),
+        fullName: LocalizedField1.fromJson(json[r'fullName']),
+        shortName: LocalizedField1.fromJson(json[r'shortName']),
       );
     }
     return null;
   }
 
-  static List<OriginalTrackReadDto> listFromJson(dynamic json, {bool growable = false,}) {
-    final result = <OriginalTrackReadDto>[];
+  static List<OriginalAlbumReadDto1> listFromJson(dynamic json, {bool growable = false,}) {
+    final result = <OriginalAlbumReadDto1>[];
     if (json is List && json.isNotEmpty) {
       for (final row in json) {
-        final value = OriginalTrackReadDto.fromJson(row);
+        final value = OriginalAlbumReadDto1.fromJson(row);
         if (value != null) {
           result.add(value);
         }
@@ -112,12 +123,12 @@ class OriginalTrackReadDto {
     return result.toList(growable: growable);
   }
 
-  static Map<String, OriginalTrackReadDto> mapFromJson(dynamic json) {
-    final map = <String, OriginalTrackReadDto>{};
+  static Map<String, OriginalAlbumReadDto1> mapFromJson(dynamic json) {
+    final map = <String, OriginalAlbumReadDto1>{};
     if (json is Map && json.isNotEmpty) {
       json = json.cast<String, dynamic>(); // ignore: parameter_assignments
       for (final entry in json.entries) {
-        final value = OriginalTrackReadDto.fromJson(entry.value);
+        final value = OriginalAlbumReadDto1.fromJson(entry.value);
         if (value != null) {
           map[entry.key] = value;
         }
@@ -126,14 +137,14 @@ class OriginalTrackReadDto {
     return map;
   }
 
-  // maps a json object with a list of OriginalTrackReadDto-objects as value to a dart map
-  static Map<String, List<OriginalTrackReadDto>> mapListFromJson(dynamic json, {bool growable = false,}) {
-    final map = <String, List<OriginalTrackReadDto>>{};
+  // maps a json object with a list of OriginalAlbumReadDto1-objects as value to a dart map
+  static Map<String, List<OriginalAlbumReadDto1>> mapListFromJson(dynamic json, {bool growable = false,}) {
+    final map = <String, List<OriginalAlbumReadDto1>>{};
     if (json is Map && json.isNotEmpty) {
       // ignore: parameter_assignments
       json = json.cast<String, dynamic>();
       for (final entry in json.entries) {
-        map[entry.key] = OriginalTrackReadDto.listFromJson(entry.value, growable: growable,);
+        map[entry.key] = OriginalAlbumReadDto1.listFromJson(entry.value, growable: growable,);
       }
     }
     return map;

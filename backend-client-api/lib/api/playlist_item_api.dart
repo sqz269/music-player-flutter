@@ -101,4 +101,54 @@ class PlaylistItemApi {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
+
+  /// Performs an HTTP 'POST /api/playlistItem/inc' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [String] playlistId:
+  ///
+  /// * [String] trackId:
+  Future<Response> incrementPlayCountWithHttpInfo({ String? playlistId, String? trackId, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/playlistItem/inc';
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (playlistId != null) {
+      queryParams.addAll(_queryParams('', 'PlaylistId', playlistId));
+    }
+    if (trackId != null) {
+      queryParams.addAll(_queryParams('', 'TrackId', trackId));
+    }
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'POST',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [String] playlistId:
+  ///
+  /// * [String] trackId:
+  Future<void> incrementPlayCount({ String? playlistId, String? trackId, }) async {
+    final response = await incrementPlayCountWithHttpInfo( playlistId: playlistId, trackId: trackId, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
 }

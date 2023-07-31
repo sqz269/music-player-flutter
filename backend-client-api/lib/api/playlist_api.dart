@@ -20,7 +20,7 @@ class PlaylistApi {
   /// Parameters:
   ///
   /// * [PlaylistCreateRequest] playlistCreateRequest:
-  Future<Response> apiPlaylistPostWithHttpInfo({ PlaylistCreateRequest? playlistCreateRequest, }) async {
+  Future<Response> createPlaylistWithHttpInfo({ PlaylistCreateRequest? playlistCreateRequest, }) async {
     // ignore: prefer_const_declarations
     final path = r'/api/playlist';
 
@@ -48,8 +48,8 @@ class PlaylistApi {
   /// Parameters:
   ///
   /// * [PlaylistCreateRequest] playlistCreateRequest:
-  Future<PlaylistReadDto?> apiPlaylistPost({ PlaylistCreateRequest? playlistCreateRequest, }) async {
-    final response = await apiPlaylistPostWithHttpInfo( playlistCreateRequest: playlistCreateRequest, );
+  Future<PlaylistReadDto?> createPlaylist({ PlaylistCreateRequest? playlistCreateRequest, }) async {
+    final response = await createPlaylistWithHttpInfo( playlistCreateRequest: playlistCreateRequest, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -58,6 +58,54 @@ class PlaylistApi {
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
       return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'PlaylistReadDto',) as PlaylistReadDto;
+    
+    }
+    return null;
+  }
+
+  /// Performs an HTTP 'DELETE /api/playlist/{playlistId}' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [String] playlistId (required):
+  Future<Response> deletePlaylistWithHttpInfo(String playlistId,) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/playlist/{playlistId}'
+      .replaceAll('{playlistId}', playlistId);
+
+    // ignore: prefer_final_locals
+    Object? postBody;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>[];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'DELETE',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [String] playlistId (required):
+  Future<bool?> deletePlaylist(String playlistId,) async {
+    final response = await deletePlaylistWithHttpInfo(playlistId,);
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+    // When a remote server returns no body with a status of 204, we shall not decode it.
+    // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
+    // FormatException when trying to decode an empty string.
+    if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'bool',) as bool;
     
     }
     return null;
@@ -239,14 +287,13 @@ class PlaylistApi {
     return null;
   }
 
-  /// Performs an HTTP 'GET /api/playlist/{playlistId}' operation and returns the [Response].
+  /// Performs an HTTP 'GET /api/playlist' operation and returns the [Response].
   /// Parameters:
   ///
-  /// * [String] playlistId (required):
-  Future<Response> getPlaylistWithHttpInfo(String playlistId,) async {
+  /// * [String] playlistId:
+  Future<Response> getPlaylistWithHttpInfo({ String? playlistId, }) async {
     // ignore: prefer_const_declarations
-    final path = r'/api/playlist/{playlistId}'
-      .replaceAll('{playlistId}', playlistId);
+    final path = r'/api/playlist';
 
     // ignore: prefer_final_locals
     Object? postBody;
@@ -254,6 +301,10 @@ class PlaylistApi {
     final queryParams = <QueryParam>[];
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
+
+    if (playlistId != null) {
+      queryParams.addAll(_queryParams('', 'playlistId', playlistId));
+    }
 
     const contentTypes = <String>[];
 
@@ -271,9 +322,9 @@ class PlaylistApi {
 
   /// Parameters:
   ///
-  /// * [String] playlistId (required):
-  Future<PlaylistReadDto?> getPlaylist(String playlistId,) async {
-    final response = await getPlaylistWithHttpInfo(playlistId,);
+  /// * [String] playlistId:
+  Future<PlaylistReadDto?> getPlaylist({ String? playlistId, }) async {
+    final response = await getPlaylistWithHttpInfo( playlistId: playlistId, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

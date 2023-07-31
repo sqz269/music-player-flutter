@@ -16,13 +16,15 @@ class InternalApi {
 
   final ApiClient apiClient;
 
-  /// Performs an HTTP 'POST /api/internal/album/add/{albumId}' operation and returns the [Response].
+  /// Performs an HTTP 'PUT /api/internal/album/add/{albumId}' operation and returns the [Response].
   /// Parameters:
   ///
   /// * [String] albumId (required):
   ///
+  /// * [String] parentId:
+  ///
   /// * [AlbumWriteDto] albumWriteDto:
-  Future<Response> apiInternalAlbumAddAlbumIdPostWithHttpInfo(String albumId, { AlbumWriteDto? albumWriteDto, }) async {
+  Future<Response> apiInternalAlbumAddAlbumIdPutWithHttpInfo(String albumId, { String? parentId, AlbumWriteDto? albumWriteDto, }) async {
     // ignore: prefer_const_declarations
     final path = r'/api/internal/album/add/{albumId}'
       .replaceAll('{albumId}', albumId);
@@ -34,12 +36,16 @@ class InternalApi {
     final headerParams = <String, String>{};
     final formParams = <String, String>{};
 
+    if (parentId != null) {
+      queryParams.addAll(_queryParams('', 'parentId', parentId));
+    }
+
     const contentTypes = <String>['application/json', 'application/json-patch+json', 'text/json', 'application/*+json'];
 
 
     return apiClient.invokeAPI(
       path,
-      'POST',
+      'PUT',
       queryParams,
       postBody,
       headerParams,
@@ -52,9 +58,11 @@ class InternalApi {
   ///
   /// * [String] albumId (required):
   ///
+  /// * [String] parentId:
+  ///
   /// * [AlbumWriteDto] albumWriteDto:
-  Future<void> apiInternalAlbumAddAlbumIdPost(String albumId, { AlbumWriteDto? albumWriteDto, }) async {
-    final response = await apiInternalAlbumAddAlbumIdPostWithHttpInfo(albumId,  albumWriteDto: albumWriteDto, );
+  Future<void> apiInternalAlbumAddAlbumIdPut(String albumId, { String? parentId, AlbumWriteDto? albumWriteDto, }) async {
+    final response = await apiInternalAlbumAddAlbumIdPutWithHttpInfo(albumId,  parentId: parentId, albumWriteDto: albumWriteDto, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -104,7 +112,7 @@ class InternalApi {
     }
   }
 
-  /// Performs an HTTP 'POST /api/internal/album/{albumId}/track/add/{trackId}' operation and returns the [Response].
+  /// Performs an HTTP 'PUT /api/internal/album/{albumId}/track/add/{trackId}' operation and returns the [Response].
   /// Parameters:
   ///
   /// * [String] albumId (required):
@@ -112,7 +120,7 @@ class InternalApi {
   /// * [String] trackId (required):
   ///
   /// * [TrackWriteDto] trackWriteDto:
-  Future<Response> apiInternalAlbumAlbumIdTrackAddTrackIdPostWithHttpInfo(String albumId, String trackId, { TrackWriteDto? trackWriteDto, }) async {
+  Future<Response> apiInternalAlbumAlbumIdTrackAddTrackIdPutWithHttpInfo(String albumId, String trackId, { TrackWriteDto? trackWriteDto, }) async {
     // ignore: prefer_const_declarations
     final path = r'/api/internal/album/{albumId}/track/add/{trackId}'
       .replaceAll('{albumId}', albumId)
@@ -130,7 +138,7 @@ class InternalApi {
 
     return apiClient.invokeAPI(
       path,
-      'POST',
+      'PUT',
       queryParams,
       postBody,
       headerParams,
@@ -146,18 +154,18 @@ class InternalApi {
   /// * [String] trackId (required):
   ///
   /// * [TrackWriteDto] trackWriteDto:
-  Future<void> apiInternalAlbumAlbumIdTrackAddTrackIdPost(String albumId, String trackId, { TrackWriteDto? trackWriteDto, }) async {
-    final response = await apiInternalAlbumAlbumIdTrackAddTrackIdPostWithHttpInfo(albumId, trackId,  trackWriteDto: trackWriteDto, );
+  Future<void> apiInternalAlbumAlbumIdTrackAddTrackIdPut(String albumId, String trackId, { TrackWriteDto? trackWriteDto, }) async {
+    final response = await apiInternalAlbumAlbumIdTrackAddTrackIdPutWithHttpInfo(albumId, trackId,  trackWriteDto: trackWriteDto, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
   }
 
-  /// Performs an HTTP 'POST /api/internal/asset/add' operation and returns the [Response].
+  /// Performs an HTTP 'PUT /api/internal/asset/add' operation and returns the [Response].
   /// Parameters:
   ///
   /// * [Asset] asset:
-  Future<Response> apiInternalAssetAddPostWithHttpInfo({ Asset? asset, }) async {
+  Future<Response> apiInternalAssetAddPutWithHttpInfo({ Asset? asset, }) async {
     // ignore: prefer_const_declarations
     final path = r'/api/internal/asset/add';
 
@@ -173,7 +181,7 @@ class InternalApi {
 
     return apiClient.invokeAPI(
       path,
-      'POST',
+      'PUT',
       queryParams,
       postBody,
       headerParams,
@@ -185,8 +193,104 @@ class InternalApi {
   /// Parameters:
   ///
   /// * [Asset] asset:
-  Future<void> apiInternalAssetAddPost({ Asset? asset, }) async {
-    final response = await apiInternalAssetAddPostWithHttpInfo( asset: asset, );
+  Future<void> apiInternalAssetAddPut({ Asset? asset, }) async {
+    final response = await apiInternalAssetAddPutWithHttpInfo( asset: asset, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// Performs an HTTP 'PUT /api/internal/asset/track/{trackId}/playlist' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [String] trackId (required):
+  ///
+  /// * [HlsPlaylistWriteDto] hlsPlaylistWriteDto:
+  Future<Response> apiInternalAssetTrackTrackIdPlaylistPutWithHttpInfo(String trackId, { HlsPlaylistWriteDto? hlsPlaylistWriteDto, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/internal/asset/track/{trackId}/playlist'
+      .replaceAll('{trackId}', trackId);
+
+    // ignore: prefer_final_locals
+    Object? postBody = hlsPlaylistWriteDto;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json', 'application/json-patch+json', 'text/json', 'application/*+json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'PUT',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [String] trackId (required):
+  ///
+  /// * [HlsPlaylistWriteDto] hlsPlaylistWriteDto:
+  Future<void> apiInternalAssetTrackTrackIdPlaylistPut(String trackId, { HlsPlaylistWriteDto? hlsPlaylistWriteDto, }) async {
+    final response = await apiInternalAssetTrackTrackIdPlaylistPutWithHttpInfo(trackId,  hlsPlaylistWriteDto: hlsPlaylistWriteDto, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// Performs an HTTP 'PUT /api/internal/asset/track/{trackId}/segment' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [String] trackId (required):
+  ///
+  /// * [int] quality:
+  ///
+  /// * [HlsSegmentWriteDto] hlsSegmentWriteDto:
+  Future<Response> apiInternalAssetTrackTrackIdSegmentPutWithHttpInfo(String trackId, { int? quality, HlsSegmentWriteDto? hlsSegmentWriteDto, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/internal/asset/track/{trackId}/segment'
+      .replaceAll('{trackId}', trackId);
+
+    // ignore: prefer_final_locals
+    Object? postBody = hlsSegmentWriteDto;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    if (quality != null) {
+      queryParams.addAll(_queryParams('', 'quality', quality));
+    }
+
+    const contentTypes = <String>['application/json', 'application/json-patch+json', 'text/json', 'application/*+json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'PUT',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [String] trackId (required):
+  ///
+  /// * [int] quality:
+  ///
+  /// * [HlsSegmentWriteDto] hlsSegmentWriteDto:
+  Future<void> apiInternalAssetTrackTrackIdSegmentPut(String trackId, { int? quality, HlsSegmentWriteDto? hlsSegmentWriteDto, }) async {
+    final response = await apiInternalAssetTrackTrackIdSegmentPutWithHttpInfo(trackId,  quality: quality, hlsSegmentWriteDto: hlsSegmentWriteDto, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -275,6 +379,50 @@ class InternalApi {
   /// * [List<Operation>] operation:
   Future<void> apiInternalCircleIdPatch(String id, { List<Operation>? operation, }) async {
     final response = await apiInternalCircleIdPatchWithHttpInfo(id,  operation: operation, );
+    if (response.statusCode >= HttpStatus.badRequest) {
+      throw ApiException(response.statusCode, await _decodeBodyBytes(response));
+    }
+  }
+
+  /// Performs an HTTP 'PATCH /api/internal/track/jsonpatch/{trackId}' operation and returns the [Response].
+  /// Parameters:
+  ///
+  /// * [String] trackId (required):
+  ///
+  /// * [List<Operation>] operation:
+  Future<Response> apiInternalTrackJsonpatchTrackIdPatchWithHttpInfo(String trackId, { List<Operation>? operation, }) async {
+    // ignore: prefer_const_declarations
+    final path = r'/api/internal/track/jsonpatch/{trackId}'
+      .replaceAll('{trackId}', trackId);
+
+    // ignore: prefer_final_locals
+    Object? postBody = operation;
+
+    final queryParams = <QueryParam>[];
+    final headerParams = <String, String>{};
+    final formParams = <String, String>{};
+
+    const contentTypes = <String>['application/json', 'application/json-patch+json', 'text/json', 'application/*+json'];
+
+
+    return apiClient.invokeAPI(
+      path,
+      'PATCH',
+      queryParams,
+      postBody,
+      headerParams,
+      formParams,
+      contentTypes.isEmpty ? null : contentTypes.first,
+    );
+  }
+
+  /// Parameters:
+  ///
+  /// * [String] trackId (required):
+  ///
+  /// * [List<Operation>] operation:
+  Future<void> apiInternalTrackJsonpatchTrackIdPatch(String trackId, { List<Operation>? operation, }) async {
+    final response = await apiInternalTrackJsonpatchTrackIdPatchWithHttpInfo(trackId,  operation: operation, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

@@ -18,6 +18,8 @@ class AlbumWriteDto {
     this.releaseConvention,
     this.catalogNumber,
     this.numberOfDiscs,
+    this.discNumber,
+    this.discName,
     this.website = const [],
     this.albumArtist = const [],
     this.genre = const [],
@@ -35,6 +37,16 @@ class AlbumWriteDto {
   String? catalogNumber;
 
   int? numberOfDiscs;
+
+  ///
+  /// Please note: This property should have been non-nullable! Since the specification file
+  /// does not include a default value (using the "default:" property), however, the generated
+  /// source code must fall back to having a nullable type.
+  /// Consider adding a "default:" property in the specification file to hide this note.
+  ///
+  int? discNumber;
+
+  String? discName;
 
   List<String>? website;
 
@@ -55,6 +67,8 @@ class AlbumWriteDto {
      other.releaseConvention == releaseConvention &&
      other.catalogNumber == catalogNumber &&
      other.numberOfDiscs == numberOfDiscs &&
+     other.discNumber == discNumber &&
+     other.discName == discName &&
      other.website == website &&
      other.albumArtist == albumArtist &&
      other.genre == genre &&
@@ -70,6 +84,8 @@ class AlbumWriteDto {
     (releaseConvention == null ? 0 : releaseConvention!.hashCode) +
     (catalogNumber == null ? 0 : catalogNumber!.hashCode) +
     (numberOfDiscs == null ? 0 : numberOfDiscs!.hashCode) +
+    (discNumber == null ? 0 : discNumber!.hashCode) +
+    (discName == null ? 0 : discName!.hashCode) +
     (website == null ? 0 : website!.hashCode) +
     (albumArtist == null ? 0 : albumArtist!.hashCode) +
     (genre == null ? 0 : genre!.hashCode) +
@@ -78,7 +94,7 @@ class AlbumWriteDto {
     (otherFiles == null ? 0 : otherFiles!.hashCode);
 
   @override
-  String toString() => 'AlbumWriteDto[albumName=$albumName, releaseDate=$releaseDate, releaseConvention=$releaseConvention, catalogNumber=$catalogNumber, numberOfDiscs=$numberOfDiscs, website=$website, albumArtist=$albumArtist, genre=$genre, dataSource=$dataSource, albumImage=$albumImage, otherFiles=$otherFiles]';
+  String toString() => 'AlbumWriteDto[albumName=$albumName, releaseDate=$releaseDate, releaseConvention=$releaseConvention, catalogNumber=$catalogNumber, numberOfDiscs=$numberOfDiscs, discNumber=$discNumber, discName=$discName, website=$website, albumArtist=$albumArtist, genre=$genre, dataSource=$dataSource, albumImage=$albumImage, otherFiles=$otherFiles]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -102,6 +118,16 @@ class AlbumWriteDto {
       json[r'numberOfDiscs'] = this.numberOfDiscs;
     } else {
       json[r'numberOfDiscs'] = null;
+    }
+    if (this.discNumber != null) {
+      json[r'discNumber'] = this.discNumber;
+    } else {
+      json[r'discNumber'] = null;
+    }
+    if (this.discName != null) {
+      json[r'discName'] = this.discName;
+    } else {
+      json[r'discName'] = null;
     }
     if (this.website != null) {
       json[r'website'] = this.website;
@@ -160,6 +186,8 @@ class AlbumWriteDto {
         releaseConvention: mapValueOfType<String>(json, r'releaseConvention'),
         catalogNumber: mapValueOfType<String>(json, r'catalogNumber'),
         numberOfDiscs: mapValueOfType<int>(json, r'numberOfDiscs'),
+        discNumber: mapValueOfType<int>(json, r'discNumber'),
+        discName: mapValueOfType<String>(json, r'discName'),
         website: json[r'website'] is List
             ? (json[r'website'] as List).cast<String>()
             : const [],

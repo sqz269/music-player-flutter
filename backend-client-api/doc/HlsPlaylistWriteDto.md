@@ -1,4 +1,4 @@
-# BackendClientApi.model.OriginalAlbumReadDto
+# BackendClientApi.model.HlsPlaylistWriteDto
 
 ## Load the model package
 ```dart
@@ -9,9 +9,10 @@ import 'package:BackendClientApi/api.dart';
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **String** |  | [optional] 
-**type** | **String** |  | [optional] 
-**fullName** | [**LocalizedField**](LocalizedField.md) |  | [optional] 
-**shortName** | [**LocalizedField**](LocalizedField.md) |  | [optional] 
+**type** | [**HlsPlaylistType**](HlsPlaylistType.md) |  | [optional] 
+**bitrate** | **int** |  | [optional] 
+**hlsPlaylistPath** | **String** |  | [optional] 
+**trackId** | **String** |  | [optional] 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
 

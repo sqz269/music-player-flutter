@@ -17,7 +17,7 @@ class Asset {
     required this.assetName,
     required this.assetPath,
     this.assetMime,
-    this.large,
+    this.size,
   });
 
   String assetId;
@@ -34,7 +34,7 @@ class Asset {
   /// source code must fall back to having a nullable type.
   /// Consider adding a "default:" property in the specification file to hide this note.
   ///
-  bool? large;
+  int? size;
 
   @override
   bool operator ==(Object other) => identical(this, other) || other is Asset &&
@@ -42,7 +42,7 @@ class Asset {
      other.assetName == assetName &&
      other.assetPath == assetPath &&
      other.assetMime == assetMime &&
-     other.large == large;
+     other.size == size;
 
   @override
   int get hashCode =>
@@ -51,10 +51,10 @@ class Asset {
     (assetName.hashCode) +
     (assetPath.hashCode) +
     (assetMime == null ? 0 : assetMime!.hashCode) +
-    (large == null ? 0 : large!.hashCode);
+    (size == null ? 0 : size!.hashCode);
 
   @override
-  String toString() => 'Asset[assetId=$assetId, assetName=$assetName, assetPath=$assetPath, assetMime=$assetMime, large=$large]';
+  String toString() => 'Asset[assetId=$assetId, assetName=$assetName, assetPath=$assetPath, assetMime=$assetMime, size=$size]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -66,10 +66,10 @@ class Asset {
     } else {
       json[r'assetMime'] = null;
     }
-    if (this.large != null) {
-      json[r'large'] = this.large;
+    if (this.size != null) {
+      json[r'size'] = this.size;
     } else {
-      json[r'large'] = null;
+      json[r'size'] = null;
     }
     return json;
   }
@@ -97,7 +97,7 @@ class Asset {
         assetName: mapValueOfType<String>(json, r'assetName')!,
         assetPath: mapValueOfType<String>(json, r'assetPath')!,
         assetMime: mapValueOfType<String>(json, r'assetMime'),
-        large: mapValueOfType<bool>(json, r'large'),
+        size: mapValueOfType<int>(json, r'size'),
       );
     }
     return null;

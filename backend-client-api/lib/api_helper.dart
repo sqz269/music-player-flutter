@@ -61,6 +61,9 @@ String parameterToString(dynamic value) {
   if (value is CircleStatus1) {
     return CircleStatus1TypeTransformer().encode(value).toString();
   }
+  if (value is HlsPlaylistType) {
+    return HlsPlaylistTypeTypeTransformer().encode(value).toString();
+  }
   if (value is PlaylistType) {
     return PlaylistTypeTypeTransformer().encode(value).toString();
   }

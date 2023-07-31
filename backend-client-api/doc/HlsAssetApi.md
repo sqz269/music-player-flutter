@@ -1,4 +1,4 @@
-# BackendClientApi.api.PlaylistItemApi
+# BackendClientApi.api.HlsAssetApi
 
 ## Load the API package
 ```dart
@@ -9,60 +9,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**addPlaylistItemToPlaylist**](PlaylistItemApi.md#addplaylistitemtoplaylist) | **POST** /api/playlistItem | 
-[**deletePlaylistItemFromPlaylist**](PlaylistItemApi.md#deleteplaylistitemfromplaylist) | **DELETE** /api/playlistItem | 
-[**incrementPlayCount**](PlaylistItemApi.md#incrementplaycount) | **POST** /api/playlistItem/inc | 
+[**apiAssetTrackTrackIdGet**](HlsAssetApi.md#apiassettracktrackidget) | **GET** /api/asset/track/{trackId} | 
+[**apiAssetTrackTrackIdHlsQualitykSegmentGet**](HlsAssetApi.md#apiassettracktrackidhlsqualityksegmentget) | **GET** /api/asset/track/{trackId}/hls/{quality}k/{segment} | 
+[**getMediaPlaylist**](HlsAssetApi.md#getmediaplaylist) | **GET** /api/asset/track/{trackId}/hls/{quality}k/playlist.m3u8 | 
 
 
-# **addPlaylistItemToPlaylist**
-> PlaylistItemReadDto addPlaylistItemToPlaylist(playlistItemAddRequest)
-
-
-
-### Example
-```dart
-import 'package:BackendClientApi/api.dart';
-// TODO Configure HTTP Bearer authorization: Bearer
-// Case 1. Use String Token
-//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
-// Case 2. Use Function which generate token.
-// String yourTokenGeneratorFunction() { ... }
-//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
-
-final api_instance = PlaylistItemApi();
-final playlistItemAddRequest = PlaylistItemAddRequest(); // PlaylistItemAddRequest | 
-
-try {
-    final result = api_instance.addPlaylistItemToPlaylist(playlistItemAddRequest);
-    print(result);
-} catch (e) {
-    print('Exception when calling PlaylistItemApi->addPlaylistItemToPlaylist: $e\n');
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **playlistItemAddRequest** | [**PlaylistItemAddRequest**](PlaylistItemAddRequest.md)|  | [optional] 
-
-### Return type
-
-[**PlaylistItemReadDto**](PlaylistItemReadDto.md)
-
-### Authorization
-
-[Bearer](../README.md#Bearer)
-
-### HTTP request headers
-
- - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
- - **Accept**: text/plain, application/json, text/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **deletePlaylistItemFromPlaylist**
-> deletePlaylistItemFromPlaylist(playlistItemDeleteRequest)
+# **apiAssetTrackTrackIdGet**
+> apiAssetTrackTrackIdGet(trackId)
 
 
 
@@ -76,13 +29,13 @@ import 'package:BackendClientApi/api.dart';
 // String yourTokenGeneratorFunction() { ... }
 //defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
-final api_instance = PlaylistItemApi();
-final playlistItemDeleteRequest = PlaylistItemDeleteRequest(); // PlaylistItemDeleteRequest | 
+final api_instance = HlsAssetApi();
+final trackId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    api_instance.deletePlaylistItemFromPlaylist(playlistItemDeleteRequest);
+    api_instance.apiAssetTrackTrackIdGet(trackId);
 } catch (e) {
-    print('Exception when calling PlaylistItemApi->deletePlaylistItemFromPlaylist: $e\n');
+    print('Exception when calling HlsAssetApi->apiAssetTrackTrackIdGet: $e\n');
 }
 ```
 
@@ -90,7 +43,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **playlistItemDeleteRequest** | [**PlaylistItemDeleteRequest**](PlaylistItemDeleteRequest.md)|  | [optional] 
+ **trackId** | **String**|  | 
 
 ### Return type
 
@@ -102,13 +55,13 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
- - **Accept**: text/plain, application/json, text/json
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **incrementPlayCount**
-> incrementPlayCount(playlistId, trackId)
+# **apiAssetTrackTrackIdHlsQualitykSegmentGet**
+> apiAssetTrackTrackIdHlsQualitykSegmentGet(trackId, quality, segment)
 
 
 
@@ -122,14 +75,15 @@ import 'package:BackendClientApi/api.dart';
 // String yourTokenGeneratorFunction() { ... }
 //defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
-final api_instance = PlaylistItemApi();
-final playlistId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final api_instance = HlsAssetApi();
 final trackId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final quality = 56; // int | 
+final segment = segment_example; // String | 
 
 try {
-    api_instance.incrementPlayCount(playlistId, trackId);
+    api_instance.apiAssetTrackTrackIdHlsQualitykSegmentGet(trackId, quality, segment);
 } catch (e) {
-    print('Exception when calling PlaylistItemApi->incrementPlayCount: $e\n');
+    print('Exception when calling HlsAssetApi->apiAssetTrackTrackIdHlsQualitykSegmentGet: $e\n');
 }
 ```
 
@@ -137,8 +91,57 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **playlistId** | **String**|  | [optional] 
- **trackId** | **String**|  | [optional] 
+ **trackId** | **String**|  | 
+ **quality** | **int**|  | 
+ **segment** | **String**|  | 
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getMediaPlaylist**
+> getMediaPlaylist(trackId, quality)
+
+
+
+### Example
+```dart
+import 'package:BackendClientApi/api.dart';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = HlsAssetApi();
+final trackId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final quality = 56; // int | 
+
+try {
+    api_instance.getMediaPlaylist(trackId, quality);
+} catch (e) {
+    print('Exception when calling HlsAssetApi->getMediaPlaylist: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **trackId** | **String**|  | 
+ **quality** | **int**|  | 
 
 ### Return type
 

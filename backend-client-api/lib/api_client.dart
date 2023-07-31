@@ -185,16 +185,12 @@ class ApiClient {
           return AlbumReadDto.fromJson(value);
         case 'AlbumReadDto1':
           return AlbumReadDto1.fromJson(value);
-        case 'AlbumReadDtoActionResult':
-          return AlbumReadDtoActionResult.fromJson(value);
         case 'AlbumWriteDto':
           return AlbumWriteDto.fromJson(value);
         case 'Asset':
           return Asset.fromJson(value);
         case 'AssetReadDto':
           return AssetReadDto.fromJson(value);
-        case 'AuthToken':
-          return AuthToken.fromJson(value);
         case 'CircleReadDto':
           return CircleReadDto.fromJson(value);
         case 'CircleReadDto1':
@@ -207,22 +203,22 @@ class ApiClient {
           return CircleWebsiteReadDto.fromJson(value);
         case 'CircleWriteDto':
           return CircleWriteDto.fromJson(value);
-        case 'JwtKeyResponse':
-          return JwtKeyResponse.fromJson(value);
-        case 'JwtRenewResult':
-          return JwtRenewResult.fromJson(value);
+        case 'HlsPlaylistType':
+          return HlsPlaylistTypeTypeTransformer().decode(value);
+        case 'HlsPlaylistWriteDto':
+          return HlsPlaylistWriteDto.fromJson(value);
+        case 'HlsSegmentWriteDto':
+          return HlsSegmentWriteDto.fromJson(value);
         case 'LocalizedField':
           return LocalizedField.fromJson(value);
         case 'LocalizedField1':
           return LocalizedField1.fromJson(value);
-        case 'LoginResult':
-          return LoginResult.fromJson(value);
-        case 'OkResult':
-          return OkResult.fromJson(value);
         case 'Operation':
           return Operation.fromJson(value);
         case 'OriginalAlbumReadDto':
           return OriginalAlbumReadDto.fromJson(value);
+        case 'OriginalAlbumReadDto1':
+          return OriginalAlbumReadDto1.fromJson(value);
         case 'OriginalAlbumReadDtoActionResult':
           return OriginalAlbumReadDtoActionResult.fromJson(value);
         case 'OriginalAlbumWriteDto':
@@ -251,10 +247,6 @@ class ApiClient {
           return ProblemDetails.fromJson(value);
         case 'RadioSong':
           return RadioSong.fromJson(value);
-        case 'RefreshToken':
-          return RefreshToken.fromJson(value);
-        case 'Role':
-          return Role.fromJson(value);
         case 'ThumbnailReadDto':
           return ThumbnailReadDto.fromJson(value);
         case 'TimeSpan':
@@ -265,16 +257,10 @@ class ApiClient {
           return TrackReadDto.fromJson(value);
         case 'TrackReadDto1':
           return TrackReadDto1.fromJson(value);
-        case 'TrackReadDtoActionResult':
-          return TrackReadDtoActionResult.fromJson(value);
         case 'TrackUpdateDto':
           return TrackUpdateDto.fromJson(value);
         case 'TrackWriteDto':
           return TrackWriteDto.fromJson(value);
-        case 'User':
-          return User.fromJson(value);
-        case 'UserCredentialsDto':
-          return UserCredentialsDto.fromJson(value);
         default:
           dynamic match;
           if (value is List && (match = _regList.firstMatch(targetType)?.group(1)) != null) {

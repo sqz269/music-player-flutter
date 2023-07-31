@@ -13,6 +13,8 @@ Name | Type | Description | Notes
 **releaseConvention** | **String** |  | [optional] 
 **catalogNumber** | **String** |  | [optional] 
 **numberOfDiscs** | **int** |  | [optional] 
+**discNumber** | **int** |  | [optional] 
+**discName** | **String** |  | [optional] 
 **website** | **List<String>** |  | [optional] [default to const []]
 **albumArtist** | **List<String>** |  | [optional] [default to const []]
 **genre** | **List<String>** |  | [optional] [default to const []]
