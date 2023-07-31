@@ -15,7 +15,7 @@ class TrackTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {
-        QueueController.to.addTrackById(trackData.id!);
+        QueueController.to.addTrackById(trackData.id!, playImmidently: true);
       },
       onLongPress: () {
         showModalBottomSheet(

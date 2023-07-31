@@ -28,18 +28,18 @@ class QueueController extends GetxController {
   }
 
   void _addTrack(QueuedTrack track,
-      {int? position, bool playImmidently = false}) {
-    // invalid call if position and playImmidently are both true
-    if (position != null && playImmidently) {
+      {int? position, bool playImmediately = false}) {
+    // invalid call if position and playImmediately are both true
+    if (position != null && playImmediately) {
       throw Exception(
-          "Invalid call to _addTrack, position cannot be set if playImmidently is true");
+          "Invalid call to _addTrack, position cannot be set if playImmediately is true");
     }
 
     track.index = _index++;
     if (position != null) {
       queue.insert(position, track);
     } else {
-      if (playImmidently) {
+      if (playImmediately) {
         queue.insert(0, track);
         playNext();
         return;
@@ -54,11 +54,11 @@ class QueueController extends GetxController {
   }
 
   void _addTracks(List<QueuedTrack> tracks,
-      {int? position, bool playImmidently = false}) {
-    // invalid call if position and playImmidently are both true
-    if (position != null && playImmidently) {
+      {int? position, bool playImmediately = false}) {
+    // invalid call if position and playImmediately are both true
+    if (position != null && playImmediately) {
       throw Exception(
-          "Invalid call to _addTrack, position cannot be set if playImmidently is true");
+          "Invalid call to _addTrack, position cannot be set if playImmediately is true");
     }
 
     for (var element in tracks) {
@@ -67,7 +67,7 @@ class QueueController extends GetxController {
     if (position != null) {
       queue.insertAll(position, tracks);
     } else {
-      if (playImmidently) {
+      if (playImmediately) {
         queue.insertAll(0, tracks);
         playNext();
         return;
@@ -83,7 +83,7 @@ class QueueController extends GetxController {
   }
 
   Future<bool> addTrackById(String id,
-      {int? position, bool playImmidently = false}) async {
+      {int? position, bool playImmediately = false}) async {
     var albumApi = AlbumApi(Get.find<ApiClient>());
 
     var track = await albumApi.getTrack(id);
@@ -93,13 +93,13 @@ class QueueController extends GetxController {
     }
 
     _addTrack(QueuedTrack(track: track),
-        position: position, playImmidently: playImmidently);
+        position: position, playImmediately: playImmediately);
 
     return true;
   }
 
   Future<bool> addTracksById(List<String> ids,
-      {int? position, bool playImmidently = false}) async {
+      {int? position, bool playImmediately = false}) async {
     var albumApi = AlbumApi(Get.find<ApiClient>());
 
     var tracks = await albumApi.getTracks(requestBody: ids);
@@ -116,7 +116,7 @@ class QueueController extends GetxController {
     _addTracks(
       tracks.tracks!.map((e) => QueuedTrack(track: e)).toList(),
       position: position,
-      playImmidently: playImmidently,
+      playImmediately: playImmediately,
     );
 
     return true;
