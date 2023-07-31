@@ -1,8 +1,12 @@
 import 'package:get/get.dart';
 
-enum PlayerState { playing, paused }
-
-enum LoadingState { loading, ready, idle }
+enum PlayerState {
+  idle,
+  ready,
+  pause,
+  playing,
+  completed,
+}
 
 abstract class IAudioController {
   static IAudioController to = Get.find<IAudioController>();

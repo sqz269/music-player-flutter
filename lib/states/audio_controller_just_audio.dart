@@ -9,39 +9,67 @@ class AudioControllerJustAudio extends GetxController
 
   final _isPlaying = false.obs;
   final _isPaused = false.obs;
-  final _playerState = PlayerState.playing.obs;
-  final _loadingState = LoadingState.idle.obs;
+  final _playerState = PlayerState.idle.obs;
 
-  AudioControllerJustAudio() {}
+  AudioControllerJustAudio() {
+    _audioPlayer.processingStateStream.listen(
+      (event) {
+        switch (event) {
+          case just_audio.ProcessingState.completed:
+            _playerState.value = PlayerState.completed;
+            break;
+          default:
+            break;
+        }
+      },
+    );
+
+    playerStateStream.listen(
+      (event) {
+        print("playerStateStream: $event");
+      },
+    );
+  }
 
   @override
   Future<void> pause() async {
-    if (!_isPaused.value) {
-      _isPaused.value = true;
+    if (_playerState.value == PlayerState.playing) {
+      _playerState.value = PlayerState.pause;
       await _audioPlayer.pause();
     }
   }
 
   @override
   Future<void> resume() async {
-    if (_isPaused.value) {
-      _isPaused.value = false;
-      _audioPlayer.play();
+    if (_playerState.value == PlayerState.pause) {
+      print("Resuming");
+      _playerState.value = PlayerState.playing;
+      await _audioPlayer.play();
     }
   }
 
   @override
   Future<void> play(String src) async {
+    if (_playerState.value != PlayerState.idle) {
+      await stop();
+    }
+
     _audioPlayer.setAudioSource(
       just_audio.HlsAudioSource(Uri.parse(src)),
     );
 
     _isPaused.value = false;
+    _playerState.value = PlayerState.ready;
     await _audioPlayer.play();
+    _playerState.value = PlayerState.playing;
   }
 
   @override
   Future<void> seekTo(Duration position) async {
+    if (position < Duration.zero && position > duration!) {
+      throw Exception("Invalid position");
+    }
+
     if (_isPlaying.value) {
       await _audioPlayer.seek(position);
     }
@@ -49,11 +77,12 @@ class AudioControllerJustAudio extends GetxController
 
   @override
   Future<void> stop() async {
-    if (_isPlaying.value) {
-      _isPlaying.value = false;
-      _isPaused.value = false;
-      _audioPlayer.stop();
+    if (_playerState.value == PlayerState.idle) {
+      return;
     }
+
+    _playerState.value = PlayerState.idle;
+    _audioPlayer.stop();
   }
 
   @override
@@ -88,7 +117,7 @@ class AudioControllerJustAudio extends GetxController
   bool get isPlaying => _isPlaying.value;
 
   @override
-  PlayerState get playerState => throw UnimplementedError();
+  PlayerState get playerState => _playerState.value;
 
   @override
   Duration? get position => _audioPlayer.position;
