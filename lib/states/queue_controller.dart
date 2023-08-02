@@ -161,6 +161,7 @@ class QueueController extends GetxController {
 
     if (queue.isEmpty) {
       currentTrack.value = null;
+      _audioController.stop();
     }
     return false;
   }
@@ -193,6 +194,9 @@ class QueueController extends GetxController {
   }
 
   void clearAll() {
+    if (currentTrack.value != null) {
+      _audioController.stop();
+    }
     clearQueue();
     playNext();
     clearHistory();

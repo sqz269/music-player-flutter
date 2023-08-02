@@ -70,9 +70,11 @@ class AudioControllerJustAudio extends GetxController
       throw Exception("Invalid position");
     }
 
-    if (_isPlaying.value) {
-      await _audioPlayer.seek(position);
+    if (playerState == PlayerState.idle) {
+      return;
     }
+
+    await _audioPlayer.seek(position);
   }
 
   @override
