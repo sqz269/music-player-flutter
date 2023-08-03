@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:tlmc_player_flutter/components/mobile_bottom_bar.dart';
+import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/ui_state/appbar_controller.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_miniplayer_bar.dart';
@@ -50,10 +51,17 @@ class _MainLayoutState extends State<MainLayout> {
                       SliverToBoxAdapter(
                         child: Stack(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 66.0),
-                              child: Container(child: widget.child),
-                            ),
+                            Obx(
+                              () => Padding(
+                                padding: EdgeInsets.only(
+                                    bottom: (QueueController
+                                                .to.currentTrack.value ==
+                                            null
+                                        ? 0.0
+                                        : 66.0)),
+                                child: Container(child: widget.child),
+                              ),
+                            )
                           ],
                         ),
                       ),
