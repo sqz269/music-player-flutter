@@ -3,7 +3,6 @@ import 'package:BackendClientApi/api.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
-import 'package:tlmc_player_flutter/ui_state/mobile_minibar_controller.dart';
 
 class BottomSheetTrackOps extends StatelessWidget {
   final AlbumReadDto albumData;
