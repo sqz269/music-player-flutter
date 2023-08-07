@@ -4,9 +4,11 @@ import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:BackendClientApi/api.dart';
 
 import 'package:tlmc_player_flutter/layouts/main_layout.dart';
+import 'package:tlmc_player_flutter/layouts/parallel_nav.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:tlmc_player_flutter/states/i_audio_controller.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
+import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 import 'package:tlmc_player_flutter/ui_state/appbar_controller.dart';
 import 'package:tlmc_player_flutter/views/homepage.dart';
 import 'package:tlmc_player_flutter/views/mobile/audio_test_page.dart';
@@ -28,8 +30,10 @@ Future<void> main() async {
 
   Get.lazyPut(() => AppBarController());
 
+  Get.put(RootContextProvider());
+
   runApp(
-    GetMaterialApp(
+    MaterialApp(
       theme: ThemeData(
         colorSchemeSeed: Color.fromARGB(255, 86, 164, 80),
         useMaterial3: true,
@@ -39,45 +43,7 @@ Future<void> main() async {
         ),
       ),
       darkTheme: ThemeData.dark(),
-      initialRoute: "/",
-      getPages: [
-        GetPage(
-          name: '/',
-          page: () => MainLayout(
-            child: HomePage(),
-          ),
-          transition: Transition.rightToLeft,
-          transitionDuration: const Duration(milliseconds: 100),
-        ),
-        GetPage(
-          name: '/album/:albumId',
-          page: () => MainLayout(
-            child: MobileAlbumPage(),
-          ),
-          transition: Transition.rightToLeft,
-          transitionDuration: const Duration(milliseconds: 100),
-        ),
-        GetPage(
-          name: '/audio_test/:trackId',
-          page: () => MainLayout(
-            child: AudioTestPage(),
-          ),
-        ),
-        GetPage(
-          name: '/explore',
-          page: () => MainLayout(
-            child: ExplorePage(),
-          ),
-          transition: Transition.rightToLeft,
-          transitionDuration: const Duration(milliseconds: 100),
-        ),
-        // GetPage(
-        //   name: '/audio_test/',
-        //   page: () => MainLayout(
-        //     child: AudioTestPage(),
-        //   ),
-        // ),
-      ],
+      home: ParallelNavigationApp(),
     ),
   );
 }

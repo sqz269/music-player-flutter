@@ -5,47 +5,55 @@ class ExplorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        // Radio card
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.radio,
-                    size: 48,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Radio",
-                        style: Theme.of(context).textTheme.headline6,
+    return SafeArea(
+      child: Column(
+        children: [
+          // Radio card
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/album');
+            },
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.radio,
+                        size: 48,
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        "Discover new music, randomly.",
-                        style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Radio",
+                            style: Theme.of(context).textTheme.headline6,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            "Discover new music, randomly.",
+                            style: Theme.of(context).textTheme.bodyText2,
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              margin:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             ),
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 }

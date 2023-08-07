@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:BackendClientApi/api.dart';
 import 'package:tlmc_player_flutter/components/bottom_sheet_track_ops.dart';
+import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 import 'package:tlmc_player_flutter/utils/utils.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 
@@ -20,6 +21,7 @@ class TrackTile extends StatelessWidget {
       onLongPress: () {
         showModalBottomSheet(
           context: context,
+          useRootNavigator: true,
           builder: (context) => BottomSheetTrackOps(
             trackData: trackData,
             albumData: albumData,
@@ -63,6 +65,7 @@ class TrackTile extends StatelessWidget {
         onPressed: () {
           showModalBottomSheet(
             context: context,
+            useRootNavigator: true,
             builder: (context) => BottomSheetTrackOps(
               trackData: trackData,
               albumData: albumData,

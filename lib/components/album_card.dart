@@ -13,7 +13,13 @@ class AlbumCard extends StatelessWidget {
     // TODO: Convert to infinite scroll or add pagination
     return GestureDetector(
       onTap: () {
-        Get.toNamed('/album/${albumData.id}');
+        Navigator.pushNamed(
+          context,
+          '/album',
+          arguments: {
+            'albumId': albumData.id,
+          },
+        );
       },
       child: SizedBox(
         child: Padding(

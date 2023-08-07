@@ -47,24 +47,56 @@ class _MobileHomePageState extends State<MobileHomePage> {
           _albumData = snapshot.data as List<AlbumReadDto>;
         }
 
-        return Column(
-          children: [
-            GridView.builder(
-              padding: EdgeInsets.zero,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 1,
-                mainAxisExtent: calculatedHeight,
-                mainAxisSpacing: 10,
-              ),
-              itemCount: 50,
-              itemBuilder: (context, index) {
-                return AlbumCard(albumData: this._albumData[index]);
-              },
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
+        return Scaffold(
+          body: SafeArea(
+            bottom: false,
+            child: CustomScrollView(
+              slivers: [
+                // SliverAppBar(
+                //   backgroundColor: Colors.transparent,
+                //   actions: [
+                //     IconButton(
+                //       onPressed: () {},
+                //       icon: const Icon(Icons.search),
+                //     ),
+                //     IconButton(
+                //       onPressed: () {},
+                //       icon: const Icon(Icons.account_circle_outlined),
+                //     ),
+                //   ],
+                //   pinned: false,
+                //   primary: true,
+                //   snap: true,
+                //   floating: true,
+                // ),
+                SliverToBoxAdapter(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: GridView.builder(
+                          padding: EdgeInsets.zero,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3,
+                            crossAxisSpacing: 1,
+                            mainAxisExtent: calculatedHeight,
+                            mainAxisSpacing: 10,
+                          ),
+                          itemCount: 50,
+                          itemBuilder: (context, index) {
+                            return AlbumCard(albumData: this._albumData[index]);
+                          },
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
     );

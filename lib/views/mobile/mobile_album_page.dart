@@ -58,9 +58,10 @@ class AlbumPageController extends GetxController {
 }
 
 class MobileAlbumPage extends StatelessWidget {
-  const MobileAlbumPage({super.key});
+  final Map<String, String?> routeParams;
+  const MobileAlbumPage({super.key, required this.routeParams});
 
-  List<Widget> buildTrackViews() {
+  List<Widget> buildTrackViews(BuildContext context) {
     var controller = Get.find<AlbumPageController>();
 
     var trackViews = <Widget>[];
@@ -80,7 +81,7 @@ class MobileAlbumPage extends StatelessWidget {
               children: [
                 Text(
                   discName,
-                  style: Theme.of(Get.context!).textTheme.titleMedium,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Expanded(
                     child: Padding(
@@ -150,16 +151,19 @@ class MobileAlbumPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var albumId = Get.parameters['albumId'];
+    // var albumId = Get.parameters['albumId'];
+    var albumId = routeParams['albumId'];
 
     AlbumPageController controller;
     // is there an existing controller?
     if (Get.isRegistered<AlbumPageController>()) {
       if (Get.find<AlbumPageController>().albumId != albumId) {
         Get.delete<AlbumPageController>();
+        controller =
+            Get.put(AlbumPageController(albumId: albumId!), permanent: false);
+      } else {
+        controller = Get.find<AlbumPageController>();
       }
-
-      controller = Get.find<AlbumPageController>();
     } else {
       // Get.lazyPut(() => AlbumPageController(albumId: albumId!), fenix: true);
       // var controller = Get.find<AlbumPageController>();
@@ -167,79 +171,97 @@ class MobileAlbumPage extends StatelessWidget {
           Get.put(AlbumPageController(albumId: albumId!), permanent: false);
     }
 
-    return Obx(
-      () => controller.isLoading.value
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
-          : Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // Display album image
-                  Container(
-                    width: 200,
-                    height: 200,
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(controller
-                            .masterAlbum.value!.thumbnail!.large!.url!),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  // Display album title
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 36.0),
-                    child: Text(
-                      controller.masterAlbum.value!.albumName!.default_,
-                      style:
-                          Theme.of(context).textTheme.headlineSmall!.copyWith(
-                                fontWeight: FontWeight.bold,
+    return SafeArea(
+      bottom: false,
+      child: Scaffold(
+        body: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              title: Text("ASDF"),
+            ),
+            SliverToBoxAdapter(
+              child: Obx(
+                () => controller.isLoading.value
+                    ? const Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            // Display album image
+                            Container(
+                              width: 200,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: NetworkImage(controller.masterAlbum
+                                      .value!.thumbnail!.large!.url!),
+                                  fit: BoxFit.cover,
+                                ),
+                                borderRadius: BorderRadius.circular(8),
                               ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  // controls
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    // add padding to all children
-                    children: [
-                      IconButton.outlined(
-                        onPressed: () {},
-                        icon: const Icon(Icons.library_add_outlined),
+                            ),
+                            const SizedBox(height: 16),
+                            // Display album title
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 36.0),
+                              child: Text(
+                                controller
+                                    .masterAlbum.value!.albumName!.default_,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            const SizedBox(height: 16),
+                            // controls
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              // add padding to all children
+                              children: [
+                                IconButton.outlined(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.library_add_outlined),
+                                ),
+                                IconButton.filled(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.play_arrow),
+                                  iconSize: 42,
+                                ),
+                                IconButton.outlined(
+                                  onPressed: () {},
+                                  icon: const Icon(Icons.more_vert),
+                                ),
+                              ],
+                            ),
+                            ...buildTrackViews(context),
+                            // ListView.builder(
+                            //   padding: const EdgeInsets.only(top: 8),
+                            //   itemBuilder: (context, index) {
+                            //     return TrackTile(
+                            //         trackData:
+                            //             controller.masterAlbum.value!.tracks![index],
+                            //         albumData: controller.masterAlbum.value!);
+                            //   },
+                            //   itemCount: controller.masterAlbum.value!.tracks!.length,
+                            //   shrinkWrap: true,
+                            //   physics: const NeverScrollableScrollPhysics(),
+                            // ),
+                          ],
+                        ),
                       ),
-                      IconButton.filled(
-                        onPressed: () {},
-                        icon: const Icon(Icons.play_arrow),
-                        iconSize: 42,
-                      ),
-                      IconButton.outlined(
-                        onPressed: () {},
-                        icon: const Icon(Icons.more_vert),
-                      ),
-                    ],
-                  ),
-                  ...buildTrackViews(),
-                  // ListView.builder(
-                  //   padding: const EdgeInsets.only(top: 8),
-                  //   itemBuilder: (context, index) {
-                  //     return TrackTile(
-                  //         trackData:
-                  //             controller.masterAlbum.value!.tracks![index],
-                  //         albumData: controller.masterAlbum.value!);
-                  //   },
-                  //   itemCount: controller.masterAlbum.value!.tracks!.length,
-                  //   shrinkWrap: true,
-                  //   physics: const NeverScrollableScrollPhysics(),
-                  // ),
-                ],
               ),
             ),
+          ],
+        ),
+      ),
     );
   }
 }
