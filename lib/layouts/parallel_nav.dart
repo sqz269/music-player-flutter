@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tlmc_player_flutter/components/mobile_bottom_bar.dart';
+import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 import 'package:tlmc_player_flutter/views/homepage.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_album_page.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_explore.dart';
+import 'package:tlmc_player_flutter/views/mobile/mobile_miniplayer_bar.dart';
 
 enum ParallelNavPage { home, explore, library }
 
@@ -15,35 +18,42 @@ class ParallelNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      key: navigatorKey,
-      onGenerateRoute: (routeSettings) {
-        if (routeSettings.name == '/') {
-          print("/ Navigation | Page: $page");
-          return MaterialPageRoute(
-            builder: (context) {
-              switch (page) {
-                case ParallelNavPage.home:
-                  return const HomePage();
-                case ParallelNavPage.explore:
-                  return const ExplorePage();
-                case ParallelNavPage.library:
-                  return const Placeholder();
-              }
-            },
-          );
-        }
+    return Obx(
+      () => Padding(
+        padding: EdgeInsets.only(
+            bottom:
+                (QueueController.to.currentTrack.value == null) ? 0.0 : 66.0),
+        child: Navigator(
+          key: navigatorKey,
+          onGenerateRoute: (routeSettings) {
+            if (routeSettings.name == '/') {
+              print("/ Navigation | Page: $page");
+              return MaterialPageRoute(
+                builder: (context) {
+                  switch (page) {
+                    case ParallelNavPage.home:
+                      return const HomePage();
+                    case ParallelNavPage.explore:
+                      return const ExplorePage();
+                    case ParallelNavPage.library:
+                      return const Placeholder();
+                  }
+                },
+              );
+            }
 
-        if (routeSettings.name!.startsWith("/album")) {
-          print("/album Navigation | Page: $page");
-          print("Route settings: $routeSettings");
-          return MaterialPageRoute(
-            builder: (context) => MobileAlbumPage(
-              routeParams: routeSettings.arguments as Map<String, String?>,
-            ),
-          );
-        }
-      },
+            if (routeSettings.name!.startsWith("/album")) {
+              print("/album Navigation | Page: $page");
+              print("Route settings: $routeSettings");
+              return MaterialPageRoute(
+                builder: (context) => MobileAlbumPage(
+                  routeParams: routeSettings.arguments as Map<String, String?>,
+                ),
+              );
+            }
+          },
+        ),
+      ),
     );
   }
 }
@@ -55,29 +65,51 @@ class BottomNavigationBarPersistent extends StatelessWidget {
   const BottomNavigationBarPersistent(
       {super.key, required this.currentTab, this.onTabSelect});
 
+  static final NavigationOptions = [
+    {
+      "activeIcon": Icons.home,
+      "inactiveIcon": Icons.home_outlined,
+      "label": "Home",
+    },
+    {
+      "activeIcon": Icons.explore,
+      "inactiveIcon": Icons.explore_outlined,
+      "label": "Explore",
+    },
+    {
+      "activeIcon": Icons.library_music,
+      "inactiveIcon": Icons.library_music_outlined,
+      "label": "Library",
+    }
+  ];
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      items: [
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.home),
-          label: "Home",
-        ),
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.explore),
-          label: "Explore",
-        ),
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.library_music),
-          label: "Library",
-        ),
-      ],
+      elevation: 0,
+      items: NavigationOptions.asMap().entries.map(
+        (entry) {
+          return BottomNavigationBarItem(
+            icon: Icon(
+              currentTab.index == entry.key
+                  ? (entry.value["activeIcon"] as IconData)
+                  : (entry.value["inactiveIcon"] as IconData),
+            ),
+            label: entry.value["label"] as String,
+            backgroundColor: Colors.amber,
+          );
+        },
+      ).toList(),
       currentIndex: currentTab.index,
       onTap: (index) {
         print("Selected tab: $index");
         onTabSelect!(ParallelNavPage.values[index]);
       },
+      selectedItemColor: Theme.of(context).primaryColor,
+      selectedFontSize: Theme.of(context).textTheme.bodySmall!.fontSize!,
+      unselectedFontSize: Theme.of(context).textTheme.bodySmall!.fontSize!,
+      selectedIconTheme: IconThemeData(color: Theme.of(context).primaryColor),
     );
   }
 }
@@ -132,11 +164,45 @@ class _ParallelNavigationAppState extends State<ParallelNavigationApp> {
             _buildOffstageNavigator(ParallelNavPage.home),
             _buildOffstageNavigator(ParallelNavPage.explore),
             _buildOffstageNavigator(ParallelNavPage.library),
+            const MobileMiniplayerBar(),
           ],
         ),
-        bottomNavigationBar: BottomNavigationBarPersistent(
-          currentTab: _currentTab,
-          onTabSelect: _selectTab,
+        bottomNavigationBar: Obx(
+          () {
+            var opacity = 1 - playerExpandProgressPerc.value;
+            if (opacity < 0) {
+              opacity = 0;
+            }
+            if (opacity > 1) {
+              opacity = 1;
+            }
+
+            return SafeArea(
+              top: false,
+              child: SizedBox(
+                height: kBottomNavigationBarHeight -
+                    kBottomNavigationBarHeight * playerExpandProgressPerc.value,
+                child: Transform.translate(
+                  offset: Offset(
+                      0.0,
+                      kBottomNavigationBarHeight *
+                          playerExpandProgressPerc.value *
+                          0.5),
+                  child: Opacity(
+                    opacity: opacity,
+                    child: OverflowBox(
+                      maxHeight: kBottomNavigationBarHeight,
+                      child: BottomNavigationBarPersistent(
+                        currentTab: _currentTab,
+                        onTabSelect: _selectTab,
+                      ),
+                      // child: MobileBottomNavigationBar(),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
     );
