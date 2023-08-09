@@ -10,7 +10,6 @@ class AlbumCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: Convert to infinite scroll or add pagination
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(
@@ -37,7 +36,7 @@ class AlbumCard extends StatelessWidget {
                         child: AspectRatio(
                           aspectRatio: 1,
                           child: Image.network(
-                            albumData.thumbnail!.medium!.url!,
+                            albumData.thumbnail!.large!.url!,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -47,7 +46,7 @@ class AlbumCard extends StatelessWidget {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      albumData.albumName!.default_!,
+                      albumData.albumName!.default_,
                       style: Theme.of(context).textTheme.bodyLarge,
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
