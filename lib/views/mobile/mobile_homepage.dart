@@ -30,7 +30,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    double? calculatedHeight = 0.36 * MediaQuery.of(context).size.width - 4;
+    double? calculatedHeight = 0.5 * MediaQuery.of(context).size.width - 4;
 
     return FutureBuilder(
       future: _albumFuture,
@@ -52,33 +52,32 @@ class _MobileHomePageState extends State<MobileHomePage> {
             bottom: false,
             child: CustomScrollView(
               slivers: [
-                // SliverAppBar(
-                //   backgroundColor: Colors.transparent,
-                //   actions: [
-                //     IconButton(
-                //       onPressed: () {},
-                //       icon: const Icon(Icons.search),
-                //     ),
-                //     IconButton(
-                //       onPressed: () {},
-                //       icon: const Icon(Icons.account_circle_outlined),
-                //     ),
-                //   ],
-                //   pinned: false,
-                //   primary: true,
-                //   snap: true,
-                //   floating: true,
-                // ),
+                SliverAppBar(
+                  backgroundColor: Colors.transparent,
+                  leading: Icon(Icons.menu),
+                  actions: [
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.search),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.account_circle_outlined),
+                    ),
+                  ],
+                  pinned: false,
+                  primary: true,
+                ),
                 SliverToBoxAdapter(
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: GridView.builder(
-                          padding: EdgeInsets.zero,
+                          padding: const EdgeInsets.all(8.0),
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
+                            crossAxisCount: 2,
                             crossAxisSpacing: 1,
                             mainAxisExtent: calculatedHeight,
                             mainAxisSpacing: 10,
