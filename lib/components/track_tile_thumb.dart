@@ -5,8 +5,10 @@ import 'package:tlmc_player_flutter/utils/utils.dart';
 
 class TrackTileThumb extends StatelessWidget {
   final TrackReadDto trackData;
+  final int reorderableIndex;
 
-  const TrackTileThumb({super.key, required this.trackData});
+  const TrackTileThumb(
+      {super.key, required this.trackData, this.reorderableIndex = -1});
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +78,22 @@ class TrackTileThumb extends StatelessWidget {
                 ],
               ),
             ),
+
+            // If reorderableIndex is not -1, this means that this track tile should be reorderable
+            if (reorderableIndex != -1)
+              Container(
+                height: 42,
+                width: 42,
+                child: Center(
+                  child: ReorderableDragStartListener(
+                    index: reorderableIndex,
+                    child: Icon(
+                      Icons.drag_handle,
+                      color: Colors.grey.shade700,
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),

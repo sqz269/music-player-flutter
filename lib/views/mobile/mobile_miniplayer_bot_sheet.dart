@@ -1,7 +1,10 @@
+import 'package:get/get.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:tlmc_player_flutter/components/track_tile_thumb.dart';
+import 'package:tlmc_player_flutter/model/queued_track.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class MiniplayerQueueBottomSheet extends StatelessWidget {
   MiniplayerQueueBottomSheet({
@@ -17,199 +20,6 @@ class MiniplayerQueueBottomSheet extends StatelessWidget {
     if (perc < 0.4) {
       return const SizedBox.shrink();
     }
-
-    // DraggableScrollableSheet(
-    //   initialChildSize: 0.06,
-    //   minChildSize: 0.06,
-    //   maxChildSize: 1,
-    //   snap: true,
-    //   snapSizes: const [0.06, 1],
-    //   builder: (context, scrollController) {
-    //     return GestureDetector(
-    //       dragStartBehavior: DragStartBehavior.down,
-    //       behavior: HitTestBehavior.translucent,
-    //       child: Container(
-    //         decoration: BoxDecoration(
-    //           borderRadius: BorderRadius.only(
-    //             topLeft: Radius.circular(16),
-    //             topRight: Radius.circular(16),
-    //           ),
-    //           color: Theme.of(context).colorScheme.surface,
-    //         ),
-    //         child: Column(
-    //           children: [
-    //             Container(
-    //               height: 4,
-    //               width: 40,
-    //               margin: const EdgeInsets.symmetric(vertical: 10),
-    //               decoration: BoxDecoration(
-    //                 borderRadius: BorderRadius.circular(2),
-    //                 color: Colors.grey.shade600,
-    //               ),
-    //             ),
-    //             Expanded(
-    //               child: ListView.builder(
-    //                 controller: scrollController,
-    //                 itemBuilder: (context, index) {
-    //                   return ListTile(
-    //                     title: Text("Item $index"),
-    //                   );
-    //                 },
-    //                 shrinkWrap: true,
-    //                 itemCount: 100,
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // );
-
-    // return DefaultTabController(
-    //   length: 3,
-    //   child: DraggableScrollableSheet(
-    //     initialChildSize: 0.1,
-    //     minChildSize: 0.1,
-    //     maxChildSize: 1,
-    //     snap: true,
-    //     snapSizes: const [0.1, 1],
-    //     builder: (context, scrollController) => Scaffold(
-    //       body: Container(
-    //         decoration: BoxDecoration(
-    //           borderRadius: BorderRadius.only(
-    //             topLeft: Radius.circular(16),
-    //             topRight: Radius.circular(16),
-    //           ),
-    //           color: Theme.of(context).colorScheme.surface,
-    //         ),
-    //         child: NestedScrollView(
-    //           headerSliverBuilder: null,
-    //           body: null,
-    //         ),
-    //       ),
-    //     ),
-    //   ),
-    // );
-
-    // return DraggableScrollableSheet(
-    //   initialChildSize:
-    //       0.4, // initial height of the sheet as a percentage of screen height
-    //   minChildSize:
-    //       0.2, // minimum height of the sheet as a percentage of screen height
-    //   maxChildSize:
-    //       0.7, // maximum height of the sheet as a percentage of screen height
-    //   builder: (BuildContext context, ScrollController scrollController) {
-    //     return Container(
-    //       decoration: BoxDecoration(
-    //         borderRadius: BorderRadius.only(
-    //           topLeft: Radius.circular(16),
-    //           topRight: Radius.circular(16),
-    //         ),
-    //         color: Theme.of(context).colorScheme.surfaceVariant,
-    //       ),
-    //       child: DefaultTabController(
-    //         length: 2, // the number of tabs
-    //         child: Column(
-    //           children: <Widget>[
-    //             TabBar(
-    //               tabs: <Tab>[
-    //                 Tab(text: 'Queue'),
-    //                 Tab(text: 'History'),
-    //               ],
-    //             ),
-    //             Expanded(
-    //               child: TabBarView(
-    //                 children: <Widget>[
-    //                   ListView.builder(
-    //                     controller:
-    //                         scrollController, // pass the scrollController to ListView
-    //                     itemCount: 50,
-    //                     itemBuilder: (BuildContext context, int index) {
-    //                       return ListTile(
-    //                         title: Text('Item $index'),
-    //                       );
-    //                     },
-    //                   ),
-    //                   ListView.builder(
-    //                     controller:
-    //                         scrollController, // pass the scrollController to ListView
-    //                     itemCount: 50,
-    //                     itemBuilder: (BuildContext context, int index) {
-    //                       return ListTile(
-    //                         title: Text('Item $index'),
-    //                       );
-    //                     },
-    //                   ),
-    //                 ],
-    //               ),
-    //             ),
-    //           ],
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // );
-
-    // return NestedScrollView(
-    //   headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-    //     return <Widget>[];
-    //   },
-    //   body: DraggableScrollableSheet(
-    //     initialChildSize: 0.4,
-    //     minChildSize: 0.2,
-    //     maxChildSize: 0.7,
-    //     builder:
-    //         (BuildContext context, ScrollController sheetScrollController) {
-    //       return Container(
-    //         decoration: BoxDecoration(
-    //           borderRadius: BorderRadius.only(
-    //             topLeft: Radius.circular(16),
-    //             topRight: Radius.circular(16),
-    //           ),
-    //           color: Theme.of(context).colorScheme.surfaceVariant,
-    //         ),
-    //         child: DefaultTabController(
-    //           length: 2,
-    //           child: Column(
-    //             children: <Widget>[
-    //               TabBar(
-    //                 tabs: <Tab>[
-    //                   Tab(text: 'Queue'),
-    //                   Tab(text: 'History'),
-    //                 ],
-    //               ),
-    //               Expanded(
-    //                 child: TabBarView(
-    //                   children: <Widget>[
-    //                     ListView.builder(
-    //                       controller: sheetScrollController,
-    //                       itemCount: 50,
-    //                       itemBuilder: (BuildContext context, int index) {
-    //                         return ListTile(
-    //                           title: Text('Item $index'),
-    //                         );
-    //                       },
-    //                     ),
-    //                     ListView.builder(
-    //                       controller: sheetScrollController,
-    //                       itemCount: 50,
-    //                       itemBuilder: (BuildContext context, int index) {
-    //                         return ListTile(
-    //                           title: Text('Item $index'),
-    //                         );
-    //                       },
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //       );
-    //     },
-    //   ),
-    // );
 
     return DraggableScrollableSheet(
       initialChildSize: 0.09,
@@ -259,19 +69,33 @@ class MiniplayerQueueBottomSheet extends StatelessWidget {
                   child: TabBarView(
                     children: [
                       Center(
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            var trackData = QueueController.to.queue[index];
-                            return TrackTileThumb(trackData: trackData.track!);
-                          },
-                          itemCount: QueueController.to.queue.length,
+                        child: SlidableAutoCloseBehavior(
+                          child: Obx(
+                            () => ReorderableListView.builder(
+                              onReorder: (oldIndex, newIndex) {
+                                print("Reorder from $oldIndex to $newIndex");
+                                if (newIndex > oldIndex) {
+                                  newIndex -= 1;
+                                }
+                                QueueController.to
+                                    .reorderQueue(oldIndex, newIndex);
+                              },
+                              itemBuilder: (context, index) {
+                                var queuedTrack =
+                                    QueueController.to.queue[index];
+                                return buildSlidableTrackTile(
+                                    queuedTrack, index);
+                              },
+                              itemCount: QueueController.to.queue.length,
+                            ),
+                          ),
                         ),
                       ),
                       Center(
                         child: ListView.builder(
                           itemBuilder: (context, index) {
                             var trackData = QueueController.to.history[index];
-                            return TrackTileThumb(trackData: trackData.track!);
+                            return TrackTileThumb(trackData: trackData.track);
                           },
                           itemCount: QueueController.to.history.length,
                         ),
@@ -284,6 +108,37 @@ class MiniplayerQueueBottomSheet extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Slidable buildSlidableTrackTile(QueuedTrack queuedTrack, int index) {
+    return Slidable(
+      key: Key(queuedTrack.id),
+      groupTag: "queue",
+      endActionPane: ActionPane(
+        extentRatio: 1 / 5,
+        dismissible: DismissiblePane(
+          onDismissed: () {
+            print("Removed from queue");
+            QueueController.to.removeFromQueue(queuedTrack.id);
+            print("New queue length: ${QueueController.to.queue.length}");
+          },
+        ),
+        motion: ScrollMotion(),
+        children: [
+          SlidableAction(
+            label: 'Remove',
+            padding: const EdgeInsets.all(0),
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            onPressed: (context) {
+              QueueController.to.removeFromQueue(queuedTrack.id);
+            },
+          ),
+        ],
+      ),
+      child:
+          TrackTileThumb(trackData: queuedTrack.track, reorderableIndex: index),
     );
   }
 }

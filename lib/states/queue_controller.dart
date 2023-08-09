@@ -92,7 +92,7 @@ class QueueController extends GetxController {
       return false;
     }
 
-    _addTrack(QueuedTrack(track: track),
+    _addTrack(QueuedTrack(track: track, index: _index++),
         position: position, playImmediately: playImmediately);
 
     return true;
@@ -114,7 +114,9 @@ class QueueController extends GetxController {
     }
 
     _addTracks(
-      tracks.tracks!.map((e) => QueuedTrack(track: e)).toList(),
+      tracks.tracks!
+          .map((e) => QueuedTrack(track: e, index: _index++))
+          .toList(),
       position: position,
       playImmediately: playImmediately,
     );
@@ -122,12 +124,19 @@ class QueueController extends GetxController {
     return true;
   }
 
-  void removeFromQueue(Uuid id) {
+  void removeFromQueue(String id) {
     queue.removeWhere((element) => element.id == id);
   }
 
   void removeFromQueueAt(int index) {
     queue.removeAt(index);
+    print("Removed from queue at $index");
+    print("New queue length: ${queue.length}");
+  }
+
+  void reorderQueue(int oldIndex, int newIndex) {
+    var track = queue.removeAt(oldIndex);
+    queue.insert(newIndex, track);
   }
 
   void pushHistory(QueuedTrack track, {int? position}) {

@@ -52,6 +52,7 @@ dev_dependencies:
   uuid: ^3.0.7
   video_player: ^2.7.0
   miniplayer: ^1.0.1
+  flutter_slidable: ^3.0.0
 
   BackendClientApi:
     path: backend-client-api
