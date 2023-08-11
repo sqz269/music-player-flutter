@@ -81,24 +81,25 @@ class MobileAlbumPage extends StatelessWidget {
 
       trackViews.addAll(
         [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  discName,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const Expanded(
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Divider(),
+          if (controller.albumsData.length > 1)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    discName,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
-                ),
-              ],
+                  const Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Divider(),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
           // Divider(),
           ListView.builder(
             padding: const EdgeInsets.only(top: 0),
@@ -160,12 +161,60 @@ class MobileAlbumPage extends StatelessWidget {
           Get.put(AlbumPageController(albumId: albumId!), permanent: false);
     }
 
+    var imageWidth = MediaQuery.of(context).size.width * 0.7;
+
     return SafeArea(
       bottom: false,
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-            SliverAppBar(),
+            SliverAppBar(
+              flexibleSpace: FlexibleSpaceBar(
+                titlePadding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                title: GestureDetector(
+                  onTap: () {
+                    print("Tapped");
+                  },
+                  child: Obx(
+                    () => controller.isLoading.value
+                        ? SizedBox.shrink()
+                        : RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              text: controller
+                                  .masterAlbum.value!.albumArtist![0].name,
+                              style: Theme.of(context).textTheme.bodyMedium,
+                              children: [
+                                TextSpan(
+                                  text: "\nAlbum",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(color: Colors.grey.shade600),
+                                ),
+                                TextSpan(
+                                  text: ' · ',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(color: Colors.grey.shade600),
+                                ),
+                                TextSpan(
+                                  text:
+                                      '${controller.masterAlbum.value!.releaseDate!.year}',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall!
+                                      .copyWith(color: Colors.grey.shade600),
+                                ),
+                              ],
+                            ),
+                          ),
+                  ),
+                ),
+                centerTitle: true,
+              ),
+            ),
             SliverToBoxAdapter(
               child: Obx(
                 () => controller.isLoading.value
@@ -179,8 +228,8 @@ class MobileAlbumPage extends StatelessWidget {
                           children: [
                             // Display album image
                             Container(
-                              width: 200,
-                              height: 200,
+                              width: imageWidth,
+                              height: imageWidth,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   image: NetworkImage(controller.masterAlbum
