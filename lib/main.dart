@@ -1,20 +1,14 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:bitsdojo_window/bitsdojo_window.dart';
 import 'package:BackendClientApi/api.dart';
 
-import 'package:tlmc_player_flutter/layouts/main_layout.dart';
 import 'package:tlmc_player_flutter/layouts/parallel_nav.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:tlmc_player_flutter/states/i_audio_controller.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 import 'package:tlmc_player_flutter/ui_state/appbar_controller.dart';
-import 'package:tlmc_player_flutter/views/homepage.dart';
-import 'package:tlmc_player_flutter/views/mobile/audio_test_page.dart';
-import 'package:tlmc_player_flutter/views/mobile/mobile_album_page.dart';
-import 'package:tlmc_player_flutter/views/mobile/mobile_explore.dart';
-import 'package:tlmc_player_flutter/views/mobile/mobile_homepage.dart';
+import 'package:tlmc_player_flutter/states/just_audio_background_cust_queue.dart';
 
 Future<void> main() async {
   /// NOTE WITH API MODEL
@@ -31,6 +25,12 @@ Future<void> main() async {
   Get.lazyPut(() => AppBarController());
 
   Get.put(RootContextProvider());
+
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'Audio playback',
+    androidNotificationOngoing: true,
+  );
 
   runApp(
     MaterialApp(

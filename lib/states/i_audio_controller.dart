@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:BackendClientApi/api.dart';
 
 enum PlayerState {
   idle,
@@ -29,7 +30,7 @@ abstract class IAudioController {
 
   Duration? get bufferedPosition;
 
-  Future<void> play(String src);
+  Future<void> play(String src, TrackReadDto trackInfo);
   Future<void> pause();
   Future<void> resume();
   Future<void> stop();

@@ -27,6 +27,10 @@ class QueueController extends GetxController {
     );
   }
 
+  bool get hasNext => queue.isNotEmpty;
+
+  bool get hasPrevious => history.isNotEmpty;
+
   void _addTrack(QueuedTrack track,
       {int? position, bool playImmediately = false}) {
     // invalid call if position and playImmediately are both true
@@ -163,7 +167,8 @@ class QueueController extends GetxController {
 
       // TODO: Make this a variable
       _audioController.play(
-          "https://api-music.marisad.me/api/asset/track/${currentTrack.value!.track.id}");
+          "https://api-music.marisad.me/api/asset/track/${currentTrack.value!.track.id}",
+          currentTrack.value!.track);
 
       return true;
     }

@@ -1,6 +1,8 @@
 import 'package:just_audio/just_audio.dart' as just_audio;
+import 'package:audio_service/audio_service.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/states/i_audio_controller.dart';
+import 'package:BackendClientApi/api.dart';
 
 // should be a singleton
 class AudioControllerJustAudio extends GetxController
@@ -29,6 +31,14 @@ class AudioControllerJustAudio extends GetxController
         print("playerStateStream: $event");
       },
     );
+
+    _audioPlayer.positionStream.listen((event) {
+      print("positionStream: $event");
+    });
+
+    _audioPlayer.durationStream.listen((event) {
+      print("durationStream: $event");
+    });
   }
 
   @override
@@ -49,19 +59,37 @@ class AudioControllerJustAudio extends GetxController
   }
 
   @override
-  Future<void> play(String src) async {
+  Future<void> play(String src, TrackReadDto trackInfo) async {
     if (_playerState.value != PlayerState.idle) {
       await stop();
     }
 
-    _audioPlayer.setAudioSource(
-      just_audio.HlsAudioSource(Uri.parse(src)),
+    var source = just_audio.HlsAudioSource(
+      Uri.parse(src),
+      tag: MediaItem(
+        // Specify a unique ID for each media item:
+        id: trackInfo.id.toString(),
+        // Metadata to display in the notification:
+        album: trackInfo.album!.albumName!.default_,
+        title: trackInfo.name!.default_,
+        artist: trackInfo.album!.albumArtist![0].name!,
+        artUri: Uri.parse(
+          trackInfo.album!.thumbnail!.medium!.url!,
+        ),
+      ),
     );
+    await _audioPlayer.setAudioSource(source);
 
     _isPaused.value = false;
     _playerState.value = PlayerState.ready;
     await _audioPlayer.play();
     _playerState.value = PlayerState.playing;
+    // .then((value) {
+    //   if (_audioPlayer.playerState.playing) {
+    //     print("Playing now");
+    //     _playerState.value = PlayerState.playing;
+    //   }
+    // });
   }
 
   @override
