@@ -4,7 +4,6 @@ import 'package:BackendClientApi/api.dart';
 
 import 'package:tlmc_player_flutter/layouts/parallel_nav.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
-import 'package:tlmc_player_flutter/states/i_audio_controller.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 import 'package:tlmc_player_flutter/ui_state/appbar_controller.dart';
@@ -19,7 +18,7 @@ Future<void> main() async {
   /// ALSO NOTE: DO NOT ADD TRAILING SLASH TO THE BASE PATH
   Get.put(ApiClient(basePath: "https://api-music.marisad.me"));
 
-  Get.lazyPut<IAudioController>(() => AudioControllerJustAudio());
+  Get.lazyPut<AudioControllerJustAudio>(() => AudioControllerJustAudio());
   Get.lazyPut<QueueController>(() => QueueController());
 
   Get.lazyPut(() => AppBarController());

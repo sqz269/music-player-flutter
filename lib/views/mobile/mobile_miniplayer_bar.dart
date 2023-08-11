@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_flutter/states/i_audio_controller.dart';
+import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/utils/utils.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_miniplayer_bot_sheet.dart';
@@ -127,7 +128,7 @@ class _MiniplayerExpandedCurrentlyPlayingState
 
   @override
   Widget build(BuildContext context) {
-    var audioController = Get.find<IAudioController>();
+    var audioController = Get.find<AudioControllerJustAudio>();
 
     var width = MediaQuery.of(context).size.width;
 
@@ -180,12 +181,12 @@ class _MiniplayerExpandedCurrentlyPlayingState
       ),
     );
 
-    var buttonPlay = StreamBuilder<PlayerState>(
-      stream: audioController.playerStateStream,
+    var buttonPlay = StreamBuilder<bool>(
+      stream: audioController.isPlayingStream,
       builder: (context, snapshot) {
         print(
-            "PAUS: playerStateStream: ${snapshot.data} | ${audioController.playerState}");
-        if (audioController.playerState == PlayerState.playing) {
+            "PAUS: playerStateStream: ${snapshot.data} | ${audioController.isPlaying}");
+        if (audioController.isPlaying) {
           return IconButton.filledTonal(
             icon: const Icon(Icons.pause),
             iconSize: 46,
@@ -218,13 +219,15 @@ class _MiniplayerExpandedCurrentlyPlayingState
             ),
           ),
           child: StreamBuilder<Duration?>(
-            stream: audioController.positionStream,
+            stream: audioController.durationStream,
             builder: (context, snapshot) {
               // print(audioController.position);
               // print(audioController.duration);
               var perc = 0.0;
-              if (audioController.playerState == PlayerState.playing ||
-                  audioController.playerState == PlayerState.pause) {
+              if (audioController.processingState != ProcessingState.idle &&
+                  audioController.processingState != ProcessingState.loading &&
+                  audioController.duration != null &&
+                  audioController.position != null) {
                 perc = percentageFromValueInRange(
                   min: 0,
                   max: audioController.duration!.inMilliseconds.toDouble(),
@@ -486,7 +489,7 @@ class MiniplayerTileCurrentlyPlaying extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var audioController = Get.find<IAudioController>();
+    var audioController = Get.find<AudioControllerJustAudio>();
     var queueController = Get.find<QueueController>();
 
     return Column(
@@ -545,12 +548,12 @@ class MiniplayerTileCurrentlyPlaying extends StatelessWidget {
               ),
               Opacity(
                 opacity: elementOpacity,
-                child: StreamBuilder<PlayerState>(
-                  stream: audioController.playerStateStream,
+                child: StreamBuilder<bool>(
+                  stream: audioController.isPlayingStream,
                   builder: (context, snapshot) {
                     print(
-                        "PAUS: playerStateStream: ${snapshot.data} | ${audioController.playerState}");
-                    if (audioController.playerState == PlayerState.playing) {
+                        "PAUS: playerStateStream: ${snapshot.data} | ${audioController.isPlaying}");
+                    if (snapshot.data == true) {
                       return IconButton(
                         onPressed: () {
                           audioController.pause();
@@ -588,8 +591,10 @@ class MiniplayerTileCurrentlyPlaying extends StatelessWidget {
               // print(audioController.position);
               // print(audioController.duration);
               var perc = 0.0;
-              if (audioController.playerState == PlayerState.playing ||
-                  audioController.playerState == PlayerState.pause) {
+              if (audioController.processingState != ProcessingState.idle &&
+                  audioController.processingState != ProcessingState.loading &&
+                  audioController.duration != null &&
+                  audioController.position != null) {
                 perc = percentageFromValueInRange(
                   min: 0,
                   max: audioController.duration!.inMilliseconds.toDouble(),

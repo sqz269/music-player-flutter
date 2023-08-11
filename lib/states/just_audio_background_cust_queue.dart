@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:get/get.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio_platform_interface/just_audio_platform_interface.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
+import 'package:tlmc_player_flutter/states/queue_controller.dart';
 
 export 'package:audio_service/audio_service.dart' show MediaItem;
 
@@ -323,6 +326,10 @@ class _PlayerAudioHandler extends BaseAudioHandler
     currentIndex: null,
     androidAudioSessionId: null,
   );
+
+  late QueueController _queueController;
+  late AudioControllerJustAudio _audioController;
+
   AudioSourceMessage? _source;
   bool _playing = false;
   double _speed = 1.0;
@@ -346,6 +353,8 @@ class _PlayerAudioHandler extends BaseAudioHandler
   List<MediaItem>? get currentQueue => queue.nvalue;
 
   _PlayerAudioHandler(InitRequest initRequest) {
+    _queueController = Get.find();
+    _audioController = Get.find();
     _init(initRequest);
   }
 
@@ -509,8 +518,8 @@ class _PlayerAudioHandler extends BaseAudioHandler
   List<int> get effectiveIndicesInv => _effectiveIndicesInv;
   int get nextIndex => getRelativeIndex(1);
   int get previousIndex => getRelativeIndex(-1);
-  bool get hasNext => nextIndex != -1;
-  bool get hasPrevious => previousIndex != -1;
+  bool get hasNext => _queueController.hasNext;
+  bool get hasPrevious => _queueController.hasPrevious;
 
   int getRelativeIndex(int offset) {
     if (_repeatMode == AudioServiceRepeatMode.one) return index!;
@@ -537,14 +546,14 @@ class _PlayerAudioHandler extends BaseAudioHandler
   @override
   Future<void> skipToNext() async {
     if (hasNext) {
-      await skipToQueueItem(nextIndex);
+      await _queueController.playNext();
     }
   }
 
   @override
   Future<void> skipToPrevious() async {
     if (hasPrevious) {
-      await skipToQueueItem(previousIndex);
+      await _queueController.playPrevious();
     }
   }
 

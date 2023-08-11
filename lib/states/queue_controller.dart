@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:tlmc_player_flutter/states/i_audio_controller.dart';
+import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:BackendClientApi/api.dart';
@@ -15,12 +16,12 @@ class QueueController extends GetxController {
 
   int _index = 0;
 
-  final _audioController = Get.find<IAudioController>();
+  final _audioController = Get.find<AudioControllerJustAudio>();
 
   QueueController() {
-    _audioController.playerStateStream.listen(
+    _audioController.processingStateStream.listen(
       (event) {
-        if (event == PlayerState.completed) {
+        if (event == ProcessingState.completed) {
           playNext();
         }
       },
@@ -151,22 +152,19 @@ class QueueController extends GetxController {
     }
   }
 
-  bool playNext({bool pushToHistory = true}) {
+  Future<bool> playNext({bool pushToHistory = true}) async {
     if (currentTrack.value != null && pushToHistory) {
       pushHistory(currentTrack.value!);
     }
 
     if (queue.isNotEmpty) {
-      print("Playing next");
+      print(" --- Playing next ---");
       currentTrack.value = queue.removeAt(0);
       update();
 
-      if (_audioController.playerState != PlayerState.idle) {
-        _audioController.stop();
-      }
-
+      print("--- Requesting Load ---");
       // TODO: Make this a variable
-      _audioController.play(
+      await _audioController.play(
           "https://api-music.marisad.me/api/asset/track/${currentTrack.value!.track.id}",
           currentTrack.value!.track);
 
