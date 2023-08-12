@@ -34,14 +34,8 @@ Future<void> main() async {
   runApp(
     MaterialApp(
       theme: ThemeData(
-        colorSchemeSeed: Color.fromARGB(255, 86, 164, 80),
         useMaterial3: true,
-        appBarTheme: AppBarTheme(
-          color: Colors.transparent,
-          elevation: 0,
-        ),
       ),
-      darkTheme: ThemeData.dark(),
       home: ParallelNavigationApp(),
     ),
   );
