@@ -60,6 +60,9 @@ dev_dependencies:
   miniplayer: ^1.0.1
   flutter_slidable: ^3.0.0
 
+  shimmer: ^3.0.0
+  number_paginator: ^0.3.2
+
   BackendClientApi:
     path: backend-client-api
 # For information on the generic Dart part of this file, see the
