@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:BackendClientApi/api.dart';
 import 'package:get/get.dart';
+import 'package:number_paginator/number_paginator.dart';
 
 import 'package:tlmc_player_flutter/components/album_card.dart';
 import 'package:tlmc_player_flutter/ui_state/appbar_controller.dart';
@@ -19,18 +20,40 @@ class _MobileHomePageState extends State<MobileHomePage> {
   late List<AlbumReadDto> _albumData;
   late Future<List<AlbumReadDto>?> _albumFuture;
 
+  late int _currentPage;
+
   @override
   void initState() {
     super.initState();
     print("Init state");
-    var albumApi = AlbumApi(Get.find<ApiClient>());
-    this._albumFuture = albumApi.getAlbums(limit: 50);
+    goToPage(8);
     print("Request sent");
+  }
+
+  void nextPage() {
+    setState(() {
+      goToPage(_currentPage++);
+    });
+  }
+
+  void previousPage() {
+    setState(() {
+      if (_currentPage == 0) return;
+      goToPage(_currentPage--);
+    });
+  }
+
+  void goToPage(int page) {
+    setState(() {
+      _currentPage = page;
+      var albumApi = AlbumApi(Get.find<ApiClient>());
+      _albumFuture = albumApi.getAlbums(limit: 50, start: (_currentPage) * 50);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    double? calculatedHeight = 0.5 * MediaQuery.of(context).size.width - 4;
+    double? calculatedHeight = 0.54 * MediaQuery.of(context).size.width - 4;
 
     return FutureBuilder(
       future: _albumFuture,
@@ -93,6 +116,13 @@ class _MobileHomePageState extends State<MobileHomePage> {
                     ],
                   ),
                 ),
+                SliverToBoxAdapter(
+                  child: NumberPaginator(
+                    numberPages: 278,
+                    initialPage: _currentPage,
+                    onPageChange: goToPage,
+                  ),
+                )
               ],
             ),
           ),

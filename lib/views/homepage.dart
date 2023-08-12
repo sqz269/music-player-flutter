@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
 
     return LayoutBuilder(builder: (context, constraints) {
       if (constraints.maxWidth < 450) {
-        return const MobileHomePage();
+        return MobileHomePage();
       } else {
         return const Placeholder();
       }
