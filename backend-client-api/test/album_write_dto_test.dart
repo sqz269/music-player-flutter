@@ -41,6 +41,16 @@ void main() {
       // TODO
     });
 
+    // int discNumber
+    test('to test the property `discNumber`', () async {
+      // TODO
+    });
+
+    // String discName
+    test('to test the property `discName`', () async {
+      // TODO
+    });
+
     // List<String> website (default value: const [])
     test('to test the property `website`', () async {
       // TODO

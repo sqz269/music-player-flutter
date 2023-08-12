@@ -26,7 +26,7 @@ void main() {
       // TODO
     });
 
-    // OriginalAlbumReadDto album
+    // OriginalAlbumReadDto1 album
     test('to test the property `album`', () async {
       // TODO
     });

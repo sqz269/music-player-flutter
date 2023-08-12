@@ -17,8 +17,8 @@ void main() {
   // final instance = InternalApi();
 
   group('tests for InternalApi', () {
-    //Future apiInternalAlbumAddAlbumIdPost(String albumId, { AlbumWriteDto albumWriteDto }) async
-    test('test apiInternalAlbumAddAlbumIdPost', () async {
+    //Future apiInternalAlbumAddAlbumIdPut(String albumId, { String parentId, AlbumWriteDto albumWriteDto }) async
+    test('test apiInternalAlbumAddAlbumIdPut', () async {
       // TODO
     });
 
@@ -27,13 +27,23 @@ void main() {
       // TODO
     });
 
-    //Future apiInternalAlbumAlbumIdTrackAddTrackIdPost(String albumId, String trackId, { TrackWriteDto trackWriteDto }) async
-    test('test apiInternalAlbumAlbumIdTrackAddTrackIdPost', () async {
+    //Future apiInternalAlbumAlbumIdTrackAddTrackIdPut(String albumId, String trackId, { TrackWriteDto trackWriteDto }) async
+    test('test apiInternalAlbumAlbumIdTrackAddTrackIdPut', () async {
       // TODO
     });
 
-    //Future apiInternalAssetAddPost({ Asset asset }) async
-    test('test apiInternalAssetAddPost', () async {
+    //Future apiInternalAssetAddPut({ Asset asset }) async
+    test('test apiInternalAssetAddPut', () async {
+      // TODO
+    });
+
+    //Future apiInternalAssetTrackTrackIdPlaylistPut(String trackId, { HlsPlaylistWriteDto hlsPlaylistWriteDto }) async
+    test('test apiInternalAssetTrackTrackIdPlaylistPut', () async {
+      // TODO
+    });
+
+    //Future apiInternalAssetTrackTrackIdSegmentPut(String trackId, { int quality, HlsSegmentWriteDto hlsSegmentWriteDto }) async
+    test('test apiInternalAssetTrackTrackIdSegmentPut', () async {
       // TODO
     });
 
@@ -44,6 +54,11 @@ void main() {
 
     //Future apiInternalCircleIdPatch(String id, { List<Operation> operation }) async
     test('test apiInternalCircleIdPatch', () async {
+      // TODO
+    });
+
+    //Future apiInternalTrackJsonpatchTrackIdPatch(String trackId, { List<Operation> operation }) async
+    test('test apiInternalTrackJsonpatchTrackIdPatch', () async {
       // TODO
     });
 

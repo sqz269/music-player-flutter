@@ -46,6 +46,16 @@ void main() {
       // TODO
     });
 
+    // int discNumber
+    test('to test the property `discNumber`', () async {
+      // TODO
+    });
+
+    // String discName
+    test('to test the property `discName`', () async {
+      // TODO
+    });
+
     // List<String> website (default value: const [])
     test('to test the property `website`', () async {
       // TODO
@@ -63,6 +73,16 @@ void main() {
 
     // List<TrackReadDto> tracks (default value: const [])
     test('to test the property `tracks`', () async {
+      // TODO
+    });
+
+    // List<AlbumReadDto> childAlbums (default value: const [])
+    test('to test the property `childAlbums`', () async {
+      // TODO
+    });
+
+    // AlbumReadDto parentAlbum
+    test('to test the property `parentAlbum`', () async {
       // TODO
     });
 

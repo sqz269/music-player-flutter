@@ -17,12 +17,12 @@ void main() {
   // final instance = AlbumApi();
 
   group('tests for AlbumApi', () {
-    //Future<AlbumReadDtoActionResult> addAlbum({ AlbumWriteDto albumWriteDto }) async
+    //Future<AlbumReadDto> addAlbum({ AlbumWriteDto albumWriteDto }) async
     test('test addAlbum', () async {
       // TODO
     });
 
-    //Future<TrackReadDtoActionResult> addTrack(String albumId, { TrackWriteDto trackWriteDto }) async
+    //Future<TrackReadDto> addTrack(String albumId, { TrackWriteDto trackWriteDto }) async
     test('test addTrack', () async {
       // TODO
     });
@@ -42,7 +42,12 @@ void main() {
       // TODO
     });
 
-    //Future<TrackReadDtoActionResult> getRandomSampleTrack({ int limit }) async
+    //Future<List<AlbumReadDto>> getAlbumsByIds({ List<String> requestBody }) async
+    test('test getAlbumsByIds', () async {
+      // TODO
+    });
+
+    //Future<List<TrackReadDto>> getRandomSampleTrack({ int limit }) async
     test('test getRandomSampleTrack', () async {
       // TODO
     });

@@ -36,8 +36,8 @@ void main() {
       // TODO
     });
 
-    // bool large
-    test('to test the property `large`', () async {
+    // int size
+    test('to test the property `size`', () async {
       // TODO
     });
 

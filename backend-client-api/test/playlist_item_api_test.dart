@@ -27,5 +27,10 @@ void main() {
       // TODO
     });
 
+    //Future incrementPlayCount({ String playlistId, String trackId }) async
+    test('test incrementPlayCount', () async {
+      // TODO
+    });
+
   });
 }

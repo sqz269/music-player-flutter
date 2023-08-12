@@ -26,12 +26,12 @@ void main() {
       // TODO
     });
 
-    // LocalizedField1 fullName
+    // LocalizedField fullName
     test('to test the property `fullName`', () async {
       // TODO
     });
 
-    // LocalizedField1 shortName
+    // LocalizedField shortName
     test('to test the property `shortName`', () async {
       // TODO
     });

@@ -17,8 +17,13 @@ void main() {
   // final instance = PlaylistApi();
 
   group('tests for PlaylistApi', () {
-    //Future<PlaylistReadDto> apiPlaylistPost({ PlaylistCreateRequest playlistCreateRequest }) async
-    test('test apiPlaylistPost', () async {
+    //Future<PlaylistReadDto> createPlaylist({ PlaylistCreateRequest playlistCreateRequest }) async
+    test('test createPlaylist', () async {
+      // TODO
+    });
+
+    //Future<bool> deletePlaylist(String playlistId) async
+    test('test deletePlaylist', () async {
       // TODO
     });
 
@@ -42,7 +47,7 @@ void main() {
       // TODO
     });
 
-    //Future<PlaylistReadDto> getPlaylist(String playlistId) async
+    //Future<PlaylistReadDto> getPlaylist({ String playlistId }) async
     test('test getPlaylist', () async {
       // TODO
     });
