@@ -26,7 +26,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
   void initState() {
     super.initState();
     print("Init state");
-    goToPage(8);
+    goToPage(0);
     print("Request sent");
   }
 
