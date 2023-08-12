@@ -179,6 +179,7 @@ class _ParallelNavigationAppState extends State<ParallelNavigationApp> {
 
             return SafeArea(
               top: false,
+              bottom: opacity != 0,
               child: SizedBox(
                 height: kBottomNavigationBarHeight -
                     kBottomNavigationBarHeight * playerExpandProgressPerc.value,

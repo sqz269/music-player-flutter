@@ -30,6 +30,7 @@ class _MobileMiniplayerBarState extends State<MobileMiniplayerBar> {
 
   @override
   void initState() {
+    super.initState();
     QueueController.to.currentTrack.stream.listen(
       (event) {
         print(event);
@@ -91,10 +92,8 @@ class _MobileMiniplayerBarState extends State<MobileMiniplayerBar> {
                 return const SizedBox.shrink();
               }
 
-              return SafeArea(
-                child: MiniplayerQueueBottomSheet(
-                  perc: playerExpandProgressPerc.value,
-                ),
+              return MiniplayerQueueBottomSheet(
+                perc: playerExpandProgressPerc.value,
               );
             },
           ),

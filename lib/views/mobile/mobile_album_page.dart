@@ -107,7 +107,7 @@ class MobileAlbumPage extends StatelessWidget {
       }
 
       album.tracks?.forEach((element) {
-        controller.allTracks.value?.add(element);
+        controller.allTracks.value.add(element);
       });
 
       trackViews.addAll(
