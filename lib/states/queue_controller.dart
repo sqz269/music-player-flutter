@@ -118,6 +118,13 @@ class QueueController extends GetxController {
       return false;
     }
 
+    // rearrange the tracks to match the order of the ids
+    tracks.tracks!.sort((a, b) {
+      var aPos = ids.indexOf(a.id!);
+      var bPos = ids.indexOf(b.id!);
+      return aPos.compareTo(bPos);
+    });
+
     _addTracks(
       tracks.tracks!
           .map((e) => QueuedTrack(track: e, index: _index++))
