@@ -17,12 +17,12 @@ void main() {
   // final instance = CircleApi();
 
   group('tests for CircleApi', () {
-    //Future<List<AlbumReadDto>> getCircleAlbumsById(String id, { int start, int limit }) async
+    //Future<List<AlbumReadDto>> getCircleAlbumsById(String id, { int start, int limit, AlbumOrderOptions sort, SortOrder sortOrder }) async
     test('test getCircleAlbumsById', () async {
       // TODO
     });
 
-    //Future<List<AlbumReadDto>> getCircleAlbumsByName(String name, { int start, int limit }) async
+    //Future<List<AlbumReadDto>> getCircleAlbumsByName(String name, { int start, int limit, AlbumOrderOptions sort, SortOrder sortOrder }) async
     test('test getCircleAlbumsByName', () async {
       // TODO
     });

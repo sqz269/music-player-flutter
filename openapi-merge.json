@@ -4,9 +4,6 @@
       "inputURL": "https://api-music.marisad.me/swagger/music-data/v1/swagger.json"
     },
     {
-      "inputURL": "https://api-music.marisad.me/swagger/auth/v1/swagger.json"
-    },
-    {
       "inputURL": "https://api-music.marisad.me/swagger/playlist/v1/swagger.json"
     },
     {

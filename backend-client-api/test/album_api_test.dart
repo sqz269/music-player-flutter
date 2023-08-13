@@ -37,7 +37,7 @@ void main() {
       // TODO
     });
 
-    //Future<List<AlbumReadDto>> getAlbums({ int start, int limit }) async
+    //Future<List<AlbumReadDto>> getAlbums({ int start, int limit, AlbumOrderOptions sort, SortOrder sortOrder }) async
     test('test getAlbums', () async {
       // TODO
     });

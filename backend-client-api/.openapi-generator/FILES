@@ -4,6 +4,7 @@
 README.md
 analysis_options.yaml
 doc/AlbumApi.md
+doc/AlbumOrderOptions.md
 doc/AlbumReadDto.md
 doc/AlbumReadDto1.md
 doc/AlbumWriteDto.md
@@ -46,6 +47,7 @@ doc/ProblemDetails.md
 doc/RadioApi.md
 doc/RadioSong.md
 doc/SearchApi.md
+doc/SortOrder.md
 doc/ThumbnailReadDto.md
 doc/TimeSpan.md
 doc/TrackGetMultipleResp.md
@@ -73,6 +75,7 @@ lib/auth/authentication.dart
 lib/auth/http_basic_auth.dart
 lib/auth/http_bearer_auth.dart
 lib/auth/oauth.dart
+lib/model/album_order_options.dart
 lib/model/album_read_dto.dart
 lib/model/album_read_dto1.dart
 lib/model/album_write_dto.dart
@@ -106,6 +109,7 @@ lib/model/playlist_type.dart
 lib/model/playlist_visibility.dart
 lib/model/problem_details.dart
 lib/model/radio_song.dart
+lib/model/sort_order.dart
 lib/model/thumbnail_read_dto.dart
 lib/model/time_span.dart
 lib/model/track_get_multiple_resp.dart
@@ -115,6 +119,7 @@ lib/model/track_update_dto.dart
 lib/model/track_write_dto.dart
 pubspec.yaml
 test/album_api_test.dart
+test/album_order_options_test.dart
 test/album_read_dto1_test.dart
 test/album_read_dto_test.dart
 test/album_write_dto_test.dart
@@ -157,6 +162,7 @@ test/problem_details_test.dart
 test/radio_api_test.dart
 test/radio_song_test.dart
 test/search_api_test.dart
+test/sort_order_test.dart
 test/thumbnail_read_dto_test.dart
 test/time_span_test.dart
 test/track_get_multiple_resp_test.dart

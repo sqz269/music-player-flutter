@@ -24,7 +24,11 @@ class CircleApi {
   /// * [int] start:
   ///
   /// * [int] limit:
-  Future<Response> getCircleAlbumsByIdWithHttpInfo(String id, { int? start, int? limit, }) async {
+  ///
+  /// * [AlbumOrderOptions] sort:
+  ///
+  /// * [SortOrder] sortOrder:
+  Future<Response> getCircleAlbumsByIdWithHttpInfo(String id, { int? start, int? limit, AlbumOrderOptions? sort, SortOrder? sortOrder, }) async {
     // ignore: prefer_const_declarations
     final path = r'/api/entity/circle/{id}/albums'
       .replaceAll('{id}', id);
@@ -41,6 +45,12 @@ class CircleApi {
     }
     if (limit != null) {
       queryParams.addAll(_queryParams('', 'limit', limit));
+    }
+    if (sort != null) {
+      queryParams.addAll(_queryParams('', 'sort', sort));
+    }
+    if (sortOrder != null) {
+      queryParams.addAll(_queryParams('', 'sortOrder', sortOrder));
     }
 
     const contentTypes = <String>[];
@@ -64,8 +74,12 @@ class CircleApi {
   /// * [int] start:
   ///
   /// * [int] limit:
-  Future<List<AlbumReadDto>?> getCircleAlbumsById(String id, { int? start, int? limit, }) async {
-    final response = await getCircleAlbumsByIdWithHttpInfo(id,  start: start, limit: limit, );
+  ///
+  /// * [AlbumOrderOptions] sort:
+  ///
+  /// * [SortOrder] sortOrder:
+  Future<List<AlbumReadDto>?> getCircleAlbumsById(String id, { int? start, int? limit, AlbumOrderOptions? sort, SortOrder? sortOrder, }) async {
+    final response = await getCircleAlbumsByIdWithHttpInfo(id,  start: start, limit: limit, sort: sort, sortOrder: sortOrder, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }
@@ -90,7 +104,11 @@ class CircleApi {
   /// * [int] start:
   ///
   /// * [int] limit:
-  Future<Response> getCircleAlbumsByNameWithHttpInfo(String name, { int? start, int? limit, }) async {
+  ///
+  /// * [AlbumOrderOptions] sort:
+  ///
+  /// * [SortOrder] sortOrder:
+  Future<Response> getCircleAlbumsByNameWithHttpInfo(String name, { int? start, int? limit, AlbumOrderOptions? sort, SortOrder? sortOrder, }) async {
     // ignore: prefer_const_declarations
     final path = r'/api/entity/circle/{name}/albums'
       .replaceAll('{name}', name);
@@ -107,6 +125,12 @@ class CircleApi {
     }
     if (limit != null) {
       queryParams.addAll(_queryParams('', 'limit', limit));
+    }
+    if (sort != null) {
+      queryParams.addAll(_queryParams('', 'sort', sort));
+    }
+    if (sortOrder != null) {
+      queryParams.addAll(_queryParams('', 'sortOrder', sortOrder));
     }
 
     const contentTypes = <String>[];
@@ -130,8 +154,12 @@ class CircleApi {
   /// * [int] start:
   ///
   /// * [int] limit:
-  Future<List<AlbumReadDto>?> getCircleAlbumsByName(String name, { int? start, int? limit, }) async {
-    final response = await getCircleAlbumsByNameWithHttpInfo(name,  start: start, limit: limit, );
+  ///
+  /// * [AlbumOrderOptions] sort:
+  ///
+  /// * [SortOrder] sortOrder:
+  Future<List<AlbumReadDto>?> getCircleAlbumsByName(String name, { int? start, int? limit, AlbumOrderOptions? sort, SortOrder? sortOrder, }) async {
+    final response = await getCircleAlbumsByNameWithHttpInfo(name,  start: start, limit: limit, sort: sort, sortOrder: sortOrder, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

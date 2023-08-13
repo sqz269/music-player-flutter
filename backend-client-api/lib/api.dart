@@ -38,6 +38,7 @@ part 'api/playlist_item_api.dart';
 part 'api/radio_api.dart';
 part 'api/search_api.dart';
 
+part 'model/album_order_options.dart';
 part 'model/album_read_dto.dart';
 part 'model/album_read_dto1.dart';
 part 'model/album_write_dto.dart';
@@ -71,6 +72,7 @@ part 'model/playlist_type.dart';
 part 'model/playlist_visibility.dart';
 part 'model/problem_details.dart';
 part 'model/radio_song.dart';
+part 'model/sort_order.dart';
 part 'model/thumbnail_read_dto.dart';
 part 'model/time_span.dart';
 part 'model/track_get_multiple_resp.dart';

@@ -279,7 +279,11 @@ class AlbumApi {
   /// * [int] start:
   ///
   /// * [int] limit:
-  Future<Response> getAlbumsWithHttpInfo({ int? start, int? limit, }) async {
+  ///
+  /// * [AlbumOrderOptions] sort:
+  ///
+  /// * [SortOrder] sortOrder:
+  Future<Response> getAlbumsWithHttpInfo({ int? start, int? limit, AlbumOrderOptions? sort, SortOrder? sortOrder, }) async {
     // ignore: prefer_const_declarations
     final path = r'/api/music/album';
 
@@ -295,6 +299,12 @@ class AlbumApi {
     }
     if (limit != null) {
       queryParams.addAll(_queryParams('', 'limit', limit));
+    }
+    if (sort != null) {
+      queryParams.addAll(_queryParams('', 'sort', sort));
+    }
+    if (sortOrder != null) {
+      queryParams.addAll(_queryParams('', 'sortOrder', sortOrder));
     }
 
     const contentTypes = <String>[];
@@ -316,8 +326,12 @@ class AlbumApi {
   /// * [int] start:
   ///
   /// * [int] limit:
-  Future<List<AlbumReadDto>?> getAlbums({ int? start, int? limit, }) async {
-    final response = await getAlbumsWithHttpInfo( start: start, limit: limit, );
+  ///
+  /// * [AlbumOrderOptions] sort:
+  ///
+  /// * [SortOrder] sortOrder:
+  Future<List<AlbumReadDto>?> getAlbums({ int? start, int? limit, AlbumOrderOptions? sort, SortOrder? sortOrder, }) async {
+    final response = await getAlbumsWithHttpInfo( start: start, limit: limit, sort: sort, sortOrder: sortOrder, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
     }

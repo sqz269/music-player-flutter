@@ -55,6 +55,9 @@ String parameterToString(dynamic value) {
   if (value is DateTime) {
     return value.toUtc().toIso8601String();
   }
+  if (value is AlbumOrderOptions) {
+    return AlbumOrderOptionsTypeTransformer().encode(value).toString();
+  }
   if (value is CircleStatus) {
     return CircleStatusTypeTransformer().encode(value).toString();
   }
@@ -69,6 +72,9 @@ String parameterToString(dynamic value) {
   }
   if (value is PlaylistVisibility) {
     return PlaylistVisibilityTypeTransformer().encode(value).toString();
+  }
+  if (value is SortOrder) {
+    return SortOrderTypeTransformer().encode(value).toString();
   }
   return value.toString();
 }

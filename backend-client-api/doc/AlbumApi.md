@@ -227,7 +227,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getAlbums**
-> List<AlbumReadDto> getAlbums(start, limit)
+> List<AlbumReadDto> getAlbums(start, limit, sort, sortOrder)
 
 
 
@@ -244,9 +244,11 @@ import 'package:BackendClientApi/api.dart';
 final api_instance = AlbumApi();
 final start = 56; // int | 
 final limit = 56; // int | 
+final sort = ; // AlbumOrderOptions | 
+final sortOrder = ; // SortOrder | 
 
 try {
-    final result = api_instance.getAlbums(start, limit);
+    final result = api_instance.getAlbums(start, limit, sort, sortOrder);
     print(result);
 } catch (e) {
     print('Exception when calling AlbumApi->getAlbums: $e\n');
@@ -259,6 +261,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **start** | **int**|  | [optional] [default to 0]
  **limit** | **int**|  | [optional] [default to 20]
+ **sort** | [**AlbumOrderOptions**](.md)|  | [optional] 
+ **sortOrder** | [**SortOrder**](.md)|  | [optional] 
 
 ### Return type
 

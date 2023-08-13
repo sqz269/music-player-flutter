@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **getCircleAlbumsById**
-> List<AlbumReadDto> getCircleAlbumsById(id, start, limit)
+> List<AlbumReadDto> getCircleAlbumsById(id, start, limit, sort, sortOrder)
 
 
 
@@ -35,9 +35,11 @@ final api_instance = CircleApi();
 final id = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 final start = 56; // int | 
 final limit = 56; // int | 
+final sort = ; // AlbumOrderOptions | 
+final sortOrder = ; // SortOrder | 
 
 try {
-    final result = api_instance.getCircleAlbumsById(id, start, limit);
+    final result = api_instance.getCircleAlbumsById(id, start, limit, sort, sortOrder);
     print(result);
 } catch (e) {
     print('Exception when calling CircleApi->getCircleAlbumsById: $e\n');
@@ -51,6 +53,8 @@ Name | Type | Description  | Notes
  **id** | **String**|  | 
  **start** | **int**|  | [optional] [default to 0]
  **limit** | **int**|  | [optional] [default to 20]
+ **sort** | [**AlbumOrderOptions**](.md)|  | [optional] 
+ **sortOrder** | [**SortOrder**](.md)|  | [optional] 
 
 ### Return type
 
@@ -68,7 +72,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getCircleAlbumsByName**
-> List<AlbumReadDto> getCircleAlbumsByName(name, start, limit)
+> List<AlbumReadDto> getCircleAlbumsByName(name, start, limit, sort, sortOrder)
 
 
 
@@ -86,9 +90,11 @@ final api_instance = CircleApi();
 final name = name_example; // String | 
 final start = 56; // int | 
 final limit = 56; // int | 
+final sort = ; // AlbumOrderOptions | 
+final sortOrder = ; // SortOrder | 
 
 try {
-    final result = api_instance.getCircleAlbumsByName(name, start, limit);
+    final result = api_instance.getCircleAlbumsByName(name, start, limit, sort, sortOrder);
     print(result);
 } catch (e) {
     print('Exception when calling CircleApi->getCircleAlbumsByName: $e\n');
@@ -102,6 +108,8 @@ Name | Type | Description  | Notes
  **name** | **String**|  | 
  **start** | **int**|  | [optional] [default to 0]
  **limit** | **int**|  | [optional] [default to 20]
+ **sort** | [**AlbumOrderOptions**](.md)|  | [optional] 
+ **sortOrder** | [**SortOrder**](.md)|  | [optional] 
 
 ### Return type
 

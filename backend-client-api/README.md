@@ -116,6 +116,7 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AlbumOrderOptions](doc\/AlbumOrderOptions.md)
  - [AlbumReadDto](doc\/AlbumReadDto.md)
  - [AlbumReadDto1](doc\/AlbumReadDto1.md)
  - [AlbumWriteDto](doc\/AlbumWriteDto.md)
@@ -149,6 +150,7 @@ Class | Method | HTTP request | Description
  - [PlaylistVisibility](doc\/PlaylistVisibility.md)
  - [ProblemDetails](doc\/ProblemDetails.md)
  - [RadioSong](doc\/RadioSong.md)
+ - [SortOrder](doc\/SortOrder.md)
  - [ThumbnailReadDto](doc\/ThumbnailReadDto.md)
  - [TimeSpan](doc\/TimeSpan.md)
  - [TrackGetMultipleResp](doc\/TrackGetMultipleResp.md)

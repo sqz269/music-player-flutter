@@ -181,6 +181,8 @@ class ApiClient {
           return valueString == 'true' || valueString == '1';
         case 'DateTime':
           return value is DateTime ? value : DateTime.tryParse(value);
+        case 'AlbumOrderOptions':
+          return AlbumOrderOptionsTypeTransformer().decode(value);
         case 'AlbumReadDto':
           return AlbumReadDto.fromJson(value);
         case 'AlbumReadDto1':
@@ -247,6 +249,8 @@ class ApiClient {
           return ProblemDetails.fromJson(value);
         case 'RadioSong':
           return RadioSong.fromJson(value);
+        case 'SortOrder':
+          return SortOrderTypeTransformer().decode(value);
         case 'ThumbnailReadDto':
           return ThumbnailReadDto.fromJson(value);
         case 'TimeSpan':
