@@ -218,7 +218,7 @@ class _MiniplayerExpandedCurrentlyPlayingState
             ),
           ),
           child: StreamBuilder<Duration?>(
-            stream: audioController.durationStream,
+            stream: audioController.positionStream,
             builder: (context, snapshot) {
               // print(audioController.position);
               // print(audioController.duration);
