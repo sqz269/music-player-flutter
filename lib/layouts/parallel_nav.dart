@@ -5,10 +5,26 @@ import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 import 'package:tlmc_player_flutter/views/homepage.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_album_page.dart';
+import 'package:tlmc_player_flutter/views/mobile/mobile_circle_page.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_explore.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_miniplayer_bar.dart';
 
 enum ParallelNavPage { home, explore, library }
+
+Map<String, Widget Function(BuildContext, RouteSettings)> routes = {
+  "/album\$": (context, routeSettings) {
+    print("Route settings: ${routeSettings.arguments}");
+    return MobileAlbumPage(
+      routeParams: routeSettings.arguments as Map<String, String?>,
+    );
+  },
+  "/circle\$": (context, routeSettings) {
+    print("Route settings: ${routeSettings.arguments}");
+    return MobileCirclePage(
+      routeParams: routeSettings.arguments as Map<String, String?>,
+    );
+  }
+};
 
 class ParallelNavigator extends StatelessWidget {
   ParallelNavigator(
@@ -42,14 +58,14 @@ class ParallelNavigator extends StatelessWidget {
               );
             }
 
-            if (routeSettings.name!.startsWith("/album")) {
-              print("/album Navigation | Page: $page");
-              print("Route settings: $routeSettings");
-              return MaterialPageRoute(
-                builder: (context) => MobileAlbumPage(
-                  routeParams: routeSettings.arguments as Map<String, String?>,
-                ),
-              );
+            for (var route in routes.entries) {
+              if (RegExp(route.key).hasMatch(routeSettings.name!)) {
+                print("${route.key} Navigation | Page: $page");
+                print("Route settings: $routeSettings");
+                return MaterialPageRoute(
+                  builder: (context) => route.value(context, routeSettings),
+                );
+              }
             }
           },
         ),
