@@ -63,6 +63,8 @@ dev_dependencies:
   shimmer: ^3.0.0
   number_paginator: ^0.3.2
 
+  sliver_tools: ^0.2.12
+
   BackendClientApi:
     path: backend-client-api
 # For information on the generic Dart part of this file, see the

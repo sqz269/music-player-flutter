@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
 
 import 'package:tlmc_player_flutter/components/album_card.dart';
-import 'package:tlmc_player_flutter/ui_state/appbar_controller.dart';
+import 'package:tlmc_player_flutter/components/albums_gridview.dart';
 
 class MobileHomePage extends StatefulWidget {
   const MobileHomePage({
@@ -47,13 +47,17 @@ class _MobileHomePageState extends State<MobileHomePage> {
     setState(() {
       _currentPage = page;
       var albumApi = AlbumApi(Get.find<ApiClient>());
-      _albumFuture = albumApi.getAlbums(limit: 50, start: (_currentPage) * 50);
+      _albumFuture = albumApi.getAlbums(
+          limit: 50,
+          start: (_currentPage) * 50,
+          sort: AlbumOrderOptions.date,
+          sortOrder: SortOrder.ascending);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    double? calculatedHeight = 0.54 * MediaQuery.of(context).size.width - 4;
+    var albumApi = AlbumApi(Get.find<ApiClient>());
 
     return FutureBuilder(
       future: _albumFuture,
@@ -91,38 +95,16 @@ class _MobileHomePageState extends State<MobileHomePage> {
                   pinned: false,
                   primary: true,
                 ),
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: GridView.builder(
-                          padding: const EdgeInsets.all(8.0),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 1,
-                            mainAxisExtent: calculatedHeight,
-                            mainAxisSpacing: 10,
-                          ),
-                          itemCount: 50,
-                          itemBuilder: (context, index) {
-                            return AlbumCard(albumData: this._albumData[index]);
-                          },
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                        ),
-                      ),
-                    ],
-                  ),
+                SliverPadding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  sliver: AlbumsSliverGridView(
+                      fetchAlbums: (p0, p1, sortField, sortDirection) =>
+                          albumApi.getAlbums(
+                              start: p0,
+                              limit: p1,
+                              sort: sortField,
+                              sortOrder: sortDirection)),
                 ),
-                SliverToBoxAdapter(
-                  child: NumberPaginator(
-                    numberPages: 278,
-                    initialPage: _currentPage,
-                    onPageChange: goToPage,
-                  ),
-                )
               ],
             ),
           ),

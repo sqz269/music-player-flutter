@@ -11,9 +11,31 @@ import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 import 'package:tlmc_player_flutter/utils/utils.dart';
 
-class AlbumPageController extends GetxController {
+// class AlbumPageController extends GetxController {
+//   final String albumId;
+
+//   AlbumPageController({required this.albumId});
+
+//   @override
+//   void onInit() {
+//     super.onInit();
+//   }
+// }
+
+class MobileAlbumPage extends StatefulWidget {
+  final Map<String, String?> routeParams;
   final String albumId;
 
+  MobileAlbumPage({super.key, required this.routeParams})
+      : albumId = routeParams['albumId']! {
+    print("MobileAlbumPage SW Init");
+  }
+
+  @override
+  State<MobileAlbumPage> createState() => _MobileAlbumPageState();
+}
+
+class _MobileAlbumPageState extends State<MobileAlbumPage> {
   var masterAlbum = Rx<AlbumReadDto?>(null);
   var allTracks = Rx<List<TrackReadDto?>>([]);
   var albumsData = <AlbumReadDto>[].obs;
@@ -25,11 +47,12 @@ class AlbumPageController extends GetxController {
 
   var scrollController = ScrollController();
 
-  AlbumPageController({required this.albumId});
-
   @override
-  void onInit() {
-    super.onInit();
+  void initState() {
+    print("MobileAlbumPage SW initState");
+    // TODO: implement initState
+    super.initState();
+
     initAlbums().then(
       (value) {
         scrollController.addListener(onScroll);
@@ -58,7 +81,7 @@ class AlbumPageController extends GetxController {
   Future<void> initAlbums() async {
     var albumApi = AlbumApi(Get.find<ApiClient>());
 
-    var album = await albumApi.getAlbum(albumId);
+    var album = await albumApi.getAlbum(widget.albumId);
 
     if (album == null) {
       throw Exception('Album is null');
@@ -89,30 +112,23 @@ class AlbumPageController extends GetxController {
 
     isLoading.value = false;
   }
-}
-
-class MobileAlbumPage extends StatelessWidget {
-  final Map<String, String?> routeParams;
-  const MobileAlbumPage({super.key, required this.routeParams});
 
   List<Widget> buildTrackViews(BuildContext context) {
-    var controller = Get.find<AlbumPageController>();
-
     var trackViews = <Widget>[];
 
-    for (var album in controller.albumsData) {
+    for (var album in albumsData) {
       var discName = 'Disc ${album.discNumber}';
       if (album.discName != null) {
         discName = album.discName!;
       }
 
       album.tracks?.forEach((element) {
-        controller.allTracks.value.add(element);
+        allTracks.value.add(element);
       });
 
       trackViews.addAll(
         [
-          if (controller.albumsData.length > 1)
+          if (albumsData.length > 1)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Row(
@@ -147,17 +163,16 @@ class MobileAlbumPage extends StatelessWidget {
     }
 
     var trackSummaryText = "";
-    if (controller.albumsData.length > 1) {
+    if (albumsData.length > 1) {
       var trackSum = 0;
 
-      for (var album in controller.albumsData) {
+      for (var album in albumsData) {
         trackSum += album.tracks!.length;
       }
-      trackSummaryText =
-          "${controller.albumsData.length} discs · $trackSum tracks";
+      trackSummaryText = "${albumsData.length} discs · $trackSum tracks";
     } else {
       trackSummaryText =
-          "${controller.albumsData[0].tracks!.length} tracks · ${Util.sumTimeStr(Util.getTrackDurationList(controller.albumsData[0].tracks!))}";
+          "${albumsData[0].tracks!.length} tracks · ${Util.sumTimeStr(Util.getTrackDurationList(albumsData[0].tracks!))}";
     }
 
     var trackSummary = Padding(
@@ -173,11 +188,10 @@ class MobileAlbumPage extends StatelessWidget {
   }
 
   Widget buildAlbumControls(BuildContext context) {
-    var controller = Get.find<AlbumPageController>();
     var imageWidth = MediaQuery.of(context).size.width * 0.7;
 
     return Padding(
-      key: controller.sliverAlbumControlKey,
+      key: sliverAlbumControlKey,
       padding: const EdgeInsets.only(top: 8.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -188,8 +202,7 @@ class MobileAlbumPage extends StatelessWidget {
             height: imageWidth,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: NetworkImage(
-                    controller.masterAlbum.value!.thumbnail!.large!.url!),
+                image: NetworkImage(masterAlbum.value!.thumbnail!.large!.url!),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.circular(8),
@@ -200,7 +213,7 @@ class MobileAlbumPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 36.0),
             child: Text(
-              controller.masterAlbum.value!.albumName!.default_,
+              masterAlbum.value!.albumName!.default_,
               style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
@@ -218,12 +231,10 @@ class MobileAlbumPage extends StatelessWidget {
               ),
               IconButton.filled(
                 onPressed: () {
-                  var trackCount = controller.allTracks.value.length.toString();
+                  var trackCount = allTracks.value.length.toString();
                   QueueController.to
                       .addTracksById(
-                          controller.allTracks.value
-                              .map((e) => e!.id!)
-                              .toList(),
+                          allTracks.value.map((e) => e!.id!).toList(),
                           playImmediately: true)
                       .then(
                     (value) {
@@ -253,37 +264,24 @@ class MobileAlbumPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var albumId = Get.parameters['albumId'];
-    var albumId = routeParams['albumId'];
-
-    AlbumPageController controller;
-    // is there an existing controller?
-    if (Get.isRegistered<AlbumPageController>()) {
-      if (Get.find<AlbumPageController>().albumId != albumId) {
-        Get.delete<AlbumPageController>();
-        controller =
-            Get.put(AlbumPageController(albumId: albumId!), permanent: false);
-      } else {
-        controller = Get.find<AlbumPageController>();
-        // rest scroll position
-        controller.scrollController.jumpTo(0);
-      }
-    } else {
-      controller =
-          Get.put(AlbumPageController(albumId: albumId!), permanent: false);
-    }
-
     var albumMiscInfo = Obx(
-      () => controller.isLoading.value
+      () => isLoading.value
           ? const SizedBox.shrink()
           : GestureDetector(
               onTap: () {
-                print("Tapped");
+                print("Navigate to circle page");
+                Navigator.pushNamed(
+                  context,
+                  '/circle',
+                  arguments: {
+                    'circleId': masterAlbum.value?.albumArtist![0].id,
+                  },
+                );
               },
               child: RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
-                  text: controller.masterAlbum.value!.albumArtist![0].name,
+                  text: masterAlbum.value!.albumArtist![0].name,
                   style: Theme.of(context).textTheme.bodyMedium,
                   children: [
                     TextSpan(
@@ -301,8 +299,7 @@ class MobileAlbumPage extends StatelessWidget {
                           .copyWith(color: Colors.grey.shade600),
                     ),
                     TextSpan(
-                      text:
-                          '${controller.masterAlbum.value!.releaseDate!.year}',
+                      text: '${masterAlbum.value!.releaseDate!.year}',
                       style: Theme.of(context)
                           .textTheme
                           .bodySmall!
@@ -326,14 +323,14 @@ class MobileAlbumPage extends StatelessWidget {
               backgroundColor: Theme.of(context)
                   .colorScheme
                   .background!
-                  .withOpacity(1 - controller.albumInfoOpacity.value),
-              forceMaterialTransparency: controller.albumInfoOpacity.value == 1,
+                  .withOpacity(1 - albumInfoOpacity.value),
+              forceMaterialTransparency: albumInfoOpacity.value == 1,
               title: Opacity(
-                opacity: 1 - controller.albumInfoOpacity.value,
+                opacity: 1 - albumInfoOpacity.value,
                 child: Text(
-                  controller.isLoading.value
+                  isLoading.value
                       ? "Loading..."
-                      : controller.masterAlbum.value!.albumName!.default_,
+                      : masterAlbum.value!.albumName!.default_,
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -343,13 +340,13 @@ class MobileAlbumPage extends StatelessWidget {
           ),
         ),
         body: CustomScrollView(
-          controller: controller.scrollController,
+          controller: scrollController,
           slivers: [
             Obx(
               () => SliverToBoxAdapter(
                 child: SizedBox(
                   height: 56,
-                  child: controller.isLoading.value
+                  child: isLoading.value
                       ? const Center(
                           child: SizedBox.shrink(),
                         )
@@ -362,11 +359,11 @@ class MobileAlbumPage extends StatelessWidget {
             ),
             Obx(
               () => SliverOpacity(
-                opacity: controller.albumInfoOpacity.value,
+                opacity: albumInfoOpacity.value,
                 sliver: SliverToBoxAdapter(
                   // key: controller.sliverAlbumControlKey,
                   child: Obx(
-                    () => controller.isLoading.value
+                    () => isLoading.value
                         ? const Center(
                             child: SizedBox.shrink(),
                           )
@@ -377,7 +374,7 @@ class MobileAlbumPage extends StatelessWidget {
             ),
             SliverToBoxAdapter(
               child: Obx(
-                () => controller.isLoading.value
+                () => isLoading.value
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
@@ -386,12 +383,20 @@ class MobileAlbumPage extends StatelessWidget {
                       ),
               ),
             ),
-            // SliverToBoxAdapter(
-            //   child: Column(
-            //     children: buildTrackViews(context),
-            //   ),
-            // )
           ],
+        ),
+        floatingActionButton: Obx(
+          () => Opacity(
+            opacity: 1 - albumInfoOpacity.value,
+            child: FloatingActionButton.extended(
+              onPressed: () {
+                // Add your onPressed code here!
+              },
+              label: const Text('Play'),
+              icon: const Icon(Icons.play_arrow),
+              backgroundColor: Colors.white,
+            ),
+          ),
         ),
       ),
     );

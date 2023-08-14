@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_flutter/ui_state/appbar_controller.dart';
 
 class AudioTestPage extends StatefulWidget {
   const AudioTestPage({super.key});
@@ -54,23 +53,6 @@ class _AudioTestPageState extends State<AudioTestPage> {
 
   @override
   Widget build(BuildContext context) {
-    WidgetsBinding.instance!.addPostFrameCallback(
-      (_) {
-        Get.find<AppBarController>().updateFlexibleSpace(
-          FlexibleSpaceBar(
-            title: RichText(
-              text: TextSpan(
-                text: "HLS Audio Test Page",
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: Colors.black,
-                    ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-
     return Column(
       children: [
         Padding(
