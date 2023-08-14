@@ -11,6 +11,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**addAlbum**](AlbumApi.md#addalbum) | **POST** /api/music/album/create | 
 [**addTrack**](AlbumApi.md#addtrack) | **POST** /api/music/album/{albumId}/track/create | 
+[**countAlbums**](AlbumApi.md#countalbums) | **POST** /api/music/album/count | 
 [**getAlbum**](AlbumApi.md#getalbum) | **GET** /api/music/album/{id} | 
 [**getAlbumFiltered**](AlbumApi.md#getalbumfiltered) | **GET** /api/music/album/filter | 
 [**getAlbums**](AlbumApi.md#getalbums) | **GET** /api/music/album | 
@@ -112,6 +113,49 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
+ - **Accept**: text/plain, application/json, text/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **countAlbums**
+> List<AlbumReadDto> countAlbums()
+
+
+
+### Example
+```dart
+import 'package:BackendClientApi/api.dart';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = AlbumApi();
+
+try {
+    final result = api_instance.countAlbums();
+    print(result);
+} catch (e) {
+    print('Exception when calling AlbumApi->countAlbums: $e\n');
+}
+```
+
+### Parameters
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List<AlbumReadDto>**](AlbumReadDto.md)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
  - **Accept**: text/plain, application/json, text/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
@@ -227,7 +271,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getAlbums**
-> List<AlbumReadDto> getAlbums(start, limit, sort, sortOrder)
+> AlbumsListResult getAlbums(start, limit, sort, sortOrder)
 
 
 
@@ -266,7 +310,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**List<AlbumReadDto>**](AlbumReadDto.md)
+[**AlbumsListResult**](AlbumsListResult.md)
 
 ### Authorization
 

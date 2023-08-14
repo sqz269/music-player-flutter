@@ -7,7 +7,7 @@ import 'package:number_paginator/number_paginator.dart';
 import 'package:sliver_tools/sliver_tools.dart';
 
 class AlbumsSliverGridView extends StatefulWidget {
-  final Future<List<AlbumReadDto>?> Function(int start, int limit,
+  final Future<AlbumsListResult?> Function(int start, int limit,
       AlbumOrderOptions sortField, SortOrder sortDirection) fetchAlbums;
 
   final Future<int> Function()? fetchAlbumCount;
@@ -28,6 +28,8 @@ class _AlbumsSliverGridViewState extends State<AlbumsSliverGridView> {
 
   var pageSize = 50.obs;
 
+  var totalAlbums = 0.obs;
+
   var isLoading = false.obs;
 
   var albumData = Rx<List<AlbumReadDto>?>(null);
@@ -38,7 +40,8 @@ class _AlbumsSliverGridViewState extends State<AlbumsSliverGridView> {
     var albums = await widget.fetchAlbums(currentPage.value * pageSize.value,
         pageSize.value, orderOptions.value, sortOrder.value);
     if (albums == null) {}
-    albumData.value = albums;
+    albumData.value = albums!.albums;
+    totalAlbums.value = albums.total!;
     isLoading.value = false;
   }
 
@@ -57,7 +60,6 @@ class _AlbumsSliverGridViewState extends State<AlbumsSliverGridView> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchAlbumData();
   }
@@ -139,19 +141,6 @@ class _AlbumsSliverGridViewState extends State<AlbumsSliverGridView> {
                   ),
                 ),
               ),
-              // SliverToBoxAdapter(
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.end,
-              //     children: [
-              //       IconButton(
-              //         onPressed: () {
-              //           // previousPage();
-              //         },
-              //         icon: Icon(Icons.settings),
-              //       ),
-              //     ],
-              //   ),
-              // ),
               SliverGrid.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
@@ -166,7 +155,7 @@ class _AlbumsSliverGridViewState extends State<AlbumsSliverGridView> {
               ),
               SliverToBoxAdapter(
                 child: NumberPaginator(
-                  numberPages: 278,
+                  numberPages: (totalAlbums.value / pageSize.value).ceil(),
                   initialPage: currentPage.value,
                   onPageChange: gotoPage,
                 ),

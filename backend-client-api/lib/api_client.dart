@@ -189,6 +189,8 @@ class ApiClient {
           return AlbumReadDto1.fromJson(value);
         case 'AlbumWriteDto':
           return AlbumWriteDto.fromJson(value);
+        case 'AlbumsListResult':
+          return AlbumsListResult.fromJson(value);
         case 'Asset':
           return Asset.fromJson(value);
         case 'AssetReadDto':

@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 
 # **getCircleAlbumsById**
-> List<AlbumReadDto> getCircleAlbumsById(id, start, limit, sort, sortOrder)
+> AlbumsListResult getCircleAlbumsById(id, start, limit, sort, sortOrder)
 
 
 
@@ -58,7 +58,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**List<AlbumReadDto>**](AlbumReadDto.md)
+[**AlbumsListResult**](AlbumsListResult.md)
 
 ### Authorization
 
@@ -72,7 +72,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getCircleAlbumsByName**
-> List<AlbumReadDto> getCircleAlbumsByName(name, start, limit, sort, sortOrder)
+> AlbumsListResult getCircleAlbumsByName(name, start, limit, sort, sortOrder)
 
 
 
@@ -113,7 +113,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**List<AlbumReadDto>**](AlbumReadDto.md)
+[**AlbumsListResult**](AlbumsListResult.md)
 
 ### Authorization
 

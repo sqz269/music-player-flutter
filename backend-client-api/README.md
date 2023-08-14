@@ -66,6 +66,7 @@ Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *AlbumApi* | [**addAlbum**](doc\/AlbumApi.md#addalbum) | **POST** /api/music/album/create | 
 *AlbumApi* | [**addTrack**](doc\/AlbumApi.md#addtrack) | **POST** /api/music/album/{albumId}/track/create | 
+*AlbumApi* | [**countAlbums**](doc\/AlbumApi.md#countalbums) | **POST** /api/music/album/count | 
 *AlbumApi* | [**getAlbum**](doc\/AlbumApi.md#getalbum) | **GET** /api/music/album/{id} | 
 *AlbumApi* | [**getAlbumFiltered**](doc\/AlbumApi.md#getalbumfiltered) | **GET** /api/music/album/filter | 
 *AlbumApi* | [**getAlbums**](doc\/AlbumApi.md#getalbums) | **GET** /api/music/album | 
@@ -120,6 +121,7 @@ Class | Method | HTTP request | Description
  - [AlbumReadDto](doc\/AlbumReadDto.md)
  - [AlbumReadDto1](doc\/AlbumReadDto1.md)
  - [AlbumWriteDto](doc\/AlbumWriteDto.md)
+ - [AlbumsListResult](doc\/AlbumsListResult.md)
  - [Asset](doc\/Asset.md)
  - [AssetReadDto](doc\/AssetReadDto.md)
  - [CircleReadDto](doc\/CircleReadDto.md)

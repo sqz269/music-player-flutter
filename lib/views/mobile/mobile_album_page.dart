@@ -311,35 +311,36 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
             ),
     );
 
-    return SafeArea(
-      bottom: false,
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(56),
-          child: Obx(
-            () => AppBar(
-              elevation: 0.0,
-              backgroundColor: Theme.of(context)
-                  .colorScheme
-                  .background!
-                  .withOpacity(1 - albumInfoOpacity.value),
-              forceMaterialTransparency: albumInfoOpacity.value == 1,
-              title: Opacity(
-                opacity: 1 - albumInfoOpacity.value,
-                child: Text(
-                  isLoading.value
-                      ? "Loading..."
-                      : masterAlbum.value!.albumName!.default_,
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(56),
+        child: Obx(
+          () => AppBar(
+            primary: true,
+            elevation: 0.0,
+            backgroundColor: Theme.of(context)
+                .colorScheme
+                .background!
+                .withOpacity(1 - albumInfoOpacity.value),
+            forceMaterialTransparency: albumInfoOpacity.value == 1,
+            title: Opacity(
+              opacity: 1 - albumInfoOpacity.value,
+              child: Text(
+                isLoading.value
+                    ? "Loading..."
+                    : masterAlbum.value!.albumName!.default_,
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
             ),
           ),
         ),
-        body: CustomScrollView(
+      ),
+      body: Padding(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        child: CustomScrollView(
           controller: scrollController,
           slivers: [
             Obx(
@@ -385,20 +386,20 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
             ),
           ],
         ),
-        // floatingActionButton: Obx(
-        //   () => Opacity(
-        //     opacity: 1 - albumInfoOpacity.value,
-        //     child: FloatingActionButton.extended(
-        //       onPressed: () {
-        //         // Add your onPressed code here!
-        //       },
-        //       label: const Text('Play'),
-        //       icon: const Icon(Icons.play_arrow),
-        //       backgroundColor: Colors.white,
-        //     ),
-        //   ),
-        // ),
       ),
+      // floatingActionButton: Obx(
+      //   () => Opacity(
+      //     opacity: 1 - albumInfoOpacity.value,
+      //     child: FloatingActionButton.extended(
+      //       onPressed: () {
+      //         // Add your onPressed code here!
+      //       },
+      //       label: const Text('Play'),
+      //       icon: const Icon(Icons.play_arrow),
+      //       backgroundColor: Colors.white,
+      //     ),
+      //   ),
+      // ),
     );
   }
 }

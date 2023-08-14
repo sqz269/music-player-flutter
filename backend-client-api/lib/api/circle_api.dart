@@ -78,7 +78,7 @@ class CircleApi {
   /// * [AlbumOrderOptions] sort:
   ///
   /// * [SortOrder] sortOrder:
-  Future<List<AlbumReadDto>?> getCircleAlbumsById(String id, { int? start, int? limit, AlbumOrderOptions? sort, SortOrder? sortOrder, }) async {
+  Future<AlbumsListResult?> getCircleAlbumsById(String id, { int? start, int? limit, AlbumOrderOptions? sort, SortOrder? sortOrder, }) async {
     final response = await getCircleAlbumsByIdWithHttpInfo(id,  start: start, limit: limit, sort: sort, sortOrder: sortOrder, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -87,11 +87,8 @@ class CircleApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      final responseBody = await _decodeBodyBytes(response);
-      return (await apiClient.deserializeAsync(responseBody, 'List<AlbumReadDto>') as List)
-        .cast<AlbumReadDto>()
-        .toList();
-
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AlbumsListResult',) as AlbumsListResult;
+    
     }
     return null;
   }
@@ -158,7 +155,7 @@ class CircleApi {
   /// * [AlbumOrderOptions] sort:
   ///
   /// * [SortOrder] sortOrder:
-  Future<List<AlbumReadDto>?> getCircleAlbumsByName(String name, { int? start, int? limit, AlbumOrderOptions? sort, SortOrder? sortOrder, }) async {
+  Future<AlbumsListResult?> getCircleAlbumsByName(String name, { int? start, int? limit, AlbumOrderOptions? sort, SortOrder? sortOrder, }) async {
     final response = await getCircleAlbumsByNameWithHttpInfo(name,  start: start, limit: limit, sort: sort, sortOrder: sortOrder, );
     if (response.statusCode >= HttpStatus.badRequest) {
       throw ApiException(response.statusCode, await _decodeBodyBytes(response));
@@ -167,11 +164,8 @@ class CircleApi {
     // At the time of writing this, `dart:convert` will throw an "Unexpected end of input"
     // FormatException when trying to decode an empty string.
     if (response.body.isNotEmpty && response.statusCode != HttpStatus.noContent) {
-      final responseBody = await _decodeBodyBytes(response);
-      return (await apiClient.deserializeAsync(responseBody, 'List<AlbumReadDto>') as List)
-        .cast<AlbumReadDto>()
-        .toList();
-
+      return await apiClient.deserializeAsync(await _decodeBodyBytes(response), 'AlbumsListResult',) as AlbumsListResult;
+    
     }
     return null;
   }

@@ -53,28 +53,27 @@ class _MobileCirclePageState extends State<MobileCirclePage> {
         return Center(child: CircularProgressIndicator());
       } else {
         return Scaffold(
-          body: SafeArea(
-            child: CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  title: Text('${circleData.value?.name}'),
-                  pinned: true,
-                  floating: true,
-                  snap: true,
+          body: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                title: Text('${circleData.value?.name}'),
+                pinned: true,
+                floating: true,
+                snap: true,
+                primary: true,
+              ),
+              SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                sliver: AlbumsSliverGridView(
+                  fetchAlbums: (p0, p1, sortField, sortDirection) =>
+                      circleApi.getCircleAlbumsById(widget.circleId,
+                          start: p0,
+                          limit: p1,
+                          sort: sortField,
+                          sortOrder: sortDirection),
                 ),
-                SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  sliver: AlbumsSliverGridView(
-                    fetchAlbums: (p0, p1, sortField, sortDirection) =>
-                        circleApi.getCircleAlbumsById(widget.circleId,
-                            start: p0,
-                            limit: p1,
-                            sort: sortField,
-                            sortOrder: sortDirection),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       }

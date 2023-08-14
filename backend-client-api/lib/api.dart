@@ -42,6 +42,7 @@ part 'model/album_order_options.dart';
 part 'model/album_read_dto.dart';
 part 'model/album_read_dto1.dart';
 part 'model/album_write_dto.dart';
+part 'model/albums_list_result.dart';
 part 'model/asset.dart';
 part 'model/asset_read_dto.dart';
 part 'model/circle_read_dto.dart';
