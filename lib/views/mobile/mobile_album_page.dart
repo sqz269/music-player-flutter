@@ -385,19 +385,19 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
             ),
           ],
         ),
-        floatingActionButton: Obx(
-          () => Opacity(
-            opacity: 1 - albumInfoOpacity.value,
-            child: FloatingActionButton.extended(
-              onPressed: () {
-                // Add your onPressed code here!
-              },
-              label: const Text('Play'),
-              icon: const Icon(Icons.play_arrow),
-              backgroundColor: Colors.white,
-            ),
-          ),
-        ),
+        // floatingActionButton: Obx(
+        //   () => Opacity(
+        //     opacity: 1 - albumInfoOpacity.value,
+        //     child: FloatingActionButton.extended(
+        //       onPressed: () {
+        //         // Add your onPressed code here!
+        //       },
+        //       label: const Text('Play'),
+        //       icon: const Icon(Icons.play_arrow),
+        //       backgroundColor: Colors.white,
+        //     ),
+        //   ),
+        // ),
       ),
     );
   }
