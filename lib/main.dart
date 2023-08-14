@@ -6,7 +6,6 @@ import 'package:tlmc_player_flutter/layouts/parallel_nav.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/states/root_context_provider.dart';
-import 'package:tlmc_player_flutter/ui_state/appbar_controller.dart';
 import 'package:tlmc_player_flutter/states/just_audio_background_cust_queue.dart';
 
 Future<void> main() async {
@@ -20,9 +19,6 @@ Future<void> main() async {
 
   Get.lazyPut<AudioControllerJustAudio>(() => AudioControllerJustAudio());
   Get.lazyPut<QueueController>(() => QueueController());
-
-  Get.lazyPut(() => AppBarController());
-
   Get.put(RootContextProvider());
 
   await JustAudioBackground.init(

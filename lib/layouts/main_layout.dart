@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 
 import 'package:tlmc_player_flutter/components/mobile_bottom_bar.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
-import 'package:tlmc_player_flutter/ui_state/appbar_controller.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_miniplayer_bar.dart';
 
@@ -32,8 +31,6 @@ class _MainLayoutState extends State<MainLayout> {
                       Obx(
                         () => SliverAppBar(
                           backgroundColor: Colors.transparent,
-                          flexibleSpace:
-                              AppBarController.to.flexibleSpaceWidget.value,
                           actions: [
                             IconButton(
                               onPressed: () {},
