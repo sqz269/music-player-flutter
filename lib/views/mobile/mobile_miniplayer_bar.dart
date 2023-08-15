@@ -28,10 +28,12 @@ class MobileMiniplayerBar extends StatefulWidget {
 class _MobileMiniplayerBarState extends State<MobileMiniplayerBar> {
   final MiniplayerController _miniplayerController = MiniplayerController();
 
+  final QueueController queueController = Get.find<QueueController>();
+
   @override
   void initState() {
     super.initState();
-    QueueController.to.currentTrack.stream.listen(
+    queueController.currentTrack.stream.listen(
       (event) {
         print(event);
       },
@@ -48,13 +50,13 @@ class _MobileMiniplayerBarState extends State<MobileMiniplayerBar> {
   Widget build(BuildContext context) {
     return Obx(
       () {
-        if (QueueController.to.currentTrack.value == null) {
+        if (queueController.currentTrack.value == null) {
           return const SizedBox.shrink();
         }
 
         var image = Image.network(
-          QueueController
-              .to.currentTrack.value!.track.album!.thumbnail!.large!.url!,
+          queueController
+              .currentTrack.value!.track.album!.thumbnail!.large!.url!,
         );
 
         return Stack(children: [
@@ -62,7 +64,7 @@ class _MobileMiniplayerBarState extends State<MobileMiniplayerBar> {
             minHeight: 66,
             maxHeight: MediaQuery.of(context).size.height,
             onDismissed: () {
-              QueueController.to.clearAll();
+              queueController.clearAll();
             },
             controller: _miniplayerController,
             builder: (height, perc) {
@@ -85,17 +87,6 @@ class _MobileMiniplayerBarState extends State<MobileMiniplayerBar> {
             },
             elevation: 5,
             backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-          ),
-          Obx(
-            () {
-              if (playerExpandProgressPerc.value != 1) {
-                return const SizedBox.shrink();
-              }
-
-              return MiniplayerQueueBottomSheet(
-                perc: playerExpandProgressPerc.value,
-              );
-            },
           ),
         ]);
       },
@@ -125,10 +116,11 @@ class _MiniplayerExpandedCurrentlyPlayingState
   var _isDragging = false;
   var _dragPosition = 0.0;
 
+  final AudioControllerJustAudio audioController =
+      Get.find<AudioControllerJustAudio>();
+
   @override
   Widget build(BuildContext context) {
-    var audioController = Get.find<AudioControllerJustAudio>();
-
     var width = MediaQuery.of(context).size.width;
 
     final paddingVertical =
@@ -371,106 +363,115 @@ class _MiniplayerExpandedCurrentlyPlayingState
       ),
     );
 
-    return Column(
+    return Stack(
       children: [
-        Flexible(
-          flex: 1,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Opacity(
-              opacity: widget.perc,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(CupertinoIcons.chevron_down),
+        Column(
+          children: [
+            Flexible(
+              flex: 1,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: Opacity(
+                  opacity: widget.perc,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(CupertinoIcons.chevron_down),
+                      ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(CupertinoIcons.ellipsis_vertical),
+                      ),
+                    ],
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(CupertinoIcons.ellipsis_vertical),
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Padding(
-            padding: EdgeInsets.only(
-                left: paddingLeft,
-                top: paddingVertical,
-                bottom: paddingVertical * 0.5),
-            child: SizedBox(
-              height: imageSize,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: AspectRatio(aspectRatio: 1, child: widget.image),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(
+                    left: paddingLeft,
+                    top: paddingVertical,
+                    bottom: paddingVertical * 0.5),
+                child: SizedBox(
+                  height: imageSize,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: AspectRatio(aspectRatio: 1, child: widget.image),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-        Flexible(
-          flex: 3,
-          fit: FlexFit.tight,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 33),
-            child: Opacity(
-              opacity: widget.perc,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Flexible(
-                    flex: 3,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Flexible(child: title),
-                        Flexible(
-                            child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
-                          child: artist,
-                        ))
-                      ],
-                    ),
-                  ),
-                  Flexible(
-                    flex: 2,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12.0),
-                      child: progressIndicator,
-                    ),
-                  ),
-                  Flexible(
-                    flex: 2,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              buttonPrevious,
-                              buttonPlay,
-                              buttonNext,
-                            ],
-                          ),
+            Flexible(
+              flex: 3,
+              fit: FlexFit.tight,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 33),
+                child: Opacity(
+                  opacity: widget.perc,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        flex: 3,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Flexible(child: title),
+                            Flexible(
+                                child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: artist,
+                            ))
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                      Flexible(
+                        flex: 2,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12.0),
+                          child: progressIndicator,
+                        ),
+                      ),
+                      Flexible(
+                        flex: 2,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  buttonPrevious,
+                                  buttonPlay,
+                                  buttonNext,
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Flexible(
+                        flex: 1,
+                        child: Container(),
+                      )
+                    ],
                   ),
-                  Flexible(
-                    flex: 1,
-                    child: Container(),
-                  )
-                ],
+                ),
               ),
             ),
-          ),
+          ],
         ),
+        MiniplayerQueueBottomSheet(
+          perc: 1,
+        )
       ],
     );
   }

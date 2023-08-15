@@ -177,50 +177,68 @@ class _ParallelNavigationAppState extends State<ParallelNavigationApp> {
       child: Scaffold(
         body: Stack(
           children: [
-            _buildOffstageNavigator(ParallelNavPage.home),
-            _buildOffstageNavigator(ParallelNavPage.explore),
-            _buildOffstageNavigator(ParallelNavPage.library),
-            const MobileMiniplayerBar(),
+            RepaintBoundary(
+                child: _buildOffstageNavigator(ParallelNavPage.home)),
+            RepaintBoundary(
+                child: _buildOffstageNavigator(ParallelNavPage.explore)),
+            RepaintBoundary(
+                child: _buildOffstageNavigator(ParallelNavPage.library)),
+            const RepaintBoundary(child: MobileMiniplayerBar()),
           ],
         ),
-        bottomNavigationBar: Obx(
-          () {
-            var opacity = 1 - playerExpandProgressPerc.value;
-            if (opacity < 0) {
-              opacity = 0;
-            }
-            if (opacity > 1) {
-              opacity = 1;
-            }
+        // body: Stack(
+        //   children: [
+        //     _buildOffstageNavigator(ParallelNavPage.home),
+        //     _buildOffstageNavigator(ParallelNavPage.explore),
+        //     _buildOffstageNavigator(ParallelNavPage.library),
+        //     MobileMiniplayerBar(),
+        //   ],
+        // ),
+        bottomNavigationBar: RepaintBoundary(
+          child: Obx(
+            () {
+              var opacity = 1 - playerExpandProgressPerc.value;
+              if (opacity < 0) {
+                opacity = 0;
+              }
+              if (opacity > 1) {
+                opacity = 1;
+              }
 
-            return SafeArea(
-              top: false,
-              bottom: opacity != 0,
-              child: SizedBox(
-                height: kBottomNavigationBarHeight -
-                    kBottomNavigationBarHeight * playerExpandProgressPerc.value,
-                child: Transform.translate(
-                  offset: Offset(
-                      0.0,
+              return SafeArea(
+                top: false,
+                bottom: opacity != 0,
+                child: SizedBox(
+                  height: kBottomNavigationBarHeight -
                       kBottomNavigationBarHeight *
-                          playerExpandProgressPerc.value *
-                          0.5),
-                  child: Opacity(
-                    opacity: opacity,
-                    child: OverflowBox(
-                      maxHeight: kBottomNavigationBarHeight,
-                      child: BottomNavigationBarPersistent(
-                        currentTab: _currentTab,
-                        onTabSelect: _selectTab,
+                          playerExpandProgressPerc.value,
+                  child: Transform.translate(
+                    offset: Offset(
+                        0.0,
+                        kBottomNavigationBarHeight *
+                            playerExpandProgressPerc.value *
+                            0.5),
+                    child: Opacity(
+                      opacity: opacity,
+                      child: OverflowBox(
+                        maxHeight: kBottomNavigationBarHeight,
+                        child: BottomNavigationBarPersistent(
+                          currentTab: _currentTab,
+                          onTabSelect: _selectTab,
+                        ),
+                        // child: MobileBottomNavigationBar(),
                       ),
-                      // child: MobileBottomNavigationBar(),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
+        // bottomNavigationBar: BottomNavigationBarPersistent(
+        //   currentTab: _currentTab,
+        //   onTabSelect: _selectTab,
+        // ),
       ),
     );
   }

@@ -150,7 +150,8 @@ class _AlbumsSliverGridViewState extends State<AlbumsSliverGridView> {
                 ),
                 itemCount: albumData.value?.length,
                 itemBuilder: (context, index) {
-                  return AlbumCard(albumData: albumData.value![index]);
+                  return RepaintBoundary(
+                      child: AlbumCard(albumData: albumData.value![index]));
                 },
               ),
               SliverToBoxAdapter(
