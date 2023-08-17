@@ -48,7 +48,7 @@ Future<void> main() async {
         useMaterial3: true,
       ),
       darkTheme: FlexThemeData.dark(
-        scheme: FlexScheme.green,
+        scheme: FlexScheme.redWine,
         useMaterial3: true,
       ),
       home: ParallelNavigationApp(),
