@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:BackendClientApi/api.dart';
@@ -262,50 +263,80 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
     );
   }
 
+  void gotoCirclePage(String circleId) {
+    print("Navigate to circle page");
+    Navigator.pushNamed(
+      context,
+      '/circle',
+      arguments: {
+        'circleId': circleId,
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    var onTapGotoCircle = TapGestureRecognizer()
+      ..onTap = () {
+        print("Navigate to circle page");
+        gotoCirclePage(masterAlbum.value!.albumArtist![0].id!);
+      };
+
     var albumMiscInfo = Obx(
       () => isLoading.value
           ? const SizedBox.shrink()
-          : GestureDetector(
-              onTap: () {
-                print("Navigate to circle page");
-                Navigator.pushNamed(
-                  context,
-                  '/circle',
-                  arguments: {
-                    'circleId': masterAlbum.value?.albumArtist![0].id,
-                  },
-                );
-              },
-              child: RichText(
-                textAlign: TextAlign.center,
-                text: TextSpan(
-                  text: masterAlbum.value!.albumArtist![0].name,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  children: [
-                    TextSpan(
-                      text: "\nAlbum",
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: Colors.grey.shade600),
-                    ),
-                    TextSpan(
-                      text: ' · ',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: Colors.grey.shade600),
-                    ),
-                    TextSpan(
-                      text: '${masterAlbum.value!.releaseDate!.year}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .copyWith(color: Colors.grey.shade600),
-                    ),
-                  ],
+          : Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.2),
+              child: GestureDetector(
+                onTap: () {
+                  gotoCirclePage(masterAlbum.value!.albumArtist![0].id!);
+                },
+                child: AbsorbPointer(
+                  child: Column(
+                    children: [
+                      RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          text: masterAlbum.value!.albumArtist![0].name,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          recognizer: onTapGotoCircle,
+                        ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: Theme.of(context).textTheme.bodyMedium,
+                          recognizer: onTapGotoCircle,
+                          children: [
+                            TextSpan(
+                              text: "Album",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(color: Colors.grey.shade600),
+                              recognizer: onTapGotoCircle,
+                            ),
+                            TextSpan(
+                              text: ' · ',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(color: Colors.grey.shade600),
+                              recognizer: onTapGotoCircle,
+                            ),
+                            TextSpan(
+                              text: '${masterAlbum.value!.releaseDate!.year}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(color: Colors.grey.shade600),
+                              recognizer: onTapGotoCircle,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -324,17 +355,19 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
                 .background!
                 .withOpacity(1 - albumInfoOpacity.value),
             forceMaterialTransparency: albumInfoOpacity.value == 1,
-            title: Opacity(
-              opacity: 1 - albumInfoOpacity.value,
-              child: Text(
-                isLoading.value
-                    ? "Loading..."
-                    : masterAlbum.value!.albumName!.default_,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      fontWeight: FontWeight.bold,
+            title: isLoading.value || albumInfoOpacity.value == 1
+                ? null
+                : Opacity(
+                    opacity: 1 - albumInfoOpacity.value,
+                    child: Text(
+                      isLoading.value
+                          ? "Loading..."
+                          : masterAlbum.value!.albumName!.default_,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
-              ),
-            ),
+                  ),
           ),
         ),
       ),
