@@ -91,32 +91,6 @@ class BottomSheetTrackOps extends StatelessWidget {
             title: Text('Go to artist'),
             onTap: () {},
           ),
-          ListTile(
-            leading: Icon(Icons.quiz),
-            title: Text('[DEBUG] Play in HLS Audio Test Page'),
-            onTap: () {
-              Navigator.of(context).pop();
-              Get.toNamed(
-                '/audio_test/${trackData.id!}',
-              );
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.copy),
-            title: Text('[DEBUG] Copy track UUID to clipboard'),
-            onTap: () {
-              Clipboard.setData(
-                ClipboardData(text: trackData.id!),
-              );
-              Navigator.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Copied track UUID to clipboard'),
-                  behavior: SnackBarBehavior.floating,
-                ),
-              );
-            },
-          )
         ],
       ),
     );
