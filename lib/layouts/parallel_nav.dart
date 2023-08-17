@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_flutter/components/mobile_bottom_bar.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 import 'package:tlmc_player_flutter/views/homepage.dart';
@@ -101,31 +100,21 @@ class BottomNavigationBarPersistent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      elevation: 0,
-      items: NavigationOptions.asMap().entries.map(
-        (entry) {
-          return BottomNavigationBarItem(
-            icon: Icon(
-              currentTab.index == entry.key
-                  ? (entry.value["activeIcon"] as IconData)
-                  : (entry.value["inactiveIcon"] as IconData),
-            ),
-            label: entry.value["label"] as String,
-            backgroundColor: Colors.amber,
-          );
-        },
-      ).toList(),
-      currentIndex: currentTab.index,
-      onTap: (index) {
-        print("Selected tab: $index");
+    List<NavigationDestination> dests = [];
+    for (var option in NavigationOptions) {
+      dests.add(NavigationDestination(
+        icon: Icon((option["inactiveIcon"] as IconData)),
+        selectedIcon: Icon((option["activeIcon"] as IconData)),
+        label: option["label"] as String,
+      ));
+    }
+
+    return NavigationBar(
+      destinations: dests,
+      onDestinationSelected: (index) {
         onTabSelect!(ParallelNavPage.values[index]);
       },
-      selectedItemColor: Theme.of(context).primaryColor,
-      selectedFontSize: Theme.of(context).textTheme.bodySmall!.fontSize!,
-      unselectedFontSize: Theme.of(context).textTheme.bodySmall!.fontSize!,
-      selectedIconTheme: IconThemeData(color: Theme.of(context).primaryColor),
+      selectedIndex: currentTab.index,
     );
   }
 }
@@ -186,14 +175,6 @@ class _ParallelNavigationAppState extends State<ParallelNavigationApp> {
             const RepaintBoundary(child: MobileMiniplayerBar()),
           ],
         ),
-        // body: Stack(
-        //   children: [
-        //     _buildOffstageNavigator(ParallelNavPage.home),
-        //     _buildOffstageNavigator(ParallelNavPage.explore),
-        //     _buildOffstageNavigator(ParallelNavPage.library),
-        //     MobileMiniplayerBar(),
-        //   ],
-        // ),
         bottomNavigationBar: RepaintBoundary(
           child: Obx(
             () {
@@ -205,29 +186,27 @@ class _ParallelNavigationAppState extends State<ParallelNavigationApp> {
                 opacity = 1;
               }
 
-              return SafeArea(
-                top: false,
-                bottom: opacity != 0,
-                child: SizedBox(
-                  height: kBottomNavigationBarHeight -
-                      kBottomNavigationBarHeight *
-                          playerExpandProgressPerc.value,
-                  child: Transform.translate(
-                    offset: Offset(
-                        0.0,
-                        kBottomNavigationBarHeight *
-                            playerExpandProgressPerc.value *
-                            0.5),
-                    child: Opacity(
-                      opacity: opacity,
-                      child: OverflowBox(
-                        maxHeight: kBottomNavigationBarHeight,
-                        child: BottomNavigationBarPersistent(
-                          currentTab: _currentTab,
-                          onTabSelect: _selectTab,
-                        ),
-                        // child: MobileBottomNavigationBar(),
+              var NavigationBarHeight =
+                  80.0 + MediaQuery.of(context).padding.bottom;
+
+              return SizedBox(
+                height: NavigationBarHeight -
+                    NavigationBarHeight * playerExpandProgressPerc.value,
+                child: Transform.translate(
+                  offset: Offset(
+                      0.0,
+                      NavigationBarHeight *
+                          playerExpandProgressPerc.value *
+                          0.5),
+                  child: Opacity(
+                    opacity: opacity,
+                    child: OverflowBox(
+                      maxHeight: NavigationBarHeight,
+                      child: BottomNavigationBarPersistent(
+                        currentTab: _currentTab,
+                        onTabSelect: _selectTab,
                       ),
+                      // child: MobileBottomNavigationBar(),
                     ),
                   ),
                 ),
@@ -235,10 +214,6 @@ class _ParallelNavigationAppState extends State<ParallelNavigationApp> {
             },
           ),
         ),
-        // bottomNavigationBar: BottomNavigationBarPersistent(
-        //   currentTab: _currentTab,
-        //   onTabSelect: _selectTab,
-        // ),
       ),
     );
   }

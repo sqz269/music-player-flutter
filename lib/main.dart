@@ -1,14 +1,20 @@
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:BackendClientApi/api.dart';
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 import 'package:tlmc_player_flutter/layouts/parallel_nav.dart';
+import 'package:tlmc_player_flutter/services/oidc_authenticator_service.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 import 'package:tlmc_player_flutter/states/just_audio_background_cust_queue.dart';
 
 Future<void> main() async {
+  // debugRepaintRainbowEnabled = true;
+  // debugRepaintTextRainbowEnabled = true;
+
   /// NOTE WITH API MODEL
   /// UUID is not supported by this OAS generator so any UUIDs in the API will
   /// be represented as strings. There is no need to do any conversion as the
@@ -21,6 +27,13 @@ Future<void> main() async {
   Get.lazyPut<QueueController>(() => QueueController());
   Get.put(RootContextProvider());
 
+  Get.put(
+    OidcAuthenticatorService(
+        oidcDiscoveryEndpoint: "https://sso.marisad.me/realms/MusicPlayer",
+        clientId: "localhost-flutter-nUCH1cAFywtQW6fDWkbbiL6UQcUZq"),
+    permanent: true,
+  );
+
   await JustAudioBackground.init(
     androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
     androidNotificationChannelName: 'Audio playback',
@@ -29,7 +42,13 @@ Future<void> main() async {
 
   runApp(
     MaterialApp(
-      theme: ThemeData(
+      title: 'TLMC Player',
+      theme: FlexThemeData.light(
+        scheme: FlexScheme.redWine,
+        useMaterial3: true,
+      ),
+      darkTheme: FlexThemeData.dark(
+        scheme: FlexScheme.green,
         useMaterial3: true,
       ),
       home: ParallelNavigationApp(),

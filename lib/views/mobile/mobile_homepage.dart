@@ -18,7 +18,6 @@ class MobileHomePage extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            backgroundColor: Colors.transparent,
             leading: Icon(Icons.menu),
             actions: [
               IconButton(
@@ -30,7 +29,8 @@ class MobileHomePage extends StatelessWidget {
                 icon: const Icon(Icons.account_circle_outlined),
               ),
             ],
-            pinned: false,
+            pinned: true,
+            // floating: true,
             primary: true,
           ),
           SliverPadding(

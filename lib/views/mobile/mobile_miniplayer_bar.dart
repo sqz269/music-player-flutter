@@ -59,36 +59,38 @@ class _MobileMiniplayerBarState extends State<MobileMiniplayerBar> {
               .currentTrack.value!.track.album!.thumbnail!.large!.url!,
         );
 
-        return Stack(children: [
-          Miniplayer(
-            minHeight: 66,
-            maxHeight: MediaQuery.of(context).size.height,
-            onDismissed: () {
-              queueController.clearAll();
-            },
-            controller: _miniplayerController,
-            builder: (height, perc) {
-              WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-                playerExpandProgressPerc.value = perc;
-              });
+        return Stack(
+          children: [
+            Miniplayer(
+              minHeight: 66,
+              maxHeight: MediaQuery.of(context).size.height,
+              onDismissed: () {
+                queueController.clearAll();
+              },
+              controller: _miniplayerController,
+              builder: (height, perc) {
+                WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                  playerExpandProgressPerc.value = perc;
+                });
 
-              var elementOpacity = 1 - perc * 10;
+                var elementOpacity = 1 - perc * 10;
 
-              if (perc < 0.1) {
-                return MiniplayerTileCurrentlyPlaying(
-                    image: image, elementOpacity: elementOpacity);
-              }
+                if (perc < 0.1) {
+                  return MiniplayerTileCurrentlyPlaying(
+                      image: image, elementOpacity: elementOpacity);
+                }
 
-              return SafeArea(
-                top: perc >= 0.8,
-                child: MiniplayerExpandedCurrentlyPlaying(
-                    perc: perc, image: image, height: height),
-              );
-            },
-            elevation: 5,
-            backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-          ),
-        ]);
+                return SafeArea(
+                  top: perc >= 0.8,
+                  child: MiniplayerExpandedCurrentlyPlaying(
+                      perc: perc, image: image, height: height),
+                );
+              },
+              elevation: 5,
+              backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+            ),
+          ],
+        );
       },
     );
   }
@@ -342,10 +344,9 @@ class _MiniplayerExpandedCurrentlyPlayingState
       overflow: TextOverflow.ellipsis,
       text: TextSpan(
         text: QueueController.to.currentTrack.value!.track.name!.default_,
-        style: Theme.of(context)
-            .textTheme
-            .headlineMedium!
-            .copyWith(color: Colors.black, fontWeight: FontWeight.bold),
+        style: Theme.of(context).textTheme.headlineMedium!.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
       ),
     );
 
@@ -492,127 +493,133 @@ class MiniplayerTileCurrentlyPlaying extends StatelessWidget {
     var audioController = Get.find<AudioControllerJustAudio>();
     var queueController = Get.find<QueueController>();
 
-    return Column(
-      children: [
-        Expanded(
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(1),
-                      image: DecorationImage(
-                        image: image.image,
-                        fit: BoxFit.cover,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surfaceVariant,
+      ),
+      child: Column(
+        children: [
+          Expanded(
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(1),
+                        image: DecorationImage(
+                          image: image.image,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Opacity(
-                  opacity: elementOpacity,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          QueueController
-                              .to.currentTrack.value!.track.name!.default_,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(
-                          height: 6,
-                        ),
-                        Text(
-                          QueueController.to.currentTrack.value!.track.album!
-                              .albumArtist![0].name!,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelMedium!
-                              .copyWith(color: Colors.grey.shade700),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                Expanded(
+                  child: Opacity(
+                    opacity: elementOpacity,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            QueueController
+                                .to.currentTrack.value!.track.name!.default_,
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(
+                            height: 6,
+                          ),
+                          Text(
+                            QueueController.to.currentTrack.value!.track.album!
+                                .albumArtist![0].name!,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium!
+                                .copyWith(color: Colors.grey.shade700),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Opacity(
-                opacity: elementOpacity,
-                child: StreamBuilder<bool>(
-                  stream: audioController.isPlayingStream,
-                  builder: (context, snapshot) {
-                    print(
-                        "PAUS: playerStateStream: ${snapshot.data} | ${audioController.isPlaying}");
-                    if (snapshot.data == true) {
-                      return IconButton(
-                        onPressed: () {
-                          audioController.pause();
-                        },
-                        icon: const Icon(Icons.pause),
-                      );
-                    } else {
-                      return IconButton(
-                        onPressed: () {
-                          audioController.resume();
-                        },
-                        icon: const Icon(Icons.play_arrow),
-                      );
-                    }
-                  },
+                Opacity(
+                  opacity: elementOpacity,
+                  child: StreamBuilder<bool>(
+                    stream: audioController.isPlayingStream,
+                    builder: (context, snapshot) {
+                      print(
+                          "PAUS: playerStateStream: ${snapshot.data} | ${audioController.isPlaying}");
+                      if (snapshot.data == true) {
+                        return IconButton(
+                          onPressed: () {
+                            audioController.pause();
+                          },
+                          icon: const Icon(Icons.pause),
+                        );
+                      } else {
+                        return IconButton(
+                          onPressed: () {
+                            audioController.resume();
+                          },
+                          icon: const Icon(Icons.play_arrow),
+                        );
+                      }
+                    },
+                  ),
                 ),
-              ),
-              Opacity(
-                opacity: elementOpacity,
-                child: IconButton(
-                  onPressed: () {
-                    queueController.playNext();
-                  },
-                  icon: const Icon(Icons.skip_next),
+                Opacity(
+                  opacity: elementOpacity,
+                  child: IconButton(
+                    onPressed: () {
+                      queueController.playNext();
+                    },
+                    icon: const Icon(Icons.skip_next),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Opacity(
-          opacity: elementOpacity,
-          child: StreamBuilder<Duration?>(
-            stream: audioController.positionStream,
-            builder: (context, snapshot) {
-              // print(audioController.position);
-              // print(audioController.duration);
-              var perc = 0.0;
-              if (audioController.processingState != ProcessingState.idle &&
-                  audioController.processingState != ProcessingState.loading &&
-                  audioController.duration != null &&
-                  audioController.position != null) {
-                perc = percentageFromValueInRange(
-                  min: 0,
-                  max: audioController.duration!.inMilliseconds.toDouble(),
-                  value: audioController.position!.inMilliseconds.toDouble(),
+          Opacity(
+            opacity: elementOpacity,
+            child: StreamBuilder<Duration?>(
+              stream: audioController.positionStream,
+              builder: (context, snapshot) {
+                // print(audioController.position);
+                // print(audioController.duration);
+                var perc = 0.0;
+                if (audioController.processingState != ProcessingState.idle &&
+                    audioController.processingState !=
+                        ProcessingState.loading &&
+                    audioController.duration != null &&
+                    audioController.position != null) {
+                  perc = percentageFromValueInRange(
+                    min: 0,
+                    max: audioController.duration!.inMilliseconds.toDouble(),
+                    value: audioController.position!.inMilliseconds.toDouble(),
+                  );
+                }
+                return LinearProgressIndicator(
+                  value: perc,
+                  minHeight: 2,
+                  backgroundColor: Colors.grey.shade400,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    Theme.of(context).colorScheme.secondary,
+                  ),
                 );
-              }
-              return LinearProgressIndicator(
-                value: perc,
-                minHeight: 2,
-                backgroundColor: Colors.grey.shade400,
-                valueColor: const AlwaysStoppedAnimation<Color>(
-                  Color.fromARGB(255, 86, 164, 80),
-                ),
-              );
-            },
-          ),
-        )
-      ],
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 }

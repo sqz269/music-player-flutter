@@ -229,6 +229,11 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
               IconButton.filledTonal(
                 onPressed: () {},
                 icon: const Icon(Icons.library_add_outlined),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    Theme.of(context).colorScheme.outline.withOpacity(0.1),
+                  ),
+                ),
               ),
               IconButton.filled(
                 onPressed: () {
@@ -255,6 +260,11 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
               IconButton.filledTonal(
                 onPressed: () {},
                 icon: const Icon(Icons.more_vert),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    Theme.of(context).colorScheme.outline.withOpacity(0.1),
+                  ),
+                ),
               ),
             ],
           ),
