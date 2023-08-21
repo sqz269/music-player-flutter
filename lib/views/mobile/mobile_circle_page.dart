@@ -40,7 +40,7 @@ class _MobileCirclePageState extends State<MobileCirclePage> {
   }
 
   Future initCircleData() async {
-    var circleApi = CircleApi(Get.find<ApiClient>());
+    var circleApi = CircleApi(Get.find<ApiClientProvider>().getApiClient());
     isLoading.value = true;
     circleData.value = await circleApi.getCircleById(widget.circleId);
     isLoading.value = false;
