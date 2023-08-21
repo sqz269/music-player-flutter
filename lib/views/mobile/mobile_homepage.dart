@@ -6,13 +6,15 @@ import 'package:number_paginator/number_paginator.dart';
 
 import 'package:tlmc_player_flutter/components/album_card.dart';
 import 'package:tlmc_player_flutter/components/albums_gridview.dart';
+import 'package:tlmc_player_flutter/components/dialog_user_account.dart';
+import 'package:tlmc_player_flutter/services/api_client_provider.dart';
 
 class MobileHomePage extends StatelessWidget {
   const MobileHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var albumApi = AlbumApi(Get.find<ApiClient>());
+    var albumApi = AlbumApi(Get.find<ApiClientProvider>().getApiClient());
 
     return Scaffold(
       body: CustomScrollView(
@@ -25,7 +27,10 @@ class MobileHomePage extends StatelessWidget {
                 icon: const Icon(Icons.search),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  showDialog(
+                      context: context, builder: (_) => DialogUserAccount());
+                },
                 icon: const Icon(Icons.account_circle_outlined),
               ),
             ],

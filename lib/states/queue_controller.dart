@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:tlmc_player_flutter/services/api_client_provider.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:uuid/uuid.dart';
@@ -89,7 +90,7 @@ class QueueController extends GetxController {
 
   Future<bool> addTrackById(String id,
       {int? position, bool playImmediately = false}) async {
-    var albumApi = AlbumApi(Get.find<ApiClient>());
+    var albumApi = AlbumApi(Get.find<ApiClientProvider>().getApiClient());
 
     var track = await albumApi.getTrack(id);
 
@@ -105,7 +106,7 @@ class QueueController extends GetxController {
 
   Future<bool> addTracksById(List<String> ids,
       {int? position, bool playImmediately = false}) async {
-    var albumApi = AlbumApi(Get.find<ApiClient>());
+    var albumApi = AlbumApi(Get.find<ApiClientProvider>().getApiClient());
 
     var tracks = await albumApi.getTracks(requestBody: ids);
 

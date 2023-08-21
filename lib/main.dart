@@ -5,6 +5,7 @@ import 'package:BackendClientApi/api.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 import 'package:tlmc_player_flutter/layouts/parallel_nav.dart';
+import 'package:tlmc_player_flutter/services/api_client_provider.dart';
 import 'package:tlmc_player_flutter/services/backend_client_authentication_provider.dart';
 import 'package:tlmc_player_flutter/services/oidc_authenticator_service.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
@@ -27,21 +28,27 @@ Future<void> main() async {
   Get.lazyPut<QueueController>(() => QueueController());
   Get.put(RootContextProvider());
 
-  await Get.putAsync(
-    () async {
+  // not awaited because it will block app startup
+  Get.put<BackendClientAuthenticationProvider>(
+    () {
       var backendClientAuth = BackendClientAuthenticationProvider(
           ssoDiscoveryEndpoint: "https://sso.marisad.me/realms/MusicPlayer",
           clientId: "localhost-flutter-nUCH1cAFywtQW6fDWkbbiL6UQcUZq");
-      await backendClientAuth.init();
+      backendClientAuth.init();
       return backendClientAuth;
-    },
+    }(),
     permanent: true,
   );
 
-  Get.put(ApiClient(
-    basePath: "https://api-music.marisad.me",
-    authentication: Get.find<BackendClientAuthenticationProvider>(),
-  ));
+  // Get.put(ApiClient(
+  //   basePath: "https://api-music.marisad.me",
+  //   authentication: Get.find<BackendClientAuthenticationProvider>(),
+  // ));
+
+  Get.put(
+    ApiClientProvider(basePath: "https://api-music.marisad.me"),
+    permanent: true,
+  );
 
   await JustAudioBackground.init(
     androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',

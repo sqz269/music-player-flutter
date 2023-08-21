@@ -8,6 +8,7 @@ import 'package:BackendClientApi/api.dart';
 
 import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/components/track_tile.dart';
+import 'package:tlmc_player_flutter/services/api_client_provider.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 import 'package:tlmc_player_flutter/utils/utils.dart';
@@ -80,7 +81,7 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
   }
 
   Future<void> initAlbums() async {
-    var albumApi = AlbumApi(Get.find<ApiClient>());
+    var albumApi = AlbumApi(Get.find<ApiClientProvider>().getApiClient());
 
     var album = await albumApi.getAlbum(widget.albumId);
 

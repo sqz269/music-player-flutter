@@ -6,7 +6,9 @@ import 'package:tlmc_player_flutter/services/oidc_authenticator_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class BackendClientAuthenticationProvider extends Authentication {
+  var initialized = false.obs;
   var isAuthenticated = false.obs;
+  var readyAndAuthenticated = false.obs;
   Rx<UserInfo?> userInfo = Rx<UserInfo?>(null);
 
   late OidcAuthenticatorService oidcAuthService;
@@ -19,6 +21,7 @@ class BackendClientAuthenticationProvider extends Authentication {
   }
 
   Future<void> init() async {
+    print("Initializing auth provider");
     pref = await SharedPreferences.getInstance();
     await oidcAuthService.init();
 
@@ -28,9 +31,12 @@ class BackendClientAuthenticationProvider extends Authentication {
       await oidcAuthService.restoreSession(offlineToken);
       userInfo.value = await oidcAuthService.credential!.getUserInfo();
       isAuthenticated.value = true;
+      readyAndAuthenticated.value = true;
     } else {
       print("No offline token found");
     }
+    initialized.value = true;
+    print("Initialized auth provider");
   }
 
   Future<Credential?> authenticate() async {
@@ -39,6 +45,7 @@ class BackendClientAuthenticationProvider extends Authentication {
       pref.setString("auth_offline_token", credential.refreshToken!);
       userInfo.value = await credential.getUserInfo();
       isAuthenticated.value = true;
+      readyAndAuthenticated.value = true;
     }
     return credential;
   }

@@ -2,6 +2,7 @@ import 'package:BackendClientApi/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/components/albums_gridview.dart';
+import 'package:tlmc_player_flutter/services/api_client_provider.dart';
 
 class CirclePageController extends GetxController {
   final String circleId;
@@ -12,7 +13,8 @@ class CirclePageController extends GetxController {
   void onInit() {
     super.onInit();
 
-    var circleController = CircleApi(Get.find<ApiClient>());
+    var circleController =
+        CircleApi(Get.find<ApiClientProvider>().getApiClient());
     circleController.getCircleAlbumsById(circleId);
   }
 }
@@ -46,7 +48,7 @@ class _MobileCirclePageState extends State<MobileCirclePage> {
 
   @override
   Widget build(BuildContext context) {
-    var circleApi = CircleApi(Get.find<ApiClient>());
+    var circleApi = CircleApi(Get.find<ApiClientProvider>().getApiClient());
 
     return Obx(() {
       if (isLoading.value) {
