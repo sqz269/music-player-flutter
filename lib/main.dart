@@ -5,6 +5,7 @@ import 'package:BackendClientApi/api.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 import 'package:tlmc_player_flutter/layouts/parallel_nav.dart';
+import 'package:tlmc_player_flutter/services/backend_client_authentication_provider.dart';
 import 'package:tlmc_player_flutter/services/oidc_authenticator_service.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
@@ -21,18 +22,26 @@ Future<void> main() async {
   /// generator have already done that but just a note that string id is used
 
   /// ALSO NOTE: DO NOT ADD TRAILING SLASH TO THE BASE PATH
-  Get.put(ApiClient(basePath: "https://api-music.marisad.me"));
 
   Get.lazyPut<AudioControllerJustAudio>(() => AudioControllerJustAudio());
   Get.lazyPut<QueueController>(() => QueueController());
   Get.put(RootContextProvider());
 
-  Get.put(
-    OidcAuthenticatorService(
-        oidcDiscoveryEndpoint: "https://sso.marisad.me/realms/MusicPlayer",
-        clientId: "localhost-flutter-nUCH1cAFywtQW6fDWkbbiL6UQcUZq"),
+  await Get.putAsync(
+    () async {
+      var backendClientAuth = BackendClientAuthenticationProvider(
+          ssoDiscoveryEndpoint: "https://sso.marisad.me/realms/MusicPlayer",
+          clientId: "localhost-flutter-nUCH1cAFywtQW6fDWkbbiL6UQcUZq");
+      await backendClientAuth.init();
+      return backendClientAuth;
+    },
     permanent: true,
   );
+
+  Get.put(ApiClient(
+    basePath: "https://api-music.marisad.me",
+    authentication: Get.find<BackendClientAuthenticationProvider>(),
+  ));
 
   await JustAudioBackground.init(
     androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
@@ -51,7 +60,7 @@ Future<void> main() async {
         scheme: FlexScheme.redWine,
         useMaterial3: true,
       ),
-      home: ParallelNavigationApp(),
+      home: const ParallelNavigationApp(),
     ),
   );
 }
