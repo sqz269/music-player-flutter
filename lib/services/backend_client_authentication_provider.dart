@@ -37,6 +37,7 @@ class BackendClientAuthenticationProvider extends Authentication {
     }
     initialized.value = true;
     print("Initialized auth provider");
+    print("Is authenticated: ${isAuthenticated.value}");
   }
 
   Future<Credential?> authenticate() async {
@@ -55,8 +56,7 @@ class BackendClientAuthenticationProvider extends Authentication {
       List<QueryParam> queryParams, Map<String, String> headerParams) async {
     if (isAuthenticated.value) {
       var token = await oidcAuthService.credential!.getTokenResponse();
-      queryParams
-          .add(QueryParam("Authorization", "Bearer ${token.accessToken}"));
+      headerParams["Authorization"] = "Bearer ${token.accessToken}";
     }
   }
 }
