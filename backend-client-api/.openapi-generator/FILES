@@ -35,15 +35,12 @@ doc/OriginalTrackReadDto.md
 doc/OriginalTrackReadDtoActionResult.md
 doc/OriginalTrackWriteDto.md
 doc/PlaylistApi.md
-doc/PlaylistCreateRequest.md
-doc/PlaylistItemAddRequest.md
-doc/PlaylistItemApi.md
-doc/PlaylistItemDeleteRequest.md
+doc/PlaylistInfo.md
 doc/PlaylistItemReadDto.md
+doc/PlaylistItemsApi.md
 doc/PlaylistReadDto.md
 doc/PlaylistType.md
 doc/PlaylistVisibility.md
-doc/ProblemDetails.md
 doc/RadioApi.md
 doc/RadioSong.md
 doc/SearchApi.md
@@ -64,7 +61,7 @@ lib/api/hls_asset_api.dart
 lib/api/internal_api.dart
 lib/api/original_album_api.dart
 lib/api/playlist_api.dart
-lib/api/playlist_item_api.dart
+lib/api/playlist_items_api.dart
 lib/api/radio_api.dart
 lib/api/search_api.dart
 lib/api_client.dart
@@ -101,14 +98,11 @@ lib/model/original_album_write_dto.dart
 lib/model/original_track_read_dto.dart
 lib/model/original_track_read_dto_action_result.dart
 lib/model/original_track_write_dto.dart
-lib/model/playlist_create_request.dart
-lib/model/playlist_item_add_request.dart
-lib/model/playlist_item_delete_request.dart
+lib/model/playlist_info.dart
 lib/model/playlist_item_read_dto.dart
 lib/model/playlist_read_dto.dart
 lib/model/playlist_type.dart
 lib/model/playlist_visibility.dart
-lib/model/problem_details.dart
 lib/model/radio_song.dart
 lib/model/sort_order.dart
 lib/model/thumbnail_read_dto.dart
@@ -119,4 +113,3 @@ lib/model/track_read_dto1.dart
 lib/model/track_update_dto.dart
 lib/model/track_write_dto.dart
 pubspec.yaml
-test/albums_list_result_test.dart

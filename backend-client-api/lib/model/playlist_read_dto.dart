@@ -20,8 +20,6 @@ class PlaylistReadDto {
     this.visibility,
     this.type,
     this.lastModified,
-    this.numberOfTracks,
-    this.tracks = const [],
   });
 
   ///
@@ -68,16 +66,6 @@ class PlaylistReadDto {
   ///
   DateTime? lastModified;
 
-  ///
-  /// Please note: This property should have been non-nullable! Since the specification file
-  /// does not include a default value (using the "default:" property), however, the generated
-  /// source code must fall back to having a nullable type.
-  /// Consider adding a "default:" property in the specification file to hide this note.
-  ///
-  int? numberOfTracks;
-
-  List<PlaylistItemReadDto>? tracks;
-
   @override
   bool operator ==(Object other) => identical(this, other) || other is PlaylistReadDto &&
      other.id == id &&
@@ -86,9 +74,7 @@ class PlaylistReadDto {
      other.username == username &&
      other.visibility == visibility &&
      other.type == type &&
-     other.lastModified == lastModified &&
-     other.numberOfTracks == numberOfTracks &&
-     other.tracks == tracks;
+     other.lastModified == lastModified;
 
   @override
   int get hashCode =>
@@ -99,12 +85,10 @@ class PlaylistReadDto {
     (username == null ? 0 : username!.hashCode) +
     (visibility == null ? 0 : visibility!.hashCode) +
     (type == null ? 0 : type!.hashCode) +
-    (lastModified == null ? 0 : lastModified!.hashCode) +
-    (numberOfTracks == null ? 0 : numberOfTracks!.hashCode) +
-    (tracks == null ? 0 : tracks!.hashCode);
+    (lastModified == null ? 0 : lastModified!.hashCode);
 
   @override
-  String toString() => 'PlaylistReadDto[id=$id, name=$name, userId=$userId, username=$username, visibility=$visibility, type=$type, lastModified=$lastModified, numberOfTracks=$numberOfTracks, tracks=$tracks]';
+  String toString() => 'PlaylistReadDto[id=$id, name=$name, userId=$userId, username=$username, visibility=$visibility, type=$type, lastModified=$lastModified]';
 
   Map<String, dynamic> toJson() {
     final json = <String, dynamic>{};
@@ -143,16 +127,6 @@ class PlaylistReadDto {
     } else {
       json[r'lastModified'] = null;
     }
-    if (this.numberOfTracks != null) {
-      json[r'numberOfTracks'] = this.numberOfTracks;
-    } else {
-      json[r'numberOfTracks'] = null;
-    }
-    if (this.tracks != null) {
-      json[r'tracks'] = this.tracks;
-    } else {
-      json[r'tracks'] = null;
-    }
     return json;
   }
 
@@ -182,8 +156,6 @@ class PlaylistReadDto {
         visibility: PlaylistVisibility.fromJson(json[r'visibility']),
         type: PlaylistType.fromJson(json[r'type']),
         lastModified: mapDateTime(json, r'lastModified', ''),
-        numberOfTracks: mapValueOfType<int>(json, r'numberOfTracks'),
-        tracks: PlaylistItemReadDto.listFromJson(json[r'tracks']),
       );
     }
     return null;

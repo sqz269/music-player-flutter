@@ -99,17 +99,18 @@ Class | Method | HTTP request | Description
 *OriginalAlbumApi* | [**getOriginalAlbums**](doc\/OriginalAlbumApi.md#getoriginalalbums) | **GET** /api/source/album | 
 *OriginalAlbumApi* | [**getOriginalTrack**](doc\/OriginalAlbumApi.md#getoriginaltrack) | **GET** /api/source/track/{id} | 
 *OriginalAlbumApi* | [**getOriginalTracks**](doc\/OriginalAlbumApi.md#getoriginaltracks) | **GET** /api/source/track | 
-*PlaylistApi* | [**createPlaylist**](doc\/PlaylistApi.md#createplaylist) | **POST** /api/playlist | 
-*PlaylistApi* | [**deletePlaylist**](doc\/PlaylistApi.md#deleteplaylist) | **DELETE** /api/playlist/{playlistId} | 
-*PlaylistApi* | [**getCurrentUserFavorite**](doc\/PlaylistApi.md#getcurrentuserfavorite) | **GET** /api/playlist/user/me/favorite | 
-*PlaylistApi* | [**getCurrentUserHistory**](doc\/PlaylistApi.md#getcurrentuserhistory) | **GET** /api/playlist/user/me/history | 
-*PlaylistApi* | [**getCurrentUserPlaylist**](doc\/PlaylistApi.md#getcurrentuserplaylist) | **GET** /api/playlist/user/me | 
-*PlaylistApi* | [**getCurrentUserQueue**](doc\/PlaylistApi.md#getcurrentuserqueue) | **GET** /api/playlist/user/me/queue | 
-*PlaylistApi* | [**getPlaylist**](doc\/PlaylistApi.md#getplaylist) | **GET** /api/playlist | 
-*PlaylistApi* | [**getUserPlaylist**](doc\/PlaylistApi.md#getuserplaylist) | **GET** /api/playlist/user/{userId} | 
-*PlaylistItemApi* | [**addPlaylistItemToPlaylist**](doc\/PlaylistItemApi.md#addplaylistitemtoplaylist) | **POST** /api/playlistItem | 
-*PlaylistItemApi* | [**deletePlaylistItemFromPlaylist**](doc\/PlaylistItemApi.md#deleteplaylistitemfromplaylist) | **DELETE** /api/playlistItem | 
-*PlaylistItemApi* | [**incrementPlayCount**](doc\/PlaylistItemApi.md#incrementplaycount) | **POST** /api/playlistItem/inc | 
+*PlaylistApi* | [**addPlaylist**](doc\/PlaylistApi.md#addplaylist) | **POST** /api/playlists | 
+*PlaylistApi* | [**apiPlaylistsUserUserIdGet**](doc\/PlaylistApi.md#apiplaylistsuseruseridget) | **GET** /api/playlists/user/{userId} | 
+*PlaylistApi* | [**deletePlaylist**](doc\/PlaylistApi.md#deleteplaylist) | **DELETE** /api/playlists/{playlistId} | 
+*PlaylistApi* | [**getCurrentUserFavorite**](doc\/PlaylistApi.md#getcurrentuserfavorite) | **GET** /api/playlists/me/favorite | 
+*PlaylistApi* | [**getCurrentUserHistory**](doc\/PlaylistApi.md#getcurrentuserhistory) | **GET** /api/playlists/me/history | 
+*PlaylistApi* | [**getCurrentUserPlaylists**](doc\/PlaylistApi.md#getcurrentuserplaylists) | **GET** /api/playlists/me | 
+*PlaylistApi* | [**getCurrentUserQueue**](doc\/PlaylistApi.md#getcurrentuserqueue) | **GET** /api/playlists/me/queue | 
+*PlaylistApi* | [**getPlaylistById**](doc\/PlaylistApi.md#getplaylistbyid) | **GET** /api/playlists/{playlistId} | 
+*PlaylistApi* | [**updatePlaylistInfo**](doc\/PlaylistApi.md#updateplaylistinfo) | **PUT** /api/playlists/{playlistId} | 
+*PlaylistItemsApi* | [**addTrackToPlaylist**](doc\/PlaylistItemsApi.md#addtracktoplaylist) | **POST** /api/playlists/{playlistId}/tracks | 
+*PlaylistItemsApi* | [**deleteTrackFromPlaylist**](doc\/PlaylistItemsApi.md#deletetrackfromplaylist) | **DELETE** /api/playlists/{playlistId}/tracks | 
+*PlaylistItemsApi* | [**getPlaylistItems**](doc\/PlaylistItemsApi.md#getplaylistitems) | **GET** /api/playlists/{playlistId}/tracks | 
 *RadioApi* | [**apiRadioGet**](doc\/RadioApi.md#apiradioget) | **GET** /api/radio | 
 *SearchApi* | [**searchAlbums**](doc\/SearchApi.md#searchalbums) | **GET** /api/search/albums | 
 *SearchApi* | [**searchTracks**](doc\/SearchApi.md#searchtracks) | **GET** /api/search/tracks | 
@@ -143,14 +144,11 @@ Class | Method | HTTP request | Description
  - [OriginalTrackReadDto](doc\/OriginalTrackReadDto.md)
  - [OriginalTrackReadDtoActionResult](doc\/OriginalTrackReadDtoActionResult.md)
  - [OriginalTrackWriteDto](doc\/OriginalTrackWriteDto.md)
- - [PlaylistCreateRequest](doc\/PlaylistCreateRequest.md)
- - [PlaylistItemAddRequest](doc\/PlaylistItemAddRequest.md)
- - [PlaylistItemDeleteRequest](doc\/PlaylistItemDeleteRequest.md)
+ - [PlaylistInfo](doc\/PlaylistInfo.md)
  - [PlaylistItemReadDto](doc\/PlaylistItemReadDto.md)
  - [PlaylistReadDto](doc\/PlaylistReadDto.md)
  - [PlaylistType](doc\/PlaylistType.md)
  - [PlaylistVisibility](doc\/PlaylistVisibility.md)
- - [ProblemDetails](doc\/ProblemDetails.md)
  - [RadioSong](doc\/RadioSong.md)
  - [SortOrder](doc\/SortOrder.md)
  - [ThumbnailReadDto](doc\/ThumbnailReadDto.md)

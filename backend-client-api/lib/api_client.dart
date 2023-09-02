@@ -233,12 +233,8 @@ class ApiClient {
           return OriginalTrackReadDtoActionResult.fromJson(value);
         case 'OriginalTrackWriteDto':
           return OriginalTrackWriteDto.fromJson(value);
-        case 'PlaylistCreateRequest':
-          return PlaylistCreateRequest.fromJson(value);
-        case 'PlaylistItemAddRequest':
-          return PlaylistItemAddRequest.fromJson(value);
-        case 'PlaylistItemDeleteRequest':
-          return PlaylistItemDeleteRequest.fromJson(value);
+        case 'PlaylistInfo':
+          return PlaylistInfo.fromJson(value);
         case 'PlaylistItemReadDto':
           return PlaylistItemReadDto.fromJson(value);
         case 'PlaylistReadDto':
@@ -247,8 +243,6 @@ class ApiClient {
           return PlaylistTypeTypeTransformer().decode(value);
         case 'PlaylistVisibility':
           return PlaylistVisibilityTypeTransformer().decode(value);
-        case 'ProblemDetails':
-          return ProblemDetails.fromJson(value);
         case 'RadioSong':
           return RadioSong.fromJson(value);
         case 'SortOrder':

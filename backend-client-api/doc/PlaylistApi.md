@@ -9,18 +9,19 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**createPlaylist**](PlaylistApi.md#createplaylist) | **POST** /api/playlist | 
-[**deletePlaylist**](PlaylistApi.md#deleteplaylist) | **DELETE** /api/playlist/{playlistId} | 
-[**getCurrentUserFavorite**](PlaylistApi.md#getcurrentuserfavorite) | **GET** /api/playlist/user/me/favorite | 
-[**getCurrentUserHistory**](PlaylistApi.md#getcurrentuserhistory) | **GET** /api/playlist/user/me/history | 
-[**getCurrentUserPlaylist**](PlaylistApi.md#getcurrentuserplaylist) | **GET** /api/playlist/user/me | 
-[**getCurrentUserQueue**](PlaylistApi.md#getcurrentuserqueue) | **GET** /api/playlist/user/me/queue | 
-[**getPlaylist**](PlaylistApi.md#getplaylist) | **GET** /api/playlist | 
-[**getUserPlaylist**](PlaylistApi.md#getuserplaylist) | **GET** /api/playlist/user/{userId} | 
+[**addPlaylist**](PlaylistApi.md#addplaylist) | **POST** /api/playlists | 
+[**apiPlaylistsUserUserIdGet**](PlaylistApi.md#apiplaylistsuseruseridget) | **GET** /api/playlists/user/{userId} | 
+[**deletePlaylist**](PlaylistApi.md#deleteplaylist) | **DELETE** /api/playlists/{playlistId} | 
+[**getCurrentUserFavorite**](PlaylistApi.md#getcurrentuserfavorite) | **GET** /api/playlists/me/favorite | 
+[**getCurrentUserHistory**](PlaylistApi.md#getcurrentuserhistory) | **GET** /api/playlists/me/history | 
+[**getCurrentUserPlaylists**](PlaylistApi.md#getcurrentuserplaylists) | **GET** /api/playlists/me | 
+[**getCurrentUserQueue**](PlaylistApi.md#getcurrentuserqueue) | **GET** /api/playlists/me/queue | 
+[**getPlaylistById**](PlaylistApi.md#getplaylistbyid) | **GET** /api/playlists/{playlistId} | 
+[**updatePlaylistInfo**](PlaylistApi.md#updateplaylistinfo) | **PUT** /api/playlists/{playlistId} | 
 
 
-# **createPlaylist**
-> PlaylistReadDto createPlaylist(playlistCreateRequest)
+# **addPlaylist**
+> PlaylistReadDto addPlaylist(playlistInfo)
 
 
 
@@ -35,13 +36,13 @@ import 'package:BackendClientApi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = PlaylistApi();
-final playlistCreateRequest = PlaylistCreateRequest(); // PlaylistCreateRequest | 
+final playlistInfo = PlaylistInfo(); // PlaylistInfo | 
 
 try {
-    final result = api_instance.createPlaylist(playlistCreateRequest);
+    final result = api_instance.addPlaylist(playlistInfo);
     print(result);
 } catch (e) {
-    print('Exception when calling PlaylistApi->createPlaylist: $e\n');
+    print('Exception when calling PlaylistApi->addPlaylist: $e\n');
 }
 ```
 
@@ -49,7 +50,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **playlistCreateRequest** | [**PlaylistCreateRequest**](PlaylistCreateRequest.md)|  | [optional] 
+ **playlistInfo** | [**PlaylistInfo**](PlaylistInfo.md)|  | [optional] 
 
 ### Return type
 
@@ -66,8 +67,55 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **apiPlaylistsUserUserIdGet**
+> List<PlaylistReadDto> apiPlaylistsUserUserIdGet(userId)
+
+
+
+### Example
+```dart
+import 'package:BackendClientApi/api.dart';
+// TODO Configure HTTP Bearer authorization: Bearer
+// Case 1. Use String Token
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken('YOUR_ACCESS_TOKEN');
+// Case 2. Use Function which generate token.
+// String yourTokenGeneratorFunction() { ... }
+//defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
+
+final api_instance = PlaylistApi();
+final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+
+try {
+    final result = api_instance.apiPlaylistsUserUserIdGet(userId);
+    print(result);
+} catch (e) {
+    print('Exception when calling PlaylistApi->apiPlaylistsUserUserIdGet: $e\n');
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **userId** | **String**|  | 
+
+### Return type
+
+[**List<PlaylistReadDto>**](PlaylistReadDto.md)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **deletePlaylist**
-> bool deletePlaylist(playlistId)
+> deletePlaylist(playlistId)
 
 
 
@@ -85,8 +133,7 @@ final api_instance = PlaylistApi();
 final playlistId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final result = api_instance.deletePlaylist(playlistId);
-    print(result);
+    api_instance.deletePlaylist(playlistId);
 } catch (e) {
     print('Exception when calling PlaylistApi->deletePlaylist: $e\n');
 }
@@ -100,7 +147,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**bool**
+void (empty response body)
 
 ### Authorization
 
@@ -109,12 +156,12 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json
+ - **Accept**: Not defined
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getCurrentUserFavorite**
-> List<PlaylistReadDto> getCurrentUserFavorite()
+> PlaylistReadDto getCurrentUserFavorite()
 
 
 
@@ -143,7 +190,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List<PlaylistReadDto>**](PlaylistReadDto.md)
+[**PlaylistReadDto**](PlaylistReadDto.md)
 
 ### Authorization
 
@@ -157,7 +204,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getCurrentUserHistory**
-> List<PlaylistReadDto> getCurrentUserHistory()
+> PlaylistReadDto getCurrentUserHistory()
 
 
 
@@ -186,7 +233,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List<PlaylistReadDto>**](PlaylistReadDto.md)
+[**PlaylistReadDto**](PlaylistReadDto.md)
 
 ### Authorization
 
@@ -199,8 +246,8 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getCurrentUserPlaylist**
-> List<PlaylistReadDto> getCurrentUserPlaylist()
+# **getCurrentUserPlaylists**
+> List<PlaylistReadDto> getCurrentUserPlaylists()
 
 
 
@@ -217,10 +264,10 @@ import 'package:BackendClientApi/api.dart';
 final api_instance = PlaylistApi();
 
 try {
-    final result = api_instance.getCurrentUserPlaylist();
+    final result = api_instance.getCurrentUserPlaylists();
     print(result);
 } catch (e) {
-    print('Exception when calling PlaylistApi->getCurrentUserPlaylist: $e\n');
+    print('Exception when calling PlaylistApi->getCurrentUserPlaylists: $e\n');
 }
 ```
 
@@ -243,7 +290,7 @@ This endpoint does not need any parameter.
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **getCurrentUserQueue**
-> List<PlaylistReadDto> getCurrentUserQueue()
+> PlaylistReadDto getCurrentUserQueue()
 
 
 
@@ -272,7 +319,7 @@ This endpoint does not need any parameter.
 
 ### Return type
 
-[**List<PlaylistReadDto>**](PlaylistReadDto.md)
+[**PlaylistReadDto**](PlaylistReadDto.md)
 
 ### Authorization
 
@@ -285,8 +332,8 @@ This endpoint does not need any parameter.
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getPlaylist**
-> PlaylistReadDto getPlaylist(playlistId)
+# **getPlaylistById**
+> PlaylistReadDto getPlaylistById(playlistId)
 
 
 
@@ -304,10 +351,10 @@ final api_instance = PlaylistApi();
 final playlistId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
 
 try {
-    final result = api_instance.getPlaylist(playlistId);
+    final result = api_instance.getPlaylistById(playlistId);
     print(result);
 } catch (e) {
-    print('Exception when calling PlaylistApi->getPlaylist: $e\n');
+    print('Exception when calling PlaylistApi->getPlaylistById: $e\n');
 }
 ```
 
@@ -315,7 +362,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **playlistId** | **String**|  | [optional] 
+ **playlistId** | **String**|  | 
 
 ### Return type
 
@@ -332,8 +379,8 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getUserPlaylist**
-> List<PlaylistReadDto> getUserPlaylist(userId)
+# **updatePlaylistInfo**
+> PlaylistReadDto updatePlaylistInfo(playlistId, playlistInfo)
 
 
 
@@ -348,13 +395,14 @@ import 'package:BackendClientApi/api.dart';
 //defaultApiClient.getAuthentication<HttpBearerAuth>('Bearer').setAccessToken(yourTokenGeneratorFunction);
 
 final api_instance = PlaylistApi();
-final userId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final playlistId = 38400000-8cf0-11bd-b23e-10b96e4ef00d; // String | 
+final playlistInfo = PlaylistInfo(); // PlaylistInfo | 
 
 try {
-    final result = api_instance.getUserPlaylist(userId);
+    final result = api_instance.updatePlaylistInfo(playlistId, playlistInfo);
     print(result);
 } catch (e) {
-    print('Exception when calling PlaylistApi->getUserPlaylist: $e\n');
+    print('Exception when calling PlaylistApi->updatePlaylistInfo: $e\n');
 }
 ```
 
@@ -362,11 +410,12 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **userId** | **String**|  | 
+ **playlistId** | **String**|  | 
+ **playlistInfo** | [**PlaylistInfo**](PlaylistInfo.md)|  | [optional] 
 
 ### Return type
 
-[**List<PlaylistReadDto>**](PlaylistReadDto.md)
+[**PlaylistReadDto**](PlaylistReadDto.md)
 
 ### Authorization
 
@@ -374,7 +423,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
  - **Accept**: text/plain, application/json, text/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
