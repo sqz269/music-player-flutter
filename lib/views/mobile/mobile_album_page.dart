@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:BackendClientApi/api.dart';
 
 import 'package:get/get.dart';
+import 'package:tlmc_player_flutter/components/bottom_sheet_album_ops.dart';
 import 'package:tlmc_player_flutter/components/track_tile.dart';
 import 'package:tlmc_player_flutter/services/api_client_provider.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
@@ -259,7 +260,14 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
                 iconSize: 42,
               ),
               IconButton.filledTonal(
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                    useRootNavigator: true,
+                    context: context,
+                    builder: (context) =>
+                        BottomSheetAlbumOps(masterAlbum: masterAlbum.value!),
+                  );
+                },
                 icon: const Icon(Icons.more_vert),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(

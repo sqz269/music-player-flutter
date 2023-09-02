@@ -15,6 +15,7 @@ class TrackTileThumb extends StatelessWidget {
     return InkWell(
       onLongPress: () {
         showModalBottomSheet(
+          useRootNavigator: true,
           context: context,
           builder: (context) => BottomSheetTrackOps(
             trackData: trackData,

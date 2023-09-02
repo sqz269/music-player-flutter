@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:BackendClientApi/api.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:tlmc_player_flutter/components/bottom_sheet_add_to_playlist.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 
 class BottomSheetTrackOps extends StatelessWidget {
@@ -84,7 +85,17 @@ class BottomSheetTrackOps extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.playlist_add),
             title: Text('Save to playlist'),
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+              showModalBottomSheet(
+                useRootNavigator: true,
+                context: context,
+                isScrollControlled: true,
+                useSafeArea: true,
+                builder: (context) =>
+                    BottomSheetAddToPlaylist(trackId: trackData.id!),
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.interpreter_mode),

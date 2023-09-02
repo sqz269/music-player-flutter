@@ -6,6 +6,7 @@ import 'package:tlmc_player_flutter/views/homepage.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_album_page.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_circle_page.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_explore.dart';
+import 'package:tlmc_player_flutter/views/mobile/mobile_library_page.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_miniplayer_bar.dart';
 
 enum ParallelNavPage { home, explore, library }
@@ -51,7 +52,7 @@ class ParallelNavigator extends StatelessWidget {
                     case ParallelNavPage.explore:
                       return const ExplorePage();
                     case ParallelNavPage.library:
-                      return const Placeholder();
+                      return const MobileLibraryPage();
                   }
                 },
               );

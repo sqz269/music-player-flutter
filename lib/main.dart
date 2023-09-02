@@ -8,6 +8,7 @@ import 'package:tlmc_player_flutter/layouts/parallel_nav.dart';
 import 'package:tlmc_player_flutter/services/api_client_provider.dart';
 import 'package:tlmc_player_flutter/services/backend_client_authentication_provider.dart';
 import 'package:tlmc_player_flutter/services/oidc_authenticator_service.dart';
+import 'package:tlmc_player_flutter/services/user_playlist_info_provider.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/states/root_context_provider.dart';
@@ -49,6 +50,8 @@ Future<void> main() async {
     ApiClientProvider(basePath: "https://api-music.marisad.me"),
     permanent: true,
   );
+
+  Get.put<UserPlaylistInfoProvider>(UserPlaylistInfoProvider());
 
   await JustAudioBackground.init(
     androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',

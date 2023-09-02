@@ -58,26 +58,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AlbumReadDto"
-                  }
+                  "$ref": "#/components/schemas/AlbumsListResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AlbumReadDto"
-                  }
+                  "$ref": "#/components/schemas/AlbumsListResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AlbumReadDto"
-                  }
+                  "$ref": "#/components/schemas/AlbumsListResult"
                 }
               }
             }
@@ -129,6 +120,45 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlbumReadDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlbumReadDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlbumReadDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/music/album/count": {
+      "post": {
+        "tags": [
+          "Album"
+        ],
+        "operationId": "CountAlbums",
         "responses": {
           "200": {
             "description": "Success",
@@ -832,26 +862,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AlbumReadDto"
-                  }
+                  "$ref": "#/components/schemas/AlbumsListResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AlbumReadDto"
-                  }
+                  "$ref": "#/components/schemas/AlbumsListResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AlbumReadDto"
-                  }
+                  "$ref": "#/components/schemas/AlbumsListResult"
                 }
               }
             }
@@ -916,26 +937,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AlbumReadDto"
-                  }
+                  "$ref": "#/components/schemas/AlbumsListResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AlbumReadDto"
-                  }
+                  "$ref": "#/components/schemas/AlbumsListResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AlbumReadDto"
-                  }
+                  "$ref": "#/components/schemas/AlbumsListResult"
                 }
               }
             }
@@ -1876,16 +1888,17 @@
         }
       }
     },
-    "/api/playlist": {
+    "/api/playlists/{playlistId}": {
       "get": {
         "tags": [
           "Playlist"
         ],
-        "operationId": "GetPlaylist",
+        "operationId": "GetPlaylistById",
         "parameters": [
           {
             "name": "playlistId",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -1915,31 +1928,42 @@
           }
         }
       },
-      "post": {
+      "put": {
         "tags": [
           "Playlist"
         ],
-        "operationId": "CreatePlaylist",
+        "operationId": "UpdatePlaylistInfo",
+        "parameters": [
+          {
+            "name": "playlistId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/PlaylistCreateRequest"
+                "$ref": "#/components/schemas/PlaylistInfo"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PlaylistCreateRequest"
+                "$ref": "#/components/schemas/PlaylistInfo"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/PlaylistCreateRequest"
+                "$ref": "#/components/schemas/PlaylistInfo"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/PlaylistCreateRequest"
+                "$ref": "#/components/schemas/PlaylistInfo"
               }
             }
           }
@@ -1966,9 +1990,7 @@
             }
           }
         }
-      }
-    },
-    "/api/playlist/{playlistId}": {
+      },
       "delete": {
         "tags": [
           "Playlist"
@@ -1986,22 +2008,59 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "Success",
+          "204": {
+            "description": "No Content"
+          }
+        }
+      }
+    },
+    "/api/playlists": {
+      "post": {
+        "tags": [
+          "Playlist"
+        ],
+        "operationId": "AddPlaylist",
+        "requestBody": {
+          "content": {
+            "application/json-patch+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlaylistInfo"
+              }
+            },
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlaylistInfo"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlaylistInfo"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PlaylistInfo"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/PlaylistReadDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/PlaylistReadDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "boolean"
+                  "$ref": "#/components/schemas/PlaylistReadDto"
                 }
               }
             }
@@ -2009,12 +2068,11 @@
         }
       }
     },
-    "/api/playlist/user/{userId}": {
+    "/api/playlists/user/{userId}": {
       "get": {
         "tags": [
           "Playlist"
         ],
-        "operationId": "GetUserPlaylist",
         "parameters": [
           {
             "name": "userId",
@@ -2059,12 +2117,12 @@
         }
       }
     },
-    "/api/playlist/user/me": {
+    "/api/playlists/me": {
       "get": {
         "tags": [
           "Playlist"
         ],
-        "operationId": "GetCurrentUserPlaylist",
+        "operationId": "GetCurrentUserPlaylists",
         "responses": {
           "200": {
             "description": "Success",
@@ -2098,7 +2156,7 @@
         }
       }
     },
-    "/api/playlist/user/me/history": {
+    "/api/playlists/me/history": {
       "get": {
         "tags": [
           "Playlist"
@@ -2110,26 +2168,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PlaylistReadDto"
-                  }
+                  "$ref": "#/components/schemas/PlaylistReadDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PlaylistReadDto"
-                  }
+                  "$ref": "#/components/schemas/PlaylistReadDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PlaylistReadDto"
-                  }
+                  "$ref": "#/components/schemas/PlaylistReadDto"
                 }
               }
             }
@@ -2137,46 +2186,7 @@
         }
       }
     },
-    "/api/playlist/user/me/favorite": {
-      "get": {
-        "tags": [
-          "Playlist"
-        ],
-        "operationId": "GetCurrentUserFavorite",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PlaylistReadDto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PlaylistReadDto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PlaylistReadDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/playlist/user/me/queue": {
+    "/api/playlists/me/queue": {
       "get": {
         "tags": [
           "Playlist"
@@ -2188,26 +2198,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PlaylistReadDto"
-                  }
+                  "$ref": "#/components/schemas/PlaylistReadDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PlaylistReadDto"
-                  }
+                  "$ref": "#/components/schemas/PlaylistReadDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/PlaylistReadDto"
-                  }
+                  "$ref": "#/components/schemas/PlaylistReadDto"
                 }
               }
             }
@@ -2215,32 +2216,157 @@
         }
       }
     },
-    "/api/playlistItem": {
+    "/api/playlists/me/favorite": {
+      "get": {
+        "tags": [
+          "Playlist"
+        ],
+        "operationId": "GetCurrentUserFavorite",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlaylistReadDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlaylistReadDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PlaylistReadDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/playlists/{playlistId}/tracks": {
+      "get": {
+        "tags": [
+          "PlaylistItems"
+        ],
+        "operationId": "GetPlaylistItems",
+        "parameters": [
+          {
+            "name": "playlistId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "maximum": 50,
+              "minimum": 1,
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaylistItemReadDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaylistItemReadDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaylistItemReadDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
-          "PlaylistItem"
+          "PlaylistItems"
         ],
-        "operationId": "AddPlaylistItemToPlaylist",
+        "operationId": "AddTrackToPlaylist",
+        "parameters": [
+          {
+            "name": "playlistId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/PlaylistItemAddRequest"
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PlaylistItemAddRequest"
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/PlaylistItemAddRequest"
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/PlaylistItemAddRequest"
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
               }
             }
           }
@@ -2251,97 +2377,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/PlaylistItemReadDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaylistItemReadDto"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PlaylistItemReadDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaylistItemReadDto"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PlaylistItemReadDto"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "409": {
-            "description": "Conflict",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PlaylistItemReadDto"
+                  }
                 }
               }
             }
@@ -2350,107 +2405,63 @@
       },
       "delete": {
         "tags": [
-          "PlaylistItem"
+          "PlaylistItems"
         ],
-        "operationId": "DeletePlaylistItemFromPlaylist",
+        "operationId": "DeleteTrackFromPlaylist",
+        "parameters": [
+          {
+            "name": "playlistId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json-patch+json": {
               "schema": {
-                "$ref": "#/components/schemas/PlaylistItemDeleteRequest"
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PlaylistItemDeleteRequest"
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/PlaylistItemDeleteRequest"
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/PlaylistItemDeleteRequest"
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "format": "uuid"
+                }
               }
             }
           }
         },
         "responses": {
-          "200": {
-            "description": "Success"
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/playlistItem/inc": {
-      "post": {
-        "tags": [
-          "PlaylistItem"
-        ],
-        "operationId": "IncrementPlayCount",
-        "parameters": [
-          {
-            "name": "PlaylistId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          },
-          {
-            "name": "TrackId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
+          "204": {
+            "description": "No Content"
           }
         }
       }
@@ -2769,6 +2780,27 @@
               "format": "uuid"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "AlbumsListResult": {
+        "type": "object",
+        "properties": {
+          "albums": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlbumReadDto"
+            },
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
           }
         },
         "additionalProperties": false
@@ -3392,7 +3424,7 @@
         },
         "additionalProperties": false
       },
-      "PlaylistCreateRequest": {
+      "PlaylistInfo": {
         "type": "object",
         "properties": {
           "name": {
@@ -3401,34 +3433,6 @@
           },
           "visibility": {
             "$ref": "#/components/schemas/PlaylistVisibility"
-          }
-        },
-        "additionalProperties": false
-      },
-      "PlaylistItemAddRequest": {
-        "type": "object",
-        "properties": {
-          "playlistId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "playlistItemId": {
-            "type": "string",
-            "format": "uuid"
-          }
-        },
-        "additionalProperties": false
-      },
-      "PlaylistItemDeleteRequest": {
-        "type": "object",
-        "properties": {
-          "playlistId": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "playlistItemId": {
-            "type": "string",
-            "format": "uuid"
           }
         },
         "additionalProperties": false
@@ -3483,17 +3487,6 @@
           "lastModified": {
             "type": "string",
             "format": "date-time"
-          },
-          "numberOfTracks": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "tracks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PlaylistItemReadDto"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -3514,33 +3507,6 @@
           "Unlisted"
         ],
         "type": "string"
-      },
-      "ProblemDetails": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "status": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "detail": {
-            "type": "string",
-            "nullable": true
-          },
-          "instance": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": {}
       },
       "AlbumReadDto1": {
         "type": "object",

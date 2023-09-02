@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:BackendClientApi/api.dart';
 import 'package:get/get.dart';
+import 'package:tlmc_player_flutter/components/bottom_sheet_album_ops.dart';
 import 'outlined_card.dart';
 
 import 'package:shimmer/shimmer.dart';
@@ -20,6 +21,13 @@ class AlbumCard extends StatelessWidget {
           arguments: {
             'albumId': albumData.id,
           },
+        );
+      },
+      onLongPress: () {
+        showModalBottomSheet(
+          useRootNavigator: true,
+          context: context,
+          builder: (context) => BottomSheetAlbumOps(masterAlbum: albumData),
         );
       },
       child: SizedBox(

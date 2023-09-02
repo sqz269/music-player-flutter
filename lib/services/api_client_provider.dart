@@ -11,6 +11,10 @@ class ApiClientProvider {
     // Do nothing
   }
 
+  bool isAuthenticated() {
+    return authProvider.readyAndAuthenticated.value;
+  }
+
   ApiClient getApiClient() {
     if (authProvider.readyAndAuthenticated.value) {
       return ApiClient(
