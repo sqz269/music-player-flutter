@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:BackendClientApi/api.dart';
 import 'package:get/get.dart';
+import 'package:tlmc_player_flutter/components/dialog_create_playlist.dart';
 import 'package:tlmc_player_flutter/services/api_client_provider.dart';
 import 'package:tlmc_player_flutter/services/user_playlist_info_provider.dart';
 
@@ -93,8 +94,21 @@ class _BottomSheetAddToPlaylistState extends State<BottomSheetAddToPlaylist> {
                       ?.any((element) => element.trackId == widget.trackId),
                   onChanged: (bool? value) {
                     if (value == true) {
-                      userPlaylistInfo.addTrackToPlaylist(
-                          playlistId, widget.trackId);
+                      userPlaylistInfo
+                          .addTrackToPlaylist(playlistId, widget.trackId)
+                          .then(
+                        (value) {
+                          if (value == true) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Added track to playlist'),
+                              ),
+                            );
+
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      );
                     } else {
                       userPlaylistInfo.removeTrackFromPlaylist(
                           playlistId, widget.trackId);
@@ -111,31 +125,6 @@ class _BottomSheetAddToPlaylistState extends State<BottomSheetAddToPlaylist> {
 
   @override
   Widget build(BuildContext context) {
-    // return Obx(() {
-    //   if (loading.value) {
-    //     return Center(
-    //       child: CircularProgressIndicator(),
-    //     );
-    //   } else if (authFail.value) {
-    //     return Center(
-    //       child: Text('Not authenticated'),
-    //     );
-    //   } else {
-    //     return ListView.builder(
-    //       itemCount: playlistInfo.length,
-    //       itemBuilder: (context, index) {
-    //         return ListTile(
-    //           leading: Icon(Icons.playlist_play),
-    //           title: Text(playlistInfo[index].name!.default_!),
-    //           onTap: () {
-    //             Navigator.of(context).pop();
-    //           },
-    //         );
-    //       },
-    //     );
-    //   }
-    // });
-
     return DraggableScrollableSheet(
       minChildSize: 1,
       initialChildSize: 1,
@@ -156,7 +145,14 @@ class _BottomSheetAddToPlaylistState extends State<BottomSheetAddToPlaylist> {
           ),
           body: buildBody(context),
           floatingActionButton: FloatingActionButton.extended(
-            onPressed: () {},
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return DialogCreatePlaylist();
+                },
+              );
+            },
             label: Text('New playlist'),
             icon: Icon(Icons.add),
           ),

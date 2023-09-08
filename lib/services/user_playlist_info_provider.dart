@@ -23,6 +23,14 @@ class UserPlaylistInfoProvider extends GetxController {
     );
   }
 
+  PlaylistItemReadDto? firstItemInPlaylist(String playlistId) {
+    if (playlistItems[playlistId]?.isNotEmpty ?? false) {
+      return playlistItems[playlistId]![0];
+    }
+
+    return null;
+  }
+
   Future<void> loadPlaylistInfo() async {
     status.value = PlaylistInfoProviderState.loading;
     try {
