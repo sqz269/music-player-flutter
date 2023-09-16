@@ -6,18 +6,26 @@ import 'package:tlmc_player_flutter/model/queued_track.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
-class MiniplayerQueueBottomSheet extends StatelessWidget {
+class MiniplayerQueueBottomSheet extends StatefulWidget {
   MiniplayerQueueBottomSheet({
     super.key,
     required this.perc,
-  }) {}
+  });
 
   final double perc;
+
+  @override
+  State<MiniplayerQueueBottomSheet> createState() =>
+      _MiniplayerQueueBottomSheetState();
+}
+
+class _MiniplayerQueueBottomSheetState
+    extends State<MiniplayerQueueBottomSheet> {
   ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
-    if (perc < 0.4) {
+    if (widget.perc < 0.4) {
       return const SizedBox.shrink();
     }
 
@@ -28,7 +36,7 @@ class MiniplayerQueueBottomSheet extends StatelessWidget {
       snap: true,
       snapSizes: const [0.09, 0.9],
       builder: (context, scrollController) => DefaultTabController(
-        length: 2,
+        length: 1,
         child: ClipRRect(
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(24),
@@ -59,9 +67,8 @@ class MiniplayerQueueBottomSheet extends StatelessWidget {
                 SliverToBoxAdapter(
                   child: TabBar(
                     dividerColor: Colors.grey.shade100,
-                    tabs: [
+                    tabs: const [
                       Tab(text: 'Queue'),
-                      Tab(text: 'History'),
                     ],
                   ),
                 ),
@@ -84,20 +91,15 @@ class MiniplayerQueueBottomSheet extends StatelessWidget {
                                 var queuedTrack =
                                     QueueController.to.queue[index];
                                 return buildSlidableTrackTile(
-                                    queuedTrack, index);
+                                    queuedTrack,
+                                    index,
+                                    false,
+                                    index ==
+                                        QueueController.to.playingIndex.value);
                               },
                               itemCount: QueueController.to.queue.length,
                             ),
                           ),
-                        ),
-                      ),
-                      Center(
-                        child: ListView.builder(
-                          itemBuilder: (context, index) {
-                            var trackData = QueueController.to.history[index];
-                            return TrackTileThumb(trackData: trackData.track);
-                          },
-                          itemCount: QueueController.to.history.length,
                         ),
                       ),
                     ],
@@ -111,7 +113,8 @@ class MiniplayerQueueBottomSheet extends StatelessWidget {
     );
   }
 
-  Slidable buildSlidableTrackTile(QueuedTrack queuedTrack, int index) {
+  Slidable buildSlidableTrackTile(
+      QueuedTrack queuedTrack, int index, bool isHistory, bool isPlaying) {
     return Slidable(
       key: Key(queuedTrack.id),
       groupTag: "queue",
@@ -137,8 +140,14 @@ class MiniplayerQueueBottomSheet extends StatelessWidget {
           ),
         ],
       ),
-      child:
-          TrackTileThumb(trackData: queuedTrack.track, reorderableIndex: index),
+      child: TrackTileThumb(
+        trackData: queuedTrack.track,
+        reorderableIndex: index,
+        isPlaying: isPlaying,
+        onTap: (trackInfo, index) {
+          QueueController.to.skipTo(index);
+        },
+      ),
     );
   }
 }
