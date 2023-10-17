@@ -1,9 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:openid_client/openid_client_io.dart';
 import 'package:BackendClientApi/api.dart';
 import 'package:tlmc_player_flutter/services/oidc_authenticator_service.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 
 class BackendClientAuthenticationProvider extends Authentication {
   var initialized = false.obs;
@@ -23,7 +25,16 @@ class BackendClientAuthenticationProvider extends Authentication {
   Future<void> init() async {
     print("Initializing auth provider");
     pref = await SharedPreferences.getInstance();
-    await oidcAuthService.init();
+    try {
+      await oidcAuthService.init();
+    } catch (e) {
+      ScaffoldMessenger.of(RootContextProvider.to.rootContext!)
+          .showSnackBar(SnackBar(
+        content: Text("Error initializing authentication provider: $e"),
+      ));
+      print("Error initializing auth provider: $e");
+      return Future.error(e);
+    }
 
     if (pref.containsKey("auth_offline_token")) {
       print("Found offline token");

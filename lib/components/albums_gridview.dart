@@ -32,13 +32,28 @@ class _AlbumsSliverGridViewState extends State<AlbumsSliverGridView> {
 
   var isLoading = false.obs;
 
+  var isError = false.obs;
+
+  var fetchException = Rx<Object?>(null);
+
   var albumData = Rx<List<AlbumReadDto>?>(null);
 
   fetchAlbumData() async {
     print("Fetching albums");
     isLoading.value = true;
-    var albums = await widget.fetchAlbums(currentPage.value * pageSize.value,
-        pageSize.value, orderOptions.value, sortOrder.value);
+    isError.value = false;
+    fetchException.value = null;
+
+    var albums = await widget
+        .fetchAlbums(currentPage.value * pageSize.value, pageSize.value,
+            orderOptions.value, sortOrder.value)
+        .onError((error, stackTrace) {
+      print("Error fetching albums: $error");
+      isLoading.value = false;
+      isError.value = true;
+      fetchException.value = error;
+      print(stackTrace);
+    });
     if (albums == null) {}
     albumData.value = albums!.albums;
     totalAlbums.value = albums.total!;
@@ -72,6 +87,49 @@ class _AlbumsSliverGridViewState extends State<AlbumsSliverGridView> {
           return SliverToBoxAdapter(
             child: Center(
               child: CircularProgressIndicator(),
+            ),
+          );
+        } else if (isError.value) {
+          if (fetchException.value is ApiException) {
+            var apiException = fetchException.value as ApiException;
+            return SliverToBoxAdapter(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Error fetching albums: ${apiException.code}",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(color: Colors.red)),
+                    Text(apiException.message!, softWrap: true),
+                    IconButton(
+                      onPressed: () {
+                        isError.value = false;
+                        fetchAlbumData();
+                      },
+                      icon: Icon(Icons.refresh),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }
+          return SliverToBoxAdapter(
+            child: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Error fetching albums"),
+                  IconButton(
+                    onPressed: () {
+                      isError.value = false;
+                      fetchAlbumData();
+                    },
+                    icon: Icon(Icons.refresh),
+                  ),
+                ],
+              ),
             ),
           );
         } else {
