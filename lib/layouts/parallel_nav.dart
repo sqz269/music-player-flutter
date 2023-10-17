@@ -37,8 +37,7 @@ class ParallelNavigator extends StatelessWidget {
     return Obx(
       () => Padding(
         padding: EdgeInsets.only(
-            bottom:
-                (QueueController.to.currentTrack.value == null) ? 0.0 : 66.0),
+            bottom: (QueueController.to.playingIndex.value == -1) ? 0.0 : 66.0),
         child: Navigator(
           key: navigatorKey,
           onGenerateRoute: (routeSettings) {
