@@ -15,6 +15,9 @@ class QueueController extends GetxController {
   final currentlyPlaying = Rx<QueuedTrack?>(null);
   final playingIndex = (-1).obs;
 
+  // TODO: implement shuffle
+  final isShuffled = false.obs;
+
   int _index = 0;
 
   final _audioController = Get.find<AudioControllerJustAudio>();
@@ -165,6 +168,10 @@ class QueueController extends GetxController {
     }
   }
 
+  void shuffle() {}
+
+  void unshuffle() {}
+
   Future<bool> playNext() async {
     if (hasNext) {
       playingIndex.value++;
@@ -201,6 +208,7 @@ class QueueController extends GetxController {
 
   void clearQueue() {
     queue.clear();
+    _audioController.stop();
     playingIndex.value = -1;
   }
 
