@@ -23,7 +23,9 @@ class MobileHomePage extends StatelessWidget {
             leading: Icon(Icons.menu),
             actions: [
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushNamed(context, "/search", arguments: {});
+                },
                 icon: const Icon(Icons.search),
               ),
               IconButton(

@@ -8,6 +8,7 @@ import 'package:tlmc_player_flutter/views/mobile/mobile_circle_page.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_explore.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_library_page.dart';
 import 'package:tlmc_player_flutter/views/mobile/mobile_miniplayer_bar.dart';
+import 'package:tlmc_player_flutter/views/mobile/mobile_search_page.dart';
 
 enum ParallelNavPage { home, explore, library }
 
@@ -23,6 +24,10 @@ Map<String, Widget Function(BuildContext, RouteSettings)> routes = {
     return MobileCirclePage(
       routeParams: routeSettings.arguments as Map<String, String?>,
     );
+  },
+  "/search\$": (context, routeSettings) {
+    print("Route settings: ${routeSettings.arguments}");
+    return MobileSearchPage();
   }
 };
 
