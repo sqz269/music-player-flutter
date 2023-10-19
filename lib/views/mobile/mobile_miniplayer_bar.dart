@@ -5,7 +5,7 @@ import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/utils/utils.dart';
-import 'package:tlmc_player_flutter/views/mobile/mobile_miniplayer_bot_sheet.dart';
+import 'package:tlmc_player_flutter/views/mobile/mobile_miniplayer_queue_sheet.dart';
 import 'package:miniplayer/miniplayer.dart';
 
 final playerExpandProgressPerc = 0.0.obs;
@@ -33,7 +33,7 @@ class _MobileMiniplayerBarState extends State<MobileMiniplayerBar> {
   @override
   void initState() {
     super.initState();
-    queueController.currentTrack.stream.listen(
+    queueController.currentlyPlaying.stream.listen(
       (event) {
         print(event);
       },
@@ -50,13 +50,13 @@ class _MobileMiniplayerBarState extends State<MobileMiniplayerBar> {
   Widget build(BuildContext context) {
     return Obx(
       () {
-        if (queueController.currentTrack.value == null) {
+        if (queueController.playingIndex.value == -1) {
           return const SizedBox.shrink();
         }
 
         var image = Image.network(
           queueController
-              .currentTrack.value!.track.album!.thumbnail!.large!.url!,
+              .currentlyPlaying.value!.track.album!.thumbnail!.large!.url!,
         );
 
         return Stack(
@@ -65,11 +65,11 @@ class _MobileMiniplayerBarState extends State<MobileMiniplayerBar> {
               minHeight: 66,
               maxHeight: MediaQuery.of(context).size.height,
               onDismissed: () {
-                queueController.clearAll();
+                queueController.clearQueue();
               },
               controller: _miniplayerController,
               builder: (height, perc) {
-                WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   playerExpandProgressPerc.value = perc;
                 });
 
@@ -166,7 +166,7 @@ class _MiniplayerExpandedCurrentlyPlayingState
       () => IconButton(
         icon: const Icon(Icons.skip_previous),
         iconSize: 46,
-        onPressed: QueueController.to.history.isEmpty
+        onPressed: QueueController.to.hasPrevious
             ? null
             : () {
                 QueueController.to.playPrevious();
@@ -343,7 +343,7 @@ class _MiniplayerExpandedCurrentlyPlayingState
       textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,
       text: TextSpan(
-        text: QueueController.to.currentTrack.value!.track.name!.default_,
+        text: QueueController.to.currentlyPlaying.value!.track.name!.default_,
         style: Theme.of(context).textTheme.headlineMedium!.copyWith(
               fontWeight: FontWeight.bold,
             ),
@@ -354,7 +354,8 @@ class _MiniplayerExpandedCurrentlyPlayingState
       textAlign: TextAlign.center,
       overflow: TextOverflow.ellipsis,
       text: TextSpan(
-        text: QueueController.to.currentTrack.value!.track.album!.albumArtist!
+        text: QueueController
+            .to.currentlyPlaying.value!.track.album!.albumArtist!
             .map((e) => e.name!)
             .join(", "),
         style: Theme.of(context)
@@ -527,8 +528,8 @@ class MiniplayerTileCurrentlyPlaying extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            QueueController
-                                .to.currentTrack.value!.track.name!.default_,
+                            QueueController.to.currentlyPlaying.value!.track
+                                .name!.default_,
                             style: Theme.of(context).textTheme.bodyMedium,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -537,8 +538,8 @@ class MiniplayerTileCurrentlyPlaying extends StatelessWidget {
                             height: 6,
                           ),
                           Text(
-                            QueueController.to.currentTrack.value!.track.album!
-                                .albumArtist![0].name!,
+                            QueueController.to.currentlyPlaying.value!.track
+                                .album!.albumArtist![0].name!,
                             style: Theme.of(context)
                                 .textTheme
                                 .labelMedium!

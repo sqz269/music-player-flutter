@@ -8,22 +8,20 @@ class AudioControllerJustAudio extends GetxController {
   final AudioPlayer _audioPlayer = AudioPlayer();
 
   AudioControllerJustAudio() {
-    processingStateStream.listen(
-      (event) {
-        print("playerStateStream: $event");
-      },
-    );
+    // processingStateStream.listen(
+    //   (event) {
+    //     print("playerStateStream: $event");
+    //   },
+    // );
 
-    _audioPlayer.positionStream.listen((event) {
-      print("positionStream: $event");
-    });
+    // _audioPlayer.positionStream.listen((event) {
+    //   print("positionStream: $event");
+    // });
 
-    _audioPlayer.durationStream.listen((event) {
-      print("durationStream: $event");
-    });
+    // _audioPlayer.durationStream.listen((event) {
+    //   print("durationStream: $event");
+    // });
   }
-
-  @override
   Future<void> pause() async {
     if (_audioPlayer.playing) {
       await _audioPlayer.pause();
@@ -76,6 +74,12 @@ class AudioControllerJustAudio extends GetxController {
     if (_audioPlayer.processingState != ProcessingState.idle) {
       await _audioPlayer.stop();
     }
+  }
+
+  @override
+  Future<void> dispose() async {
+    super.dispose();
+    await _audioPlayer.dispose();
   }
 
   Stream<ProcessingState> get processingStateStream =>

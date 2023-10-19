@@ -12,8 +12,11 @@ class QueueController extends GetxController {
   static QueueController get to => Get.find<QueueController>();
 
   final queue = <QueuedTrack>[].obs;
-  final history = <QueuedTrack>[].obs;
-  final currentTrack = Rx<QueuedTrack?>(null);
+  final currentlyPlaying = Rx<QueuedTrack?>(null);
+  final playingIndex = (-1).obs;
+
+  // TODO: implement shuffle
+  final isShuffled = false.obs;
 
   int _index = 0;
 
@@ -27,36 +30,25 @@ class QueueController extends GetxController {
         }
       },
     );
+
+    playingIndex.stream.listen((event) {
+      if (queue[event] != currentlyPlaying.value) {
+        currentlyPlaying.value = queue[event];
+      }
+    });
   }
 
-  bool get hasNext => queue.isNotEmpty;
+  QueuedTrack? get currentTrack =>
+      playingIndex.value == -1 ? null : queue[playingIndex.value];
 
-  bool get hasPrevious => history.isNotEmpty;
+  bool get hasNext => playingIndex.value < queue.length - 1;
+
+  bool get hasPrevious => playingIndex.value > 0;
 
   void _addTrack(QueuedTrack track,
       {int? position, bool playImmediately = false}) {
     // invalid call if position and playImmediately are both true
-    if (position != null && playImmediately) {
-      throw Exception(
-          "Invalid call to _addTrack, position cannot be set if playImmediately is true");
-    }
-
-    track.index = _index++;
-    if (position != null) {
-      queue.insert(position, track);
-    } else {
-      if (playImmediately) {
-        queue.insert(0, track);
-        playNext();
-        return;
-      }
-
-      queue.add(track);
-    }
-    if (currentTrack.value == null) {
-      playNext();
-      return;
-    }
+    _addTracks([track], position: position, playImmediately: playImmediately);
   }
 
   void _addTracks(List<QueuedTrack> tracks,
@@ -82,7 +74,7 @@ class QueueController extends GetxController {
       queue.addAll(tracks);
     }
 
-    if (currentTrack.value == null) {
+    if (playingIndex.value == -1) {
       playNext();
       return;
     }
@@ -90,18 +82,8 @@ class QueueController extends GetxController {
 
   Future<bool> addTrackById(String id,
       {int? position, bool playImmediately = false}) async {
-    var albumApi = AlbumApi(Get.find<ApiClientProvider>().getApiClient());
-
-    var track = await albumApi.getTrack(id);
-
-    if (track == null) {
-      return false;
-    }
-
-    _addTrack(QueuedTrack(track: track, index: _index++),
+    return addTracksById([id],
         position: position, playImmediately: playImmediately);
-
-    return true;
   }
 
   Future<bool> addTracksById(List<String> ids,
@@ -138,89 +120,97 @@ class QueueController extends GetxController {
   }
 
   void removeFromQueue(String id) {
-    queue.removeWhere((element) => element.id == id);
+    var index = queue.indexWhere((element) => element.track.id == id);
+    if (index != -1) {
+      removeFromQueueAt(index);
+    }
   }
 
   void removeFromQueueAt(int index) {
+    if (index < 0 || index >= queue.length) {
+      return;
+    }
+
+    if (index == playingIndex.value) {
+      if (hasNext) {
+        playNext();
+      } else {
+        _audioController.stop();
+        playingIndex.value = -1;
+      }
+    }
+
     queue.removeAt(index);
-    print("Removed from queue at $index");
-    print("New queue length: ${queue.length}");
+    if (index < playingIndex.value) {
+      playingIndex.value--;
+    }
+    if (index == playingIndex.value) {
+      if (hasNext) {
+        playNext();
+      } else {
+        _audioController.stop();
+        playingIndex.value = -1;
+      }
+    }
   }
 
   void reorderQueue(int oldIndex, int newIndex) {
     var track = queue.removeAt(oldIndex);
     queue.insert(newIndex, track);
-  }
-
-  void pushHistory(QueuedTrack track, {int? position}) {
-    if (position != null) {
-      history.insert(position, track);
-    } else {
-      history.add(track);
+    if (oldIndex == playingIndex.value) {
+      playingIndex.value = newIndex;
+    } else if (oldIndex < playingIndex.value &&
+        newIndex >= playingIndex.value) {
+      playingIndex.value--;
+    } else if (oldIndex > playingIndex.value &&
+        newIndex <= playingIndex.value) {
+      playingIndex.value++;
     }
   }
 
-  Future<bool> playNext({bool pushToHistory = true}) async {
-    if (currentTrack.value != null && pushToHistory) {
-      pushHistory(currentTrack.value!);
-    }
+  void shuffle() {}
 
-    if (queue.isNotEmpty) {
-      print(" --- Playing next ---");
-      currentTrack.value = queue.removeAt(0);
-      update();
+  void unshuffle() {}
 
-      print("--- Requesting Load ---");
-      // TODO: Make this a variable
+  Future<bool> playNext() async {
+    if (hasNext) {
+      playingIndex.value++;
       await _audioController.play(
-          "https://api-music.marisad.me/api/asset/track/${currentTrack.value!.track.id}",
-          currentTrack.value!.track);
-
+          "https://api-music.marisad.me/api/asset/track/${currentTrack!.track.id}",
+          currentTrack!.track);
       return true;
     }
 
-    if (queue.isEmpty) {
-      currentTrack.value = null;
-      _audioController.stop();
-    }
     return false;
   }
 
   bool playPrevious() {
-    if (history.isEmpty) {
+    if (hasPrevious) {
+      playingIndex.value--;
+      return true;
+    }
+
+    return false;
+  }
+
+  Future<bool> skipTo(int index) async {
+    if (index < 0 || index >= queue.length) {
       return false;
     }
 
-    // need to push current track to queued
-    // then pop the last track from history
-    // and set it as current track
-    if (currentTrack.value != null) {
-      _addTrack(currentTrack.value!, position: 0);
-    }
-
-    queue.insert(0, history.removeLast());
-    playNext(pushToHistory: false);
-    // currentTrack.value = history.removeLast();
+    playingIndex.value = index;
+    await _audioController.play(
+        "https://api-music.marisad.me/api/asset/track/${currentTrack!.track.id}",
+        currentTrack!.track);
 
     return true;
   }
 
   void clearQueue() {
     queue.clear();
+    _audioController.stop();
+    playingIndex.value = -1;
   }
 
-  void clearHistory() {
-    history.clear();
-  }
-
-  void clearAll() {
-    if (currentTrack.value != null) {
-      _audioController.stop();
-    }
-    clearQueue();
-    playNext();
-    clearHistory();
-  }
-
-  Stream<QueuedTrack?> get currentTrackStream => currentTrack.stream;
+  Stream<int?> get currentTrackStream => playingIndex.stream;
 }
