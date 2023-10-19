@@ -35,9 +35,9 @@ class AudioControllerJustAudio extends GetxController {
   }
 
   Future<void> play(String src, TrackReadDto trackInfo) async {
-    if (_audioPlayer.playing) {
-      await stop();
-    }
+    // if (_audioPlayer.playing) {
+    //   await stop();
+    // }
 
     print("Configuring Audio Source");
     var source = HlsAudioSource(

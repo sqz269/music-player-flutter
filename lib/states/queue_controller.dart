@@ -32,6 +32,10 @@ class QueueController extends GetxController {
     );
 
     playingIndex.stream.listen((event) {
+      if (event == -1) {
+        currentlyPlaying.value = null;
+        return;
+      }
       if (queue[event] != currentlyPlaying.value) {
         currentlyPlaying.value = queue[event];
       }
