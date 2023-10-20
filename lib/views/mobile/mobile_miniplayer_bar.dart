@@ -138,10 +138,17 @@ class _MiniplayerExpandedCurrentlyPlayingState
         ) /
         2;
 
-    var buttonShuffle = IconButton(
-      icon: const Icon(Icons.shuffle),
-      iconSize: 30,
-      onPressed: () {},
+    var buttonShuffle = Obx(
+      () => IconButton(
+        icon: Icon(
+          Icons.shuffle,
+          color: QueueController.to.isShuffled.value ? null : Colors.grey,
+        ),
+        iconSize: 30,
+        onPressed: () {
+          QueueController.to.toggleShuffle();
+        },
+      ),
     );
 
     var buttonNext = Obx(
@@ -451,9 +458,11 @@ class _MiniplayerExpandedCurrentlyPlayingState
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
+                                  buttonShuffle,
                                   buttonPrevious,
                                   buttonPlay,
                                   buttonNext,
+                                  buttonRepeat,
                                 ],
                               ),
                             ),

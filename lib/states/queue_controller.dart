@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/services/api_client_provider.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
@@ -62,6 +64,16 @@ class QueueController extends GetxController {
       throw Exception(
           "Invalid call to _addTrack, position cannot be set if playImmediately is true");
     }
+
+    if (position != null && position < 0) {
+      throw Exception("Invalid position");
+    }
+
+    // need to determine if this is actually desireable
+    // if (isShuffled.value) {
+    //   // shuffle the tracks before adding them to the queue
+    //   tracks.shuffle();
+    // }
 
     for (var element in tracks) {
       element.index = _index++;
@@ -172,9 +184,61 @@ class QueueController extends GetxController {
     }
   }
 
-  void shuffle() {}
+  void toggleShuffle() {
+    if (isShuffled.value) {
+      unshuffle();
+    } else {
+      shuffle();
+    }
+  }
 
-  void unshuffle() {}
+  void shuffle() {
+    print("Shuffling");
+
+    // Only shuffle tracks after the currently playing track
+    var startRange = playingIndex.value + 1;
+    var endRange = queue.length - 1;
+
+    // Generate sublist of tracks to shuffle
+    var tracksToShuffle = queue.sublist(startRange, endRange);
+
+    // Shuffle the sublist using the Fisher-Yates algorithm
+    var random = Random();
+    for (var i = tracksToShuffle.length - 1; i > 0; i--) {
+      var j = random.nextInt(i + 1);
+      var temp = tracksToShuffle[i];
+      tracksToShuffle[i] = tracksToShuffle[j];
+      tracksToShuffle[j] = temp;
+    }
+
+    // Insert the shuffled sublist back into the queue
+    queue.replaceRange(startRange, endRange, tracksToShuffle);
+
+    print("Shuffling Complete");
+
+    isShuffled.value = true;
+  }
+
+  void unshuffle() {
+    print("Unshuffling");
+
+    // Only unshuffle tracks after the currently playing track
+    var startRange = playingIndex.value + 1;
+    var endRange = queue.length - 1;
+
+    // Generate sublist of tracks to unshuffle
+    var tracksToUnshuffle = queue.sublist(startRange, endRange);
+
+    // Sort the sublist by index
+    tracksToUnshuffle.sort((a, b) => a.index.compareTo(b.index));
+
+    // Insert the unshuffled sublist back into the queue
+    queue.replaceRange(startRange, endRange, tracksToUnshuffle);
+
+    print("Unshuffling Complete");
+
+    isShuffled.value = false;
+  }
 
   Future<bool> playNext() async {
     if (hasNext) {
