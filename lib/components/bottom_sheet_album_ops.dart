@@ -3,12 +3,14 @@ import 'package:BackendClientApi/api.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
+import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 
 class BottomSheetAlbumOps extends StatefulWidget {
   final AlbumReadDto masterAlbum;
   final List<AlbumReadDto> albums;
 
-  BottomSheetAlbumOps({super.key, required this.masterAlbum}) : albums = [] {
+  BottomSheetAlbumOps(
+      {super.key, required this.masterAlbum, this.albums = const []}) {
     albums.add(masterAlbum);
   }
 
@@ -17,6 +19,16 @@ class BottomSheetAlbumOps extends StatefulWidget {
 }
 
 class _BottomSheetAlbumOpsState extends State<BottomSheetAlbumOps> {
+  List<String> getAllTracks() {
+    List<String> tracks = List.empty(growable: true);
+
+    for (var album in widget.albums) {
+      tracks.insertAll(tracks.length, album.tracks!.map((e) => e.id!).toList());
+    }
+
+    return tracks;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -58,12 +70,45 @@ class _BottomSheetAlbumOpsState extends State<BottomSheetAlbumOps> {
           ListTile(
             leading: Icon(Icons.playlist_play),
             title: Text('Play next'),
-            onTap: () {},
+            onTap: () {
+              QueueController.to
+                  .addTracksById(
+                getAllTracks(),
+                position: QueueController.to.playingIndex.value + 1,
+              )
+                  .then((value) {
+                ScaffoldMessenger.of(RootContextProvider.to.rootContext!)
+                    .showSnackBar(
+                  SnackBar(
+                    content: Text('Added $value tracks'),
+                    behavior: SnackBarBehavior.floating,
+                  ),
+                );
+                Navigator.of(context).pop();
+              });
+            },
           ),
           ListTile(
             leading: Icon(Icons.queue_music),
             title: Text('Add to queue'),
-            onTap: () {},
+            onTap: () {
+              QueueController.to
+                  .addTracksById(
+                getAllTracks(),
+              )
+                  .then(
+                (value) {
+                  ScaffoldMessenger.of(RootContextProvider.to.rootContext!)
+                      .showSnackBar(
+                    SnackBar(
+                      content: Text('Added $value tracks'),
+                      behavior: SnackBarBehavior.floating,
+                    ),
+                  );
+                  Navigator.of(context).pop();
+                },
+              );
+            },
           ),
           ListTile(
             leading: Icon(Icons.playlist_add),
@@ -73,7 +118,9 @@ class _BottomSheetAlbumOpsState extends State<BottomSheetAlbumOps> {
           ListTile(
             leading: Icon(Icons.interpreter_mode),
             title: Text('Go to artist'),
-            onTap: () {},
+            onTap: () {
+              // Navigator.of(context).pop();
+            },
           ),
         ],
       ),

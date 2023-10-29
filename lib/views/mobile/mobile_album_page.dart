@@ -67,6 +67,8 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
     var combinedHeight =
         kToolbarHeight + sliverAlbumControlKey.currentContext!.size!.height;
 
+    var targetActual = combinedHeight * 0.9;
+
     var offset = scrollController.offset;
 
     if (offset < 0) {
@@ -77,7 +79,19 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
     if (offset > combinedHeight) {
       albumInfoOpacity.value = 0.0;
     } else {
-      albumInfoOpacity.value = 1.0 - (offset / combinedHeight);
+      // fade out the album info when 70% of the album info is scrolled
+      // and fade out completely when the album info is 90% scrolled
+
+      var fadeOutThreashold = targetActual * 0.7;
+      if (offset > fadeOutThreashold) {
+        albumInfoOpacity.value = 1.0 -
+            (min(
+                1.0,
+                (offset - fadeOutThreashold) /
+                    (targetActual - fadeOutThreashold)));
+      } else {
+        albumInfoOpacity.value = 1.0;
+      }
     }
   }
 
@@ -264,8 +278,10 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
                   showModalBottomSheet(
                     useRootNavigator: true,
                     context: context,
-                    builder: (context) =>
-                        BottomSheetAlbumOps(masterAlbum: masterAlbum.value!),
+                    builder: (context) => BottomSheetAlbumOps(
+                      masterAlbum: masterAlbum.value!,
+                      albums: albumsData.value,
+                    ),
                   );
                 },
                 icon: const Icon(Icons.more_vert),
