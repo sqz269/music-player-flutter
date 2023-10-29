@@ -33,15 +33,17 @@ class QueueController extends GetxController {
       },
     );
 
-    playingIndex.stream.listen((event) {
-      if (event == -1) {
-        currentlyPlaying.value = null;
-        return;
-      }
-      if (queue[event] != currentlyPlaying.value) {
-        currentlyPlaying.value = queue[event];
-      }
-    });
+    playingIndex.stream.listen(
+      (event) {
+        if (event == -1) {
+          currentlyPlaying.value = null;
+          return;
+        }
+        if (queue[event] != currentlyPlaying.value) {
+          currentlyPlaying.value = queue[event];
+        }
+      },
+    );
   }
 
   QueuedTrack? get currentTrack =>
@@ -82,7 +84,7 @@ class QueueController extends GetxController {
       queue.insertAll(position, tracks);
     } else {
       if (playImmediately) {
-        queue.insertAll(0, tracks);
+        queue.insertAll(playingIndex.value + 1, tracks);
         playNext();
         return;
       }
@@ -96,25 +98,25 @@ class QueueController extends GetxController {
     }
   }
 
-  Future<bool> addTrackById(String id,
+  Future<int?> addTrackById(String id,
       {int? position, bool playImmediately = false}) async {
     return addTracksById([id],
         position: position, playImmediately: playImmediately);
   }
 
-  Future<bool> addTracksById(List<String> ids,
+  Future<int?> addTracksById(List<String> ids,
       {int? position, bool playImmediately = false}) async {
     var albumApi = AlbumApi(Get.find<ApiClientProvider>().getApiClient());
 
     var tracks = await albumApi.getTracks(requestBody: ids);
 
     if (tracks == null) {
-      return false;
+      return null;
     }
 
     // some tracks in the request was not found
     if (tracks.notFound!.isNotEmpty) {
-      return false;
+      return null;
     }
 
     // rearrange the tracks to match the order of the ids
@@ -132,7 +134,7 @@ class QueueController extends GetxController {
       playImmediately: playImmediately,
     );
 
-    return true;
+    return ids.length;
   }
 
   void removeFromQueue(String id) {
