@@ -35,11 +35,14 @@ class AudioControllerJustAudio extends GetxController {
   }
 
   Future<void> play(String src, TrackReadDto trackInfo) async {
-    // if (_audioPlayer.playing) {
-    //   await stop();
-    // }
-
     print("Configuring Audio Source");
+    if (_audioPlayer.playing) {
+      // for some reason if we don't pause before setting a new source
+      // the next setAudioSource all will always throw a Connection Aborted Exception
+      // but if we called .stop(), then that will break our media session
+      // but .pause() will not break our media session and not cause the Connection Aborted Exception
+      await _audioPlayer.pause();
+    }
     var source = HlsAudioSource(
       Uri.parse(src),
       tag: MediaItem(
