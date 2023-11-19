@@ -10,14 +10,19 @@ import 'package:BackendClientApi/api.dart';
 
 import 'package:tlmc_player_flutter/model/queued_track.dart';
 
+enum QueueMode { queue, radio }
+
 class QueueController extends GetxController {
   static QueueController get to => Get.find<QueueController>();
+
+  var _queueMode = QueueMode.queue;
+
+  final queueModeNotifier = QueueMode.queue.obs;
 
   final queue = <QueuedTrack>[].obs;
   final currentlyPlaying = Rx<QueuedTrack?>(null);
   final playingIndex = (-1).obs;
 
-  // TODO: implement shuffle
   final isShuffled = false.obs;
 
   int _index = 0;
@@ -53,6 +58,28 @@ class QueueController extends GetxController {
 
   bool get hasPrevious => playingIndex.value > 0;
 
+  void setQueueMode(QueueMode mode) {
+    if (mode == _queueMode) {
+      return;
+    }
+
+    if (mode == QueueMode.queue) {
+      print("[QC] Switching to queue mode");
+    }
+
+    print("[QC] Changing queue mode to $mode");
+    _queueMode = mode;
+    _switchMode();
+  }
+
+  QueueMode get queueMode => _queueMode;
+
+  void _switchMode() {
+    clearQueue(resetMode: false).then((value) {
+      queueModeNotifier.value = _queueMode;
+    });
+  }
+
   void _addTrack(QueuedTrack track,
       {int? position, bool playImmediately = false}) {
     // invalid call if position and playImmediately are both true
@@ -74,7 +101,7 @@ class QueueController extends GetxController {
     // need to determine if this is actually desireable
     // if (isShuffled.value) {
     //   // shuffle the tracks before adding them to the queue
-    //   tracks.shuffle();
+    //   tracks.shuffle();6
     // }
 
     for (var element in tracks) {
@@ -99,13 +126,22 @@ class QueueController extends GetxController {
   }
 
   Future<int?> addTrackById(String id,
-      {int? position, bool playImmediately = false}) async {
+      {int? position,
+      bool playImmediately = false,
+      AddedBy source = AddedBy.user}) async {
     return addTracksById([id],
-        position: position, playImmediately: playImmediately);
+        position: position, playImmediately: playImmediately, source: source);
   }
 
   Future<int?> addTracksById(List<String> ids,
-      {int? position, bool playImmediately = false}) async {
+      {int? position,
+      bool playImmediately = false,
+      AddedBy source = AddedBy.user}) async {
+    // switch out of radio mode if the user adds a track
+    if (_queueMode == QueueMode.radio && source == AddedBy.user) {
+      setQueueMode(QueueMode.queue);
+    }
+
     var albumApi = AlbumApi(Get.find<ApiClientProvider>().getApiClient());
 
     var tracks = await albumApi.getTracks(requestBody: ids);
@@ -119,6 +155,10 @@ class QueueController extends GetxController {
       return null;
     }
 
+    if (_queueMode == QueueMode.radio) {
+      position ??= playingIndex.value + 1;
+    }
+
     // rearrange the tracks to match the order of the ids
     tracks.tracks!.sort((a, b) {
       var aPos = ids.indexOf(a.id!);
@@ -128,7 +168,7 @@ class QueueController extends GetxController {
 
     _addTracks(
       tracks.tracks!
-          .map((e) => QueuedTrack(track: e, index: _index++))
+          .map((e) => QueuedTrack(track: e, index: _index++, addedBy: source))
           .toList(),
       position: position,
       playImmediately: playImmediately,
@@ -276,9 +316,12 @@ class QueueController extends GetxController {
     return true;
   }
 
-  void clearQueue() {
+  Future clearQueue({bool resetMode = true}) async {
     queue.clear();
-    _audioController.stop();
+    await _audioController.stop();
+    if (resetMode) {
+      setQueueMode(QueueMode.queue);
+    }
     playingIndex.value = -1;
   }
 

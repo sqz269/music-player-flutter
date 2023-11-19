@@ -11,6 +11,7 @@ import 'package:tlmc_player_flutter/services/oidc_authenticator_service.dart';
 import 'package:tlmc_player_flutter/services/user_playlist_info_provider.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
+import 'package:tlmc_player_flutter/states/radio_service.dart';
 import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 import 'package:tlmc_player_flutter/states/just_audio_background_cust_queue.dart';
 
@@ -25,9 +26,14 @@ Future<void> main() async {
 
   /// ALSO NOTE: DO NOT ADD TRAILING SLASH TO THE BASE PATH
 
-  Get.lazyPut<AudioControllerJustAudio>(() => AudioControllerJustAudio());
-  Get.lazyPut<QueueController>(() => QueueController());
+  // Get.lazyPut<AudioControllerJustAudio>(() => AudioControllerJustAudio());
+  // Get.lazyPut<QueueController>(() => QueueController());
+
+  Get.put(AudioControllerJustAudio());
+  Get.put(QueueController());
   Get.put(RootContextProvider());
+
+  Get.put(RadioService());
 
   // not awaited because it will block app startup
   Get.put<BackendClientAuthenticationProvider>(
