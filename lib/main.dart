@@ -29,6 +29,7 @@ Future<void> main() async {
   // Get.lazyPut<AudioControllerJustAudio>(() => AudioControllerJustAudio());
   // Get.lazyPut<QueueController>(() => QueueController());
 
+  Get.put(NavigationContextProvider());
   Get.put(AudioControllerJustAudio());
   Get.put(QueueController());
   Get.put(RootContextProvider());

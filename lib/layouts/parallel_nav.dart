@@ -31,6 +31,33 @@ Map<String, Widget Function(BuildContext, RouteSettings)> routes = {
   }
 };
 
+class NavigationContextProvider {
+  final Map<ParallelNavPage, GlobalKey<NavigatorState>> navigatorKeys;
+  ParallelNavPage _currentPage;
+
+  NavigationContextProvider()
+      : _currentPage = ParallelNavPage.home,
+        navigatorKeys = {
+          ParallelNavPage.home: GlobalKey<NavigatorState>(),
+          ParallelNavPage.explore: GlobalKey<NavigatorState>(),
+          ParallelNavPage.library: GlobalKey<NavigatorState>(),
+        };
+
+  GlobalKey<NavigatorState> getKey(ParallelNavPage page) {
+    return navigatorKeys[page]!;
+  }
+
+  GlobalKey<NavigatorState> get currentContext {
+    return navigatorKeys[_currentPage]!;
+  }
+
+  ParallelNavPage get currentPage => _currentPage;
+
+  set currentPage(ParallelNavPage page) {
+    _currentPage = page;
+  }
+}
+
 class ParallelNavigator extends StatelessWidget {
   ParallelNavigator(
       {super.key, required this.navigatorKey, required this.page});
@@ -132,22 +159,20 @@ class ParallelNavigationApp extends StatefulWidget {
 }
 
 class _ParallelNavigationAppState extends State<ParallelNavigationApp> {
-  final _navKeys = {
-    ParallelNavPage.home: GlobalKey<NavigatorState>(),
-    ParallelNavPage.explore: GlobalKey<NavigatorState>(),
-    ParallelNavPage.library: GlobalKey<NavigatorState>(),
-  };
+  final NavigationContextProvider navProvider = Get.find();
 
   var _currentTab = ParallelNavPage.home;
 
   void _selectTab(ParallelNavPage page) {
     print("Selected tab: $page");
     if (_currentTab == page) {
-      _navKeys[page]!.currentState!.popUntil((route) => route.isFirst);
+      navProvider.getKey(page).currentState!.popUntil((route) => route.isFirst);
     } else {
       setState(
         () {
           _currentTab = page;
+          navProvider.currentPage =
+              page; // Update the current page in navProvider
         },
       );
     }
@@ -159,7 +184,7 @@ class _ParallelNavigationAppState extends State<ParallelNavigationApp> {
     return WillPopScope(
       onWillPop: () async {
         final isFirstRouteInCurrentTab =
-            !await _navKeys[_currentTab]!.currentState!.maybePop();
+            !await navProvider.getKey(_currentTab).currentState!.maybePop();
         if (isFirstRouteInCurrentTab) {
           if (_currentTab != ParallelNavPage.home) {
             _selectTab(ParallelNavPage.home);
@@ -227,7 +252,8 @@ class _ParallelNavigationAppState extends State<ParallelNavigationApp> {
     print("Page: $page | Offstage: ${_currentTab != page}");
     return Offstage(
       offstage: _currentTab != page,
-      child: ParallelNavigator(navigatorKey: _navKeys[page]!, page: page),
+      child:
+          ParallelNavigator(navigatorKey: navProvider.getKey(page), page: page),
     );
   }
 }

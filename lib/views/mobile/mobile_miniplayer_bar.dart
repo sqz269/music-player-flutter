@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tlmc_player_flutter/layouts/parallel_nav.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
@@ -83,7 +84,10 @@ class _MobileMiniplayerBarState extends State<MobileMiniplayerBar> {
                 return SafeArea(
                   top: perc >= 0.8,
                   child: MiniplayerExpandedCurrentlyPlaying(
-                      perc: perc, image: image, height: height),
+                      perc: perc,
+                      image: image,
+                      height: height,
+                      controller: _miniplayerController),
                 );
               },
               elevation: 5,
@@ -102,11 +106,13 @@ class MiniplayerExpandedCurrentlyPlaying extends StatefulWidget {
     required this.perc,
     required this.image,
     required this.height,
+    required this.controller,
   });
 
   final double perc;
   final Image image;
   final double height;
+  final MiniplayerController controller;
 
   @override
   State<MiniplayerExpandedCurrentlyPlaying> createState() =>
@@ -357,18 +363,31 @@ class _MiniplayerExpandedCurrentlyPlayingState
       ),
     );
 
-    var artist = RichText(
-      textAlign: TextAlign.center,
-      overflow: TextOverflow.ellipsis,
-      text: TextSpan(
-        text: QueueController
-            .to.currentlyPlaying.value!.track.album!.albumArtist!
-            .map((e) => e.name!)
-            .join(", "),
-        style: Theme.of(context)
-            .textTheme
-            .titleMedium!
-            .copyWith(color: Colors.grey.shade700),
+    var artist = GestureDetector(
+      onTap: () {
+        widget.controller.animateToHeight(state: PanelState.MIN);
+        var navContext = Get.find<NavigationContextProvider>();
+        navContext.currentContext.currentState!.pushNamed(
+          '/circle',
+          arguments: {
+            'circleId': QueueController
+                .to.currentlyPlaying.value!.track.album!.albumArtist![0].id!,
+          },
+        );
+      },
+      child: RichText(
+        textAlign: TextAlign.center,
+        overflow: TextOverflow.ellipsis,
+        text: TextSpan(
+          text: QueueController
+              .to.currentlyPlaying.value!.track.album!.albumArtist!
+              .map((e) => e.name!)
+              .join(", "),
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium!
+              .copyWith(color: Colors.grey.shade700),
+        ),
       ),
     );
 
