@@ -34,7 +34,7 @@ class _MobileSearchPageState extends State<MobileSearchPage> {
                     onPressed: () {
                       _searchController.clear();
                     },
-                    icon: Icon(Icons.clear),
+                    icon: const Icon(Icons.clear),
                   ),
                 ),
               ),
@@ -47,7 +47,7 @@ class _MobileSearchPageState extends State<MobileSearchPage> {
           SliverList.builder(
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                leading: Icon(Icons.history),
+                leading: const Icon(Icons.history),
                 title: Text("Test, $index"),
                 trailing: Icon(
                   Icons.north_west,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:BackendClientApi/api.dart';
-import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/components/bottom_sheet_album_ops.dart';
 import 'outlined_card.dart';
 

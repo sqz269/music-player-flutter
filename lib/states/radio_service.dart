@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:just_audio/just_audio.dart';
 
 import 'package:BackendClientApi/api.dart';
 import 'package:tlmc_player_flutter/model/queued_track.dart';

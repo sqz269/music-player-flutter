@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:BackendClientApi/api.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/components/bottom_sheet_add_to_playlist.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 
@@ -30,11 +28,11 @@ class BottomSheetTrackOps extends StatelessWidget {
               ),
               title: RichText(
                 text: TextSpan(
-                  text: trackData.name!.default_!,
+                  text: trackData.name!.default_,
                   style: Theme.of(context).textTheme.bodyLarge,
                   children: [
                     TextSpan(
-                      text: '\n${albumData.albumName!.default_!}',
+                      text: '\n${albumData.albumName!.default_}',
                       style: Theme.of(context).textTheme.labelMedium,
                     ),
                   ],
@@ -47,15 +45,15 @@ class BottomSheetTrackOps extends StatelessWidget {
             height: 1,
           ),
           ListTile(
-            leading: Icon(Icons.playlist_play),
-            title: Text('Play next'),
+            leading: const Icon(Icons.playlist_play),
+            title: const Text('Play next'),
             onTap: () {
               QueueController.to.addTrackById(trackData.id!).then(
                 (value) {
                   Navigator.of(context).pop();
                   // MobileMiniplayerBarController.to.expand();
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('Added to queue'),
                       behavior: SnackBarBehavior.floating,
                     ),
@@ -65,15 +63,15 @@ class BottomSheetTrackOps extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.queue_music),
-            title: Text('Add to queue'),
+            leading: const Icon(Icons.queue_music),
+            title: const Text('Add to queue'),
             onTap: () {
               QueueController.to.addTrackById(trackData.id!).then(
                 (value) {
                   Navigator.of(context).pop();
                   // MobileMiniplayerBarController.to.expand();
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('Added to queue'),
                       behavior: SnackBarBehavior.floating,
                     ),
@@ -83,8 +81,8 @@ class BottomSheetTrackOps extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.playlist_add),
-            title: Text('Save to playlist'),
+            leading: const Icon(Icons.playlist_add),
+            title: const Text('Save to playlist'),
             onTap: () {
               Navigator.pop(context);
               showModalBottomSheet(
@@ -98,8 +96,8 @@ class BottomSheetTrackOps extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.interpreter_mode),
-            title: Text('Go to artist'),
+            leading: const Icon(Icons.interpreter_mode),
+            title: const Text('Go to artist'),
             onTap: () {},
           ),
         ],

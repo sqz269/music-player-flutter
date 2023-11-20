@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:tlmc_player_flutter/views/mobile/mobile_homepage.dart';
-import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -15,6 +14,6 @@ class HomePage extends StatelessWidget {
     //   //   return const Placeholder();
     //   // }
     // });
-    return MobileHomePage();
+    return const MobileHomePage();
   }
 }

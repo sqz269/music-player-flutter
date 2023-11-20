@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:get/get.dart';
 
@@ -58,7 +57,7 @@ class _AudioTestPageState extends State<AudioTestPage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "Enter Track UUID",
             ),
             controller: trackUuidController,
@@ -74,7 +73,7 @@ class _AudioTestPageState extends State<AudioTestPage> {
                 r'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$'))) {
               // show a snackbar
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
+                const SnackBar(
                   content: Text("Invalid UUID"),
                 ),
               );
@@ -124,7 +123,7 @@ class _AudioTestPageState extends State<AudioTestPage> {
           ),
         ),
 
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
 
@@ -151,7 +150,7 @@ class _AudioTestPageState extends State<AudioTestPage> {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
 
@@ -185,7 +184,7 @@ class _AudioTestPageState extends State<AudioTestPage> {
           },
         ),
 
-        Divider(),
+        const Divider(),
 
         // States
         StreamBuilder(

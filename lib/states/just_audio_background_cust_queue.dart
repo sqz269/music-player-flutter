@@ -553,7 +553,7 @@ class _PlayerAudioHandler extends BaseAudioHandler
   @override
   Future<void> skipToPrevious() async {
     if (hasPrevious) {
-      await _queueController.playPrevious();
+      _queueController.playPrevious();
     }
   }
 

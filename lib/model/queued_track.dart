@@ -7,7 +7,7 @@ enum AddedBy {
 }
 
 class QueuedTrack {
-  static Uuid _uuid = Uuid();
+  static const Uuid _uuid = Uuid();
 
   final String id;
   final TrackReadDto track;
@@ -21,7 +21,7 @@ class QueuedTrack {
     this.playlistId,
     this.addedBy = AddedBy.user,
     id,
-  }) : this.id = id ?? _uuid.v4() {
+  }) : id = id ?? _uuid.v4() {
     if (index < 0) {
       throw Exception("Index cannot be less than 0");
     }

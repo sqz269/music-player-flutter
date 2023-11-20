@@ -1,13 +1,10 @@
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:BackendClientApi/api.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 
 import 'package:tlmc_player_flutter/layouts/parallel_nav.dart';
 import 'package:tlmc_player_flutter/services/api_client_provider.dart';
 import 'package:tlmc_player_flutter/services/backend_client_authentication_provider.dart';
-import 'package:tlmc_player_flutter/services/oidc_authenticator_service.dart';
 import 'package:tlmc_player_flutter/services/user_playlist_info_provider.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';

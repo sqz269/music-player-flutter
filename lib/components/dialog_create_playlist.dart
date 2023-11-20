@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:BackendClientApi/api.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/services/api_client_provider.dart';
@@ -95,7 +93,7 @@ class _DialogCreatePlaylistState extends State<DialogCreatePlaylist> {
                   ScaffoldMessenger.of(
                           Get.find<RootContextProvider>().rootContext!)
                       .showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('Playlist created'),
                       behavior: SnackBarBehavior.floating,
                     ),

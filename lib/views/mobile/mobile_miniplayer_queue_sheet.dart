@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:tlmc_player_flutter/components/track_tile_thumb.dart';
 import 'package:tlmc_player_flutter/model/queued_track.dart';
@@ -7,7 +6,7 @@ import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 class MiniplayerQueueBottomSheet extends StatefulWidget {
-  MiniplayerQueueBottomSheet({
+  const MiniplayerQueueBottomSheet({
     super.key,
     required this.perc,
   });
@@ -127,7 +126,7 @@ class _MiniplayerQueueBottomSheetState
             print("New queue length: ${QueueController.to.queue.length}");
           },
         ),
-        motion: ScrollMotion(),
+        motion: const ScrollMotion(),
         children: [
           SlidableAction(
             label: 'Remove',

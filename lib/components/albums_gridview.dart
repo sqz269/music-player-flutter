@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:BackendClientApi/api.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/components/album_card.dart';
@@ -12,7 +11,7 @@ class AlbumsSliverGridView extends StatefulWidget {
 
   final Future<int> Function()? fetchAlbumCount;
 
-  AlbumsSliverGridView(
+  const AlbumsSliverGridView(
       {super.key, required this.fetchAlbums, this.fetchAlbumCount});
 
   @override
@@ -53,6 +52,7 @@ class _AlbumsSliverGridViewState extends State<AlbumsSliverGridView> {
       isError.value = true;
       fetchException.value = error;
       print(stackTrace);
+      return null;
     });
     if (albums == null) {}
     albumData.value = albums!.albums;
@@ -84,7 +84,7 @@ class _AlbumsSliverGridViewState extends State<AlbumsSliverGridView> {
     return Obx(
       () {
         if (isLoading.value) {
-          return SliverToBoxAdapter(
+          return const SliverToBoxAdapter(
             child: Center(
               child: CircularProgressIndicator(),
             ),
@@ -108,7 +108,7 @@ class _AlbumsSliverGridViewState extends State<AlbumsSliverGridView> {
                         isError.value = false;
                         fetchAlbumData();
                       },
-                      icon: Icon(Icons.refresh),
+                      icon: const Icon(Icons.refresh),
                     ),
                   ],
                 ),
@@ -120,13 +120,13 @@ class _AlbumsSliverGridViewState extends State<AlbumsSliverGridView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Error fetching albums"),
+                  const Text("Error fetching albums"),
                   IconButton(
                     onPressed: () {
                       isError.value = false;
                       fetchAlbumData();
                     },
-                    icon: Icon(Icons.refresh),
+                    icon: const Icon(Icons.refresh),
                   ),
                 ],
               ),
@@ -147,21 +147,21 @@ class _AlbumsSliverGridViewState extends State<AlbumsSliverGridView> {
                     children: [
                       Row(
                         children: [
-                          Text("Ordered By: "),
+                          const Text("Ordered By: "),
                           DropdownButton(
                             value: orderOptions.value,
                             items: const [
                               DropdownMenuItem(
-                                child: Text("Id"),
                                 value: AlbumOrderOptions.id,
+                                child: Text("Id"),
                               ),
                               DropdownMenuItem(
-                                child: Text("Name"),
                                 value: AlbumOrderOptions.title,
+                                child: Text("Name"),
                               ),
                               DropdownMenuItem(
-                                child: Text("Date"),
                                 value: AlbumOrderOptions.date,
+                                child: Text("Date"),
                               ),
                             ],
                             onChanged: (value) {
@@ -174,17 +174,17 @@ class _AlbumsSliverGridViewState extends State<AlbumsSliverGridView> {
                       ),
                       Row(
                         children: [
-                          Text("Sort Order: "),
+                          const Text("Sort Order: "),
                           DropdownButton(
                             value: sortOrder.value,
                             items: const [
                               DropdownMenuItem(
-                                child: Text("Ascending"),
                                 value: SortOrder.ascending,
+                                child: Text("Ascending"),
                               ),
                               DropdownMenuItem(
-                                child: Text("Descending"),
                                 value: SortOrder.descending,
+                                child: Text("Descending"),
                               ),
                             ],
                             onChanged: (value) {

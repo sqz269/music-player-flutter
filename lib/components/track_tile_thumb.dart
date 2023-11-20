@@ -65,7 +65,7 @@ class TrackTileThumb extends StatelessWidget {
                       trackData.name!.default_,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
-                    SizedBox(height: 4.0), // To add some space between the text
+                    const SizedBox(height: 4.0), // To add some space between the text
                     RichText(
                       text: TextSpan(
                         children: [
@@ -105,7 +105,7 @@ class TrackTileThumb extends StatelessWidget {
 
               // If reorderableIndex is not -1, this means that this track tile should be reorderable
               if (reorderableIndex != -1)
-                Container(
+                SizedBox(
                   height: 42,
                   width: 42,
                   child: Center(

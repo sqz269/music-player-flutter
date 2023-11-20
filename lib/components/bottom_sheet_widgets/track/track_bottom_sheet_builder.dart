@@ -1,6 +1,5 @@
 import 'package:BackendClientApi/api.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:tlmc_player_flutter/components/bottom_sheet_widgets/track/i_track_sheet_option.dart';
 
 class TrackBottomSheetBuilder {
@@ -39,7 +38,7 @@ class TrackBottomSheet extends StatefulWidget {
   final TrackReadDto trackData;
   final List<ITrackBotSheetOption> options;
 
-  TrackBottomSheet({
+  const TrackBottomSheet({super.key, 
     required this.trackData,
     required this.albumData,
     required this.options,

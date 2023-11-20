@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:tlmc_player_flutter/components/playlist_tile.dart';
 import 'package:tlmc_player_flutter/services/user_playlist_info_provider.dart';
 
@@ -39,7 +37,7 @@ class MobileLibraryPage extends StatelessWidget {
             () {
               if (userPlaylistInfo.status.value ==
                   PlaylistInfoProviderState.loading) {
-                return SliverFillRemaining(
+                return const SliverFillRemaining(
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
@@ -60,7 +58,7 @@ class MobileLibraryPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {},
         label: const Text("Create Playlist"),
-        icon: Icon(Icons.add),
+        icon: const Icon(Icons.add),
       ),
     );
   }

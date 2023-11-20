@@ -27,7 +27,7 @@ Map<String, Widget Function(BuildContext, RouteSettings)> routes = {
   },
   "/search\$": (context, routeSettings) {
     print("Route settings: ${routeSettings.arguments}");
-    return MobileSearchPage();
+    return const MobileSearchPage();
   }
 };
 
@@ -59,7 +59,7 @@ class NavigationContextProvider {
 }
 
 class ParallelNavigator extends StatelessWidget {
-  ParallelNavigator(
+  const ParallelNavigator(
       {super.key, required this.navigatorKey, required this.page});
   final GlobalKey<NavigatorState> navigatorKey;
   final ParallelNavPage page;
@@ -98,6 +98,7 @@ class ParallelNavigator extends StatelessWidget {
                 );
               }
             }
+            return null;
           },
         ),
       ),

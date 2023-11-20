@@ -52,7 +52,7 @@ class _MobileCirclePageState extends State<MobileCirclePage> {
 
     return Obx(() {
       if (isLoading.value) {
-        return Center(child: CircularProgressIndicator());
+        return const Center(child: CircularProgressIndicator());
       } else {
         return Scaffold(
           body: CustomScrollView(
@@ -65,7 +65,7 @@ class _MobileCirclePageState extends State<MobileCirclePage> {
                 primary: true,
               ),
               SliverPadding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 sliver: AlbumsSliverGridView(
                   fetchAlbums: (p0, p1, sortField, sortDirection) =>
                       circleApi.getCircleAlbumsById(widget.circleId,

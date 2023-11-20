@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:BackendClientApi/api.dart';
 import 'package:tlmc_player_flutter/components/bottom_sheet_track_ops.dart';
-import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 import 'package:tlmc_player_flutter/utils/utils.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 
@@ -72,7 +71,7 @@ class TrackTile extends StatelessWidget {
             ),
           );
         },
-        icon: Icon(Icons.more_vert),
+        icon: const Icon(Icons.more_vert),
       ),
       dense: true,
     );

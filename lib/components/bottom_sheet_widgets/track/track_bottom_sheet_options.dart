@@ -1,7 +1,6 @@
 import 'package:BackendClientApi/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:tlmc_player_flutter/components/bottom_sheet_add_to_playlist.dart';
 import 'package:tlmc_player_flutter/components/bottom_sheet_widgets/track/i_track_sheet_option.dart';
 import 'package:tlmc_player_flutter/components/bottom_sheet_widgets/track/track_bottom_sheet_builder.dart';
@@ -80,8 +79,8 @@ class TrackBotSheetOptionAddToPlaylist extends ITrackBotSheetOption {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(Icons.playlist_add),
-      title: Text('Save to playlist'),
+      leading: const Icon(Icons.playlist_add),
+      title: const Text('Save to playlist'),
       onTap: () {
         Navigator.pop(context);
         showModalBottomSheet(
@@ -110,8 +109,8 @@ class TrackBotSheetOptionGoToArtist extends ITrackBotSheetOption {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(Icons.interpreter_mode),
-      title: Text('Go To Artist'),
+      leading: const Icon(Icons.interpreter_mode),
+      title: const Text('Go To Artist'),
       onTap: () {
         var navContext = Get.find<NavigationContextProvider>();
         navContext.currentContext.currentState!.pushNamed(
@@ -143,8 +142,8 @@ class TrackBotSheetOptionGoToAlbum extends ITrackBotSheetOption {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Icon(Icons.album),
-      title: Text('Go To Album'),
+      leading: const Icon(Icons.album),
+      title: const Text('Go To Album'),
       onTap: () {
         var navContext = Get.find<NavigationContextProvider>();
         navContext.currentContext.currentState!.pushNamed(

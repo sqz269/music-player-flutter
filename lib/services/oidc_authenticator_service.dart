@@ -43,7 +43,7 @@ class OidcAuthenticatorService {
   Future<Credential?> authenticate() async {
     credential = await authenticator!.authorize();
     closeInAppWebView();
-    this.credential = credential;
+    credential = credential;
     return credential;
   }
 

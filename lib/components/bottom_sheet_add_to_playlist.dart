@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:BackendClientApi/api.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/components/dialog_create_playlist.dart';
@@ -48,13 +46,13 @@ class _BottomSheetAddToPlaylistState extends State<BottomSheetAddToPlaylist> {
   Icon BuildPrivacyIcon(PlaylistVisibility visibility) {
     switch (visibility) {
       case PlaylistVisibility.public:
-        return Icon(Icons.public);
+        return const Icon(Icons.public);
       case PlaylistVisibility.private:
-        return Icon(Icons.lock);
+        return const Icon(Icons.lock);
       case PlaylistVisibility.unlisted:
-        return Icon(Icons.remove_red_eye);
+        return const Icon(Icons.remove_red_eye);
       default:
-        return Icon(Icons.error);
+        return const Icon(Icons.error);
     }
   }
 
@@ -64,7 +62,7 @@ class _BottomSheetAddToPlaylistState extends State<BottomSheetAddToPlaylist> {
       () {
         if (userPlaylistInfo.status.value ==
             PlaylistInfoProviderState.loading) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         } else if (userPlaylistInfo.status.value ==
@@ -132,10 +130,10 @@ class _BottomSheetAddToPlaylistState extends State<BottomSheetAddToPlaylist> {
       builder: (context, scrollController) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Add to playlist'),
+            title: const Text('Add to playlist'),
             actions: [
               IconButton(
-                icon: Icon(Icons.close),
+                icon: const Icon(Icons.close),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
@@ -149,12 +147,12 @@ class _BottomSheetAddToPlaylistState extends State<BottomSheetAddToPlaylist> {
               showDialog(
                 context: context,
                 builder: (context) {
-                  return DialogCreatePlaylist();
+                  return const DialogCreatePlaylist();
                 },
               );
             },
-            label: Text('New playlist'),
-            icon: Icon(Icons.add),
+            label: const Text('New playlist'),
+            icon: const Icon(Icons.add),
           ),
         );
       },

@@ -282,7 +282,7 @@ class _MiniplayerExpandedCurrentlyPlayingState
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(
+          padding: const EdgeInsets.symmetric(
               horizontal: 12.0), // TODO: Depends on the device
           child: StreamBuilder<Duration?>(
               stream: audioController.positionStream,
@@ -323,12 +323,12 @@ class _MiniplayerExpandedCurrentlyPlayingState
       ],
     );
 
-    var volumnIndicator = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+    var volumnIndicator = const Padding(
+      padding: EdgeInsets.symmetric(horizontal: 8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.volume_down,
             size: 20,
           ),
@@ -336,17 +336,17 @@ class _MiniplayerExpandedCurrentlyPlayingState
             child: SliderTheme(
               data: SliderThemeData(
                 trackHeight: 2,
-                thumbShape: const RoundSliderThumbShape(
+                thumbShape: RoundSliderThumbShape(
                   enabledThumbRadius: 8,
                 ),
-                overlayShape: const RoundSliderOverlayShape(
+                overlayShape: RoundSliderOverlayShape(
                   overlayRadius: 12,
                 ),
               ),
               child: Slider(value: 0.5, onChanged: null),
             ),
           ),
-          const Icon(
+          Icon(
             Icons.volume_up,
             size: 20,
           ),
@@ -408,7 +408,7 @@ class _MiniplayerExpandedCurrentlyPlayingState
                     children: [
                       IconButton(
                         onPressed: () {},
-                        icon: Icon(CupertinoIcons.chevron_down),
+                        icon: const Icon(CupertinoIcons.chevron_down),
                       ),
                       IconButton(
                         onPressed: () {
@@ -484,7 +484,7 @@ class _MiniplayerExpandedCurrentlyPlayingState
                       Flexible(
                         flex: 2,
                         child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: 12.0),
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
                           child: progressIndicator,
                         ),
                       ),
@@ -522,7 +522,7 @@ class _MiniplayerExpandedCurrentlyPlayingState
             ),
           ],
         ),
-        MiniplayerQueueBottomSheet(
+        const MiniplayerQueueBottomSheet(
           perc: 1,
         )
       ],

@@ -45,12 +45,12 @@ class ExplorePage extends StatelessWidget {
                         children: [
                           Text(
                             "Radio",
-                            style: Theme.of(context).textTheme.headline6,
+                            style: Theme.of(context).textTheme.titleLarge,
                           ),
                           const SizedBox(height: 4),
                           Text(
                             "Discover new music, randomly.",
-                            style: Theme.of(context).textTheme.bodyText2,
+                            style: Theme.of(context).textTheme.bodyMedium,
                           ),
                         ],
                       ),

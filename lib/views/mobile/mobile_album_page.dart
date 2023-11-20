@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -387,8 +386,7 @@ class _MobileAlbumPageState extends State<MobileAlbumPage> {
             elevation: 0.0,
             backgroundColor: Theme.of(context)
                 .colorScheme
-                .background!
-                .withOpacity(1 - albumInfoOpacity.value),
+                .background.withOpacity(1 - albumInfoOpacity.value),
             forceMaterialTransparency: albumInfoOpacity.value == 1,
             title: isLoading.value || albumInfoOpacity.value == 1
                 ? null

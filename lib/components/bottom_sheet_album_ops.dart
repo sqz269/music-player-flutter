@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:BackendClientApi/api.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/states/queue_controller.dart';
 import 'package:tlmc_player_flutter/states/root_context_provider.dart';
 
@@ -63,13 +61,13 @@ class _BottomSheetAlbumOpsState extends State<BottomSheetAlbumOps> {
             height: 1,
           ),
           ListTile(
-            leading: Icon(Icons.shuffle),
-            title: Text('Shuffle Play'),
+            leading: const Icon(Icons.shuffle),
+            title: const Text('Shuffle Play'),
             onTap: () {},
           ),
           ListTile(
-            leading: Icon(Icons.playlist_play),
-            title: Text('Play next'),
+            leading: const Icon(Icons.playlist_play),
+            title: const Text('Play next'),
             onTap: () {
               QueueController.to
                   .addTracksById(
@@ -89,8 +87,8 @@ class _BottomSheetAlbumOpsState extends State<BottomSheetAlbumOps> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.queue_music),
-            title: Text('Add to queue'),
+            leading: const Icon(Icons.queue_music),
+            title: const Text('Add to queue'),
             onTap: () {
               QueueController.to
                   .addTracksById(
@@ -111,13 +109,13 @@ class _BottomSheetAlbumOpsState extends State<BottomSheetAlbumOps> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.playlist_add),
-            title: Text('Save to playlist'),
+            leading: const Icon(Icons.playlist_add),
+            title: const Text('Save to playlist'),
             onTap: () {},
           ),
           ListTile(
-            leading: Icon(Icons.interpreter_mode),
-            title: Text('Go to artist'),
+            leading: const Icon(Icons.interpreter_mode),
+            title: const Text('Go to artist'),
             onTap: () {
               // Navigator.of(context).pop();
             },

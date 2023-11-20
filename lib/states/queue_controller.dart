@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:tlmc_player_flutter/services/api_client_provider.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:just_audio/just_audio.dart';
-import 'package:uuid/uuid.dart';
 
 import 'package:BackendClientApi/api.dart';
 
