@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tlmc_player_flutter/components/bottom_sheet_widgets/track/track_bottom_sheet_builder.dart';
+import 'package:tlmc_player_flutter/components/bottom_sheet_widgets/track/track_bottom_sheet_options.dart';
 import 'package:tlmc_player_flutter/layouts/parallel_nav.dart';
 import 'package:tlmc_player_flutter/states/audio_controller_just_audio.dart';
 import 'package:just_audio/just_audio.dart';
@@ -409,8 +411,29 @@ class _MiniplayerExpandedCurrentlyPlayingState
                         icon: Icon(CupertinoIcons.chevron_down),
                       ),
                       IconButton(
-                        onPressed: () {},
-                        icon: Icon(CupertinoIcons.ellipsis_vertical),
+                        onPressed: () {
+                          showModalBottomSheet(
+                              context: context,
+                              builder: (context) => TrackBottomSheetBuilder(
+                                    trackData: QueueController
+                                        .to.currentlyPlaying.value!.track,
+                                    albumData: QueueController.to
+                                        .currentlyPlaying.value!.track.album!,
+                                  )
+                                      .withPlayNext()
+                                      .withAddToQueue()
+                                      .withAddToPlaylist()
+                                      .withGoToArtist()
+                                      .withCallBack(() => widget.controller
+                                          .animateToHeight(
+                                              state: PanelState.MIN))
+                                      .withGoToAlbum()
+                                      .withCallBack(() => widget.controller
+                                          .animateToHeight(
+                                              state: PanelState.MIN))
+                                      .build());
+                        },
+                        icon: const Icon(CupertinoIcons.ellipsis_vertical),
                       ),
                     ],
                   ),
