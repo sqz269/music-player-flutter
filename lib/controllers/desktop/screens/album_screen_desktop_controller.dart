@@ -40,22 +40,35 @@ class AlbumScreenDesktopController extends GetxController
     if (knownAlbum.discNumber == 0) {
       // known album is the master album
       master = knownAlbum;
-      master.childAlbums?.forEach((element) async {
-        child.add((await albumApi.getAlbum(element.id!))!);
-      });
+      for (var childAlbum in master.childAlbums!) {
+        child.add(
+          (await albumApi.getAlbum(childAlbum.id!))!,
+        );
+      }
     } else {
       // known album is a child album
       master = (await albumApi.getAlbum(knownAlbum.parentAlbum!.id!))!;
 
-      master.childAlbums?.forEach((element) async {
-        child.add((await albumApi.getAlbum(element.id!))!);
-      });
+      // load all the child albums
+      for (var childAlbumIncomplete in master.childAlbums!) {
+        var childAlbum = await albumApi.getAlbum(childAlbumIncomplete.id!);
+        child.add(
+          childAlbum!,
+        );
+      }
+
+      // master.childAlbums?.forEach((element) async {
+      //   child.add((await albumApi.getAlbum(element.id!))!);
+      // });
     }
 
     List<TrackReadDto> tracks = [];
-    child.forEach((element) {
+    for (var element in child) {
       tracks.addAll(element.tracks!);
-    });
+    }
+
+    // Sort child albums by their disc number
+    child.sort((a, b) => a.discNumber!.compareTo(b.discNumber!));
 
     return AlbumScreenDesktopState(
       albumId: albumId,

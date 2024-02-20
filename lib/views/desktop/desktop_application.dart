@@ -8,10 +8,11 @@ import 'package:tlmc_player_app/views/desktop/screens/home_screen_desktop.dart';
 import 'package:tlmc_player_app/views/desktop/widgets/bottom_play_bar_desktop.dart';
 
 class SideNavigationRail extends StatelessWidget {
-  ApplicationPages _currentPage;
-  Function(ApplicationPages) _onPageSelected;
+  final ApplicationPages _currentPage;
+  final Function(ApplicationPages) _onPageSelected;
 
-  SideNavigationRail({
+  const SideNavigationRail({
+    super.key,
     required ApplicationPages currentPage,
     required Function(ApplicationPages) onPageSelected,
   })  : _currentPage = currentPage,
@@ -69,7 +70,7 @@ class DesktopApplicationPageWrapper extends StatelessWidget {
             builder: (context) {
               switch (page) {
                 case ApplicationPages.home:
-                  return HomeScreenDesktop();
+                  return const HomeScreenDesktop();
                 case ApplicationPages.explore:
                   return const Text("Explore Page");
                 case ApplicationPages.library:
@@ -137,7 +138,7 @@ class DesktopApplication extends StatelessWidget {
                     currentPage: state.currentPage,
                     onPageSelected: controller.changePage,
                   ),
-                  VerticalDivider(thickness: 1, width: 1),
+                  const VerticalDivider(thickness: 1, width: 1),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

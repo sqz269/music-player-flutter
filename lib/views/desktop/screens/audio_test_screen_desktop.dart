@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_app/controllers/desktop/screens/audio_test_screen_desktop.dart';
 import 'package:tlmc_player_app/extensions/api_object_extension.dart';
@@ -60,7 +58,7 @@ class _AudioTestScreenDesktopState extends State<AudioTestScreenDesktop> {
 
       return Row(
         children: [
-          Text('Seek'),
+          const Text('Seek'),
           Expanded(
             child: Obx(
               // TODO: Debounce the slider value change
@@ -99,7 +97,7 @@ class _AudioTestScreenDesktopState extends State<AudioTestScreenDesktop> {
     var volumeSlideBar = Obx(
       () => Row(
         children: [
-          Text('Volume'),
+          const Text('Volume'),
           Expanded(
             child: Slider(
               value: audioService.volume.value,
@@ -118,29 +116,29 @@ class _AudioTestScreenDesktopState extends State<AudioTestScreenDesktop> {
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         ElevatedButton.icon(
-          label: Text('Load and Play'),
-          icon: Icon(Icons.upload),
+          label: const Text('Load and Play'),
+          icon: const Icon(Icons.upload),
           onPressed: () {
             audioService.play(state.track.toTrackInfo());
           },
         ),
         ElevatedButton.icon(
-          label: Text('Resume'),
-          icon: Icon(Icons.play_arrow),
+          label: const Text('Resume'),
+          icon: const Icon(Icons.play_arrow),
           onPressed: () {
             audioService.resume();
           },
         ),
         ElevatedButton.icon(
-          label: Text('Pause'),
-          icon: Icon(Icons.pause),
+          label: const Text('Pause'),
+          icon: const Icon(Icons.pause),
           onPressed: () {
             audioService.pause();
           },
         ),
         ElevatedButton.icon(
-          label: Text('Stop'),
-          icon: Icon(Icons.stop),
+          label: const Text('Stop'),
+          icon: const Icon(Icons.stop),
           onPressed: () {
             audioService.stop();
           },
@@ -175,19 +173,19 @@ class _AudioTestScreenDesktopState extends State<AudioTestScreenDesktop> {
           children: [
             ListTile(
               title: Text(state.track.name!.default_),
-              subtitle: Text('Track Name'),
+              subtitle: const Text('Track Name'),
             ),
             ListTile(
               title: Text('${state.track.id}'),
-              subtitle: Text('Track Id'),
+              subtitle: const Text('Track Id'),
             ),
             ListTile(
               title: Text(getTrackAssetUrl(state.track.id!)),
-              subtitle: Text('Track Asset Url'),
+              subtitle: const Text('Track Asset Url'),
             ),
             ListTile(
               title: Text(state.track.duration!),
-              subtitle: Text('Expected Duration'),
+              subtitle: const Text('Expected Duration'),
             ),
           ],
         ),
@@ -209,11 +207,11 @@ class _AudioTestScreenDesktopState extends State<AudioTestScreenDesktop> {
             children: [
               ListTile(
                 title: Text(Platform.operatingSystem),
-                subtitle: Text('Current Platform'),
+                subtitle: const Text('Current Platform'),
               ),
               ListTile(
                 title: Text(audioService.runtimeType.toString()),
-                subtitle: Text('Audio Service Implementer'),
+                subtitle: const Text('Audio Service Implementer'),
               ),
             ],
           ),
@@ -237,32 +235,32 @@ class _AudioTestScreenDesktopState extends State<AudioTestScreenDesktop> {
               Obx(
                 () => ListTile(
                   title: Text(audioService.position.value?.toString() ?? ''),
-                  subtitle: Text('Position'),
+                  subtitle: const Text('Position'),
                 ),
               ),
               Obx(
                 () => ListTile(
                   title: Text(audioService.duration.value?.toString() ?? ''),
-                  subtitle: Text('Duration'),
+                  subtitle: const Text('Duration'),
                 ),
               ),
               Obx(
                 () => ListTile(
                   title: Text(
                       audioService.bufferedPosition.value?.toString() ?? ''),
-                  subtitle: Text('Buffered Position'),
+                  subtitle: const Text('Buffered Position'),
                 ),
               ),
               Obx(
                 () => ListTile(
                   title: Text(audioService.volume.value.toString()),
-                  subtitle: Text('Volume'),
+                  subtitle: const Text('Volume'),
                 ),
               ),
               Obx(
                 () => ListTile(
                   title: Text(audioService.isPlaying.value.toString()),
-                  subtitle: Text('Is Playing'),
+                  subtitle: const Text('Is Playing'),
                 ),
               ),
             ],
@@ -297,7 +295,7 @@ class _AudioTestScreenDesktopState extends State<AudioTestScreenDesktop> {
       AudioTestScreenDesktopStates? state, BuildContext context) {
     if (state == null) {
       return Container(
-        child: Text('No data'),
+        child: const Text('No data'),
       );
     }
 
@@ -322,7 +320,7 @@ class _AudioTestScreenDesktopState extends State<AudioTestScreenDesktop> {
   @override
   Widget build(BuildContext context) {
     return widget.controller.obx(
-      onLoading: Scaffold(
+      onLoading: const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
         ),

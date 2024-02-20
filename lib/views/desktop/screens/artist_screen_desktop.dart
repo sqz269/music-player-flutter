@@ -6,26 +6,33 @@ import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/services/impl/api_client_provider.dart';
 import 'package:tlmc_player_app/views/common/widget/sliver_album_grid_view.dart';
 
-class HomeScreenDesktop extends StatelessWidget {
-  const HomeScreenDesktop({super.key});
+class ArtistScreenDesktop extends StatelessWidget {
+  SliverAlbumGridViewController controller;
+
+  ArtistScreenDesktop({super.key, required String artistId})
+      : controller = Get.getOrPut(
+          SliverAlbumGridViewController(
+            fetchAlbums: (p0, p1, sortField, sortDirection) {
+              var circleApi =
+                  CircleApi(Get.find<ApiClientProvider>().getApiClient());
+              return circleApi.getCircleAlbumsById(
+                artistId,
+                start: p0,
+                limit: p1,
+                sort: sortField,
+                sortOrder: sortDirection,
+              );
+            },
+          ),
+          tag: artistId,
+        );
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.getOrPut(
-      SliverAlbumGridViewController(
-        fetchAlbums: (p0, p1, sortField, sortDirection) {
-          var albumApi = AlbumApi(Get.find<ApiClientProvider>().getApiClient());
-          return albumApi.getAlbums(
-              start: p0, limit: p1, sort: sortField, sortOrder: sortDirection);
-        },
-      ),
-    );
-
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            leading: const Icon(Icons.menu),
             actions: [
               IconButton(
                 onPressed: () {
@@ -38,7 +45,7 @@ class HomeScreenDesktop extends StatelessWidget {
                 icon: const Icon(Icons.account_circle_outlined),
               ),
             ],
-            pinned: true,
+            pinned: false,
             // floating: true,
             primary: true,
           ),

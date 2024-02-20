@@ -1,6 +1,6 @@
 import 'package:fluro/fluro.dart';
-import 'package:flutter/material.dart';
 import 'package:tlmc_player_app/views/desktop/screens/album_screen_desktop.dart';
+import 'package:tlmc_player_app/views/desktop/screens/artist_screen_desktop.dart';
 import 'package:tlmc_player_app/views/desktop/screens/audio_test_screen_desktop.dart';
 
 extension FluroRouterExtension on FluroRouter {
@@ -12,6 +12,17 @@ extension FluroRouterExtension on FluroRouter {
         handlerFunc: (context, parameters) {
           return AlbumScreenDesktop(
             albumId: parameters['albumId']![0],
+          );
+        },
+      ),
+    );
+
+    define(
+      '/circle/:circleId',
+      handler: Handler(
+        handlerFunc: (context, parameters) {
+          return ArtistScreenDesktop(
+            artistId: parameters['circleId']![0],
           );
         },
       ),

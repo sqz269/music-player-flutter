@@ -1,6 +1,7 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tlmc_player_app/controllers/desktop/desktop_application_controller.dart';
 import 'package:tlmc_player_app/extensions/api_object_extension.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
@@ -32,6 +33,29 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
         );
       }
 
+      var artistsTextSpans = <TextSpan>[];
+
+      var trackInfo = currentTrack.track.toTrackInfo();
+      for (var artist in trackInfo.artists) {
+        artistsTextSpans.add(
+          TextSpan(
+            text: artist.circleName,
+            style: Theme.of(context).textTheme.bodyLarge,
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                print("Want to navigate to circle");
+                Get.find<DesktopApplicationController>()
+                    .getCurrentPageKey()!
+                    .currentState!
+                    .pushNamed('/circle/${artist.circleId}');
+              },
+          ),
+        );
+        artistsTextSpans.add(const TextSpan(text: ', '));
+      }
+
+      artistsTextSpans.removeLast();
+
       return Expanded(
         flex: 2,
         child: Padding(
@@ -56,21 +80,36 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        currentTrack.track.toTrackInfo().trackTitle,
+                        trackInfo.trackTitle,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       // spacer
-                      SizedBox(height: 8),
-                      Text(
-                        currentTrack.track.toTrackInfo().albumTitle,
+                      const SizedBox(height: 8),
+                      Text.rich(
+                        TextSpan(
+                          text: trackInfo.albumTitle,
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              print("Want to navigate to album");
+                              Get.find<DesktopApplicationController>()
+                                  .getCurrentPageKey()!
+                                  .currentState!
+                                  .pushNamed('/album/${trackInfo.albumId}');
+                            },
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       Expanded(
-                        child: Text(
-                          currentTrack.track.toTrackInfo().artists.join(", "),
-                          style: Theme.of(context).textTheme.bodyMedium,
+                        child: RichText(
+                          text: TextSpan(
+                            children: artistsTextSpans,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -90,7 +129,7 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
                       onPressed: () {},
                     ),
                     IconButton(
-                      icon: Icon(Icons.playlist_add_outlined),
+                      icon: const Icon(Icons.playlist_add_outlined),
                       color: Colors.purple.shade600,
                       onPressed: () {},
                     ),
@@ -184,10 +223,10 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
         }
 
         return IconButton(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           icon: widget.audioService.isPlaying.value
-              ? Icon(Icons.pause)
-              : Icon(Icons.play_arrow),
+              ? const Icon(Icons.pause)
+              : const Icon(Icons.play_arrow),
           onPressed: shouldDisable ? null : onclick,
         );
       },
@@ -200,7 +239,7 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
         }
 
         return IconButton(
-          icon: Icon(Icons.skip_next),
+          icon: const Icon(Icons.skip_next),
           onPressed: widget.queueService.hasNext ? onclick : null,
         );
       },
@@ -213,7 +252,7 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
         }
 
         return IconButton(
-          icon: Icon(Icons.skip_previous),
+          icon: const Icon(Icons.skip_previous),
           onPressed: widget.queueService.hasPrevious ? onclick : null,
         );
       },
@@ -275,8 +314,8 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
             SliderTheme(
               data: SliderTheme.of(context).copyWith(
                 trackHeight: 2,
-                thumbShape: RoundSliderThumbShape(enabledThumbRadius: 8),
-                overlayShape: RoundSliderOverlayShape(overlayRadius: 16),
+                thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+                overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
               ),
               child: Slider(
                 min: 0,
@@ -302,16 +341,16 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
             Row(
               children: [
                 IconButton(
-                  icon: Icon(Icons.shuffle),
+                  icon: const Icon(Icons.shuffle),
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: Icon(Icons.repeat),
+                  icon: const Icon(Icons.repeat),
                   onPressed: () {},
                 ),
                 IconButton(
                   onPressed: () {},
-                  icon: Icon(Icons.queue_music),
+                  icon: const Icon(Icons.queue_music),
                 ),
                 _buildVolumeControlSlider(context),
               ],

@@ -30,6 +30,10 @@ class DesktopApplicationController extends GetxController
     return navigatorKeys[page];
   }
 
+  GlobalKey<NavigatorState>? getCurrentPageKey() {
+    return navigatorKeys[state!.currentPage];
+  }
+
   void changePage(ApplicationPages page) {
     change(
         DesktopApplicationStates(

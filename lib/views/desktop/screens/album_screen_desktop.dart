@@ -1,10 +1,17 @@
 import 'package:BackendClientApi/api.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tlmc_player_app/controllers/desktop/screens/album_screen_desktop_controller.dart';
+import 'package:tlmc_player_app/extensions/duration_extension.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
+import 'package:tlmc_player_app/extensions/datetime_extension.dart';
+
+import 'package:tlmc_player_app/utils/duration_utils.dart';
+import 'package:tlmc_player_app/views/common/widget/group_box.dart';
 
 class AlbumScreenDesktop extends StatelessWidget {
   final String albumId;
@@ -50,6 +57,96 @@ class AlbumScreenDesktop extends StatelessWidget {
           );
   }
 
+  Widget _buildAlbumMiscInfoRow(
+      AlbumScreenDesktopState states, BuildContext context) {
+    var infoWidgets = <Widget>[];
+
+    // ARTIST INFO
+    var artistTextWidgets = <TextSpan>[];
+    for (var artist in states.masterAlbum.albumArtist!) {
+      artistTextWidgets.add(
+        TextSpan(
+          text: artist.name!,
+          style: Theme.of(context).textTheme.titleMedium,
+          recognizer: TapGestureRecognizer()
+            ..onTap = () => Navigator.of(context).pushNamed(
+                  '/circle/${artist.id}',
+                ),
+        ),
+      );
+    }
+    infoWidgets.add(
+      RichText(
+        text: TextSpan(
+          children: artistTextWidgets,
+        ),
+      ),
+    );
+
+    // RELEASE DATE
+    if (states.masterAlbum.releaseDate != null) {
+      infoWidgets.add(
+        Text(
+          states.masterAlbum.releaseDate!.toHumanReadableDate(),
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+      );
+    }
+
+    // Total Tracks Count
+    var trackText = states.tracks.length == 1 ? "Track" : "Tracks";
+    infoWidgets.add(
+      Text(
+        "${states.tracks.length} $trackText",
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+    );
+
+    // Total Duration
+    // calc total duration
+    String totalDuration;
+    try {
+      totalDuration = (states.tracks
+          .map(
+            (e) => DurationUtils.parseDuration(e.duration!),
+          )
+          .toList()
+          .reduce(
+            (value, element) => value + element,
+          )).toHumanReadableDuration();
+    } catch (e) {
+      totalDuration = "N/A";
+    }
+
+    infoWidgets.add(
+      Text(
+        totalDuration,
+        style: Theme.of(context).textTheme.titleMedium,
+      ),
+    );
+
+    for (var index = infoWidgets.length - 1; index != 0; index--) {
+      infoWidgets.insert(
+        index,
+        const VerticalDivider(
+          width: 20,
+          thickness: 1,
+        ),
+      );
+    }
+
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          IntrinsicHeight(
+            child: Row(children: infoWidgets),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildAlbumInfoView(
       AlbumScreenDesktopState? states, BuildContext context) {
     if (states == null) {
@@ -59,44 +156,89 @@ class AlbumScreenDesktop extends StatelessWidget {
     }
 
     // compute the size of the album cover, ideally, we want to take up 1/3 of the screen width
-    var coverSize = MediaQuery.of(context).size.width / 7;
+    var coverSize =
+        clampDouble(MediaQuery.of(context).size.width / 7, 175, 250);
 
+    return SliverPadding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      sliver: SliverToBoxAdapter(
+        child: Row(
+          children: [
+            SizedBox(
+              width: coverSize,
+              height: coverSize,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: _buildAlbumImage(states, context),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                height: coverSize,
+                padding: const EdgeInsets.only(left: 16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Album",
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            states.masterAlbum.albumName!.default_,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.headlineLarge,
+                          ),
+                        ],
+                      ),
+                    ),
+                    _buildAlbumMiscInfoRow(states, context),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAlbumControlView(
+      AlbumScreenDesktopState states, BuildContext context) {
     return SliverToBoxAdapter(
-      child: Row(
-        children: [
-          SizedBox(
-            width: coverSize,
-            height: coverSize,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: _buildAlbumImage(states, context),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+        child: Row(
+          children: [
+            IconButton.filled(
+              iconSize: 42,
+              onPressed: () {},
+              icon: const Icon(Icons.play_arrow),
             ),
-          ),
-          Container(
-            height: coverSize,
-            padding: const EdgeInsets.only(left: 16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  states.masterAlbum.albumName!.default_,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                Text(
-                  states.masterAlbum.albumName!.default_,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                // RichText(
-                //   text: TextSpan(
-                //     children: [
-                //     ],
-                //   ),
-                // ),
-              ],
+            const SizedBox(
+              width: 16,
             ),
-          ),
-        ],
+            IconButton(
+              iconSize: 42,
+              onPressed: () {},
+              icon: const Icon(Icons.favorite_border),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -146,12 +288,7 @@ class AlbumScreenDesktop extends StatelessWidget {
 
   Widget _buildSingleAlbumTracksView(
       AlbumScreenDesktopState states, BuildContext context) {
-    // double _kTrackTitleWidth = getMaxTextWidth(
-    //   ["Title"],
-    //   TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-    // ).width;
-
-    double _kTrackTitleWidth = MediaQuery.of(context).size.width * 0.2;
+    double kTrackTitleWidth = MediaQuery.of(context).size.width * 0.2;
 
     return SliverToBoxAdapter(
       child: ListView.builder(
@@ -162,14 +299,15 @@ class AlbumScreenDesktop extends StatelessWidget {
           return ListTile(
             onTap: () {
               // Navigator.of(context).pushNamed('/debug/audio/${track.id}');
-              Get.find<QueueService>().addTrackById(track.id!);
+              Get.find<QueueService>()
+                  .addTrackById(track.id!, playImmediately: true);
             },
             hoverColor: Theme.of(context).colorScheme.secondary,
             leading: Text((index + 1).toString()),
             title: Row(
               children: [
                 SizedBox(
-                  width: _kTrackTitleWidth,
+                  width: kTrackTitleWidth,
                   child: Text(
                     track.name!.default_,
                     maxLines: 1,
@@ -192,15 +330,87 @@ class AlbumScreenDesktop extends StatelessWidget {
 
   Widget _buildMultiAlbumTracksView(
       AlbumScreenDesktopState states, BuildContext context) {
-    return Placeholder();
+    double kTrackTitleWidth = MediaQuery.of(context).size.width * 0.2;
+
+    var discTrackLists = <Widget>[];
+
+    constructDiscTrackList(AlbumReadDto disc) {
+      String groupBoxTitle;
+      if (disc.discName != null) {
+        groupBoxTitle = disc.discName!;
+      } else {
+        groupBoxTitle = "Disc ${disc.discNumber}";
+      }
+
+      var body = ListView.builder(
+        itemBuilder: (context, index) {
+          TrackReadDto track = disc.tracks![index];
+
+          return ListTile(
+            onTap: () {
+              Get.find<QueueService>()
+                  .addTrackById(track.id!, playImmediately: true);
+            },
+            hoverColor: Theme.of(context).colorScheme.secondary,
+            leading: Text((index + 1).toString()),
+            title: Row(
+              children: [
+                SizedBox(
+                  width: kTrackTitleWidth,
+                  child: Text(
+                    track.name!.default_,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ),
+                _buildTrackOriginal(states, context, track),
+              ],
+            ),
+            trailing: Text(disc.tracks![index].duration!),
+          );
+        },
+        itemCount: disc.tracks!.length,
+        shrinkWrap: true,
+      );
+
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 16.0),
+        child: GroupBox(
+          title: groupBoxTitle,
+          child: disc.tracks!.isEmpty
+              ? Padding(
+                  padding: const EdgeInsets.all(24.0),
+                  child: const Center(
+                    child: Text(
+                      "No tracks found",
+                      style: TextStyle(fontSize: 24),
+                    ),
+                  ),
+                )
+              : body,
+        ),
+      );
+    }
+
+    for (var disc in states.albums) {
+      discTrackLists.add(constructDiscTrackList(disc));
+    }
+
+    return SliverToBoxAdapter(
+      child: Column(
+        children: discTrackLists,
+      ),
+    );
   }
 
   Widget _buildTracksView(
       AlbumScreenDesktopState states, BuildContext context) {
     if (states.masterAlbum.numberOfDiscs == 1) {
       return _buildSingleAlbumTracksView(states, context);
-    }
-    {
+    } else {
       return _buildMultiAlbumTracksView(states, context);
     }
   }
@@ -278,8 +488,7 @@ class AlbumScreenDesktop extends StatelessWidget {
       AlbumScreenDesktopState states, BuildContext context) {
     if (states.masterAlbum.numberOfDiscs == 1) {
       return _buildSingleAlbumTracksView(states, context);
-    }
-    {
+    } else {
       return _buildMultiAlbumTracksView(states, context);
     }
   }
@@ -292,18 +501,17 @@ class AlbumScreenDesktop extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(states.masterAlbum.albumName!.default_),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 16.0, left: 16.0, right: 16.0),
-        child: CustomScrollView(
-          slivers: [
-            _buildAlbumInfoView(states, context),
-            _buildTracksView(states, context),
-            // _buildSingleAlbumTrackViewTable(states, context),
-          ],
-        ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            floating: true,
+            title: Text(states.masterAlbum.albumName!.default_),
+          ),
+          _buildAlbumInfoView(states, context),
+          _buildAlbumControlView(states, context),
+          _buildTracksView(states, context),
+        ],
       ),
     );
   }
@@ -311,8 +519,8 @@ class AlbumScreenDesktop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return controller.obx(
-      onLoading: Scaffold(
-        body: const Center(
+      onLoading: const Scaffold(
+        body: Center(
           child: CircularProgressIndicator(),
         ),
       ),

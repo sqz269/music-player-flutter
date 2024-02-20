@@ -35,8 +35,8 @@ class QueueService {
         playNext();
       } else {
         _logger.i("Reached end of queue");
-        _currentIndex.value = _queue.length;
-        _currentTrack.value = null;
+        // _currentIndex.value = _queue.length;
+        // _currentTrack.value = null;
       }
     });
   }

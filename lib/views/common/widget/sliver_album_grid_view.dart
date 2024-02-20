@@ -120,8 +120,8 @@ class SliverAlbumGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return controller.obx(
-      onLoading: SliverToBoxAdapter(
-        child: const Center(
+      onLoading: const SliverToBoxAdapter(
+        child: Center(
           child: CircularProgressIndicator(),
         ),
       ),
