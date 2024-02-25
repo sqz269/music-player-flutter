@@ -40,4 +40,14 @@ class DesktopApplicationController extends GetxController
             currentPage: page, currentNavigationKey: navigatorKeys[page]!),
         status: RxStatus.success());
   }
+
+  String? getCurrentPath() {
+    String? path;
+    getCurrentPageKey()!.currentState!.popUntil((route) {
+      path = route.settings.name;
+      return true;
+    });
+
+    return path;
+  }
 }

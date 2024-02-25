@@ -2,6 +2,7 @@ import 'package:fluro/fluro.dart';
 import 'package:tlmc_player_app/views/desktop/screens/album_screen_desktop.dart';
 import 'package:tlmc_player_app/views/desktop/screens/artist_screen_desktop.dart';
 import 'package:tlmc_player_app/views/desktop/screens/audio_test_screen_desktop.dart';
+import 'package:tlmc_player_app/views/desktop/screens/queue_screen_desktop.dart';
 
 extension FluroRouterExtension on FluroRouter {
   void defineRoutes() {
@@ -24,6 +25,15 @@ extension FluroRouterExtension on FluroRouter {
           return ArtistScreenDesktop(
             artistId: parameters['circleId']![0],
           );
+        },
+      ),
+    );
+
+    define(
+      '/queue',
+      handler: Handler(
+        handlerFunc: (context, parameters) {
+          return QueueSceenDesktop();
         },
       ),
     );

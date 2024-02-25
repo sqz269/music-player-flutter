@@ -39,6 +39,7 @@ dependencies:
 
   # UI
   shimmer: ^3.0.0
+  context_menus: ^1.0.2
   sliver_tools: ^0.2.12
   bitsdojo_window: ^0.1.6
   number_paginator: ^0.3.2

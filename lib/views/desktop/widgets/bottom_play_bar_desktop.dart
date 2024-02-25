@@ -5,15 +5,18 @@ import 'package:tlmc_player_app/controllers/desktop/desktop_application_controll
 import 'package:tlmc_player_app/extensions/api_object_extension.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
+import 'package:tlmc_player_app/services/impl/radio_service.dart';
 import 'package:tlmc_player_app/utils/duration_utils.dart';
 
 class BottomPlayBarDesktop extends StatefulWidget {
   final IAudioService audioService;
   final QueueService queueService;
+  final RadioService radioService;
 
   BottomPlayBarDesktop({super.key})
       : audioService = Get.find<IAudioService>(),
-        queueService = Get.find<QueueService>();
+        queueService = Get.find<QueueService>(),
+        radioService = Get.find<RadioService>();
 
   @override
   State<BottomPlayBarDesktop> createState() => _BottomPlayBarDesktopState();
@@ -305,28 +308,33 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
             ? Icons.volume_up
             : Icons.volume_down;
 
-        return Row(
-          children: [
-            Icon(
-              volumeIcon,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-            SliderTheme(
-              data: SliderTheme.of(context).copyWith(
-                trackHeight: 2,
-                thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
-                overlayShape: const RoundSliderOverlayShape(overlayRadius: 16),
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            children: [
+              Icon(
+                volumeIcon,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
-              child: Slider(
-                min: 0,
-                max: 100,
-                value: widget.audioService.volume.value,
-                onChanged: (value) {
-                  widget.audioService.setVolume(value);
-                },
+              SliderTheme(
+                data: SliderTheme.of(context).copyWith(
+                  trackHeight: 2,
+                  thumbShape:
+                      const RoundSliderThumbShape(enabledThumbRadius: 8),
+                  overlayShape:
+                      const RoundSliderOverlayShape(overlayRadius: 16),
+                ),
+                child: Slider(
+                  min: 0,
+                  max: 100,
+                  value: widget.audioService.volume.value,
+                  onChanged: (value) {
+                    widget.audioService.setVolume(value);
+                  },
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         );
       },
     );
@@ -340,6 +348,26 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
           children: [
             Row(
               children: [
+                Obx(() {
+                  var isRadioModeActive = widget.radioService.active.value;
+
+                  var iconColor = isRadioModeActive
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.grey.shade600;
+
+                  return IconButton(
+                    icon: Icon(
+                      Icons.radio,
+                      color: iconColor,
+                    ),
+                    onPressed: () {
+                      widget.radioService.active.toggle();
+                    },
+                    tooltip: isRadioModeActive
+                        ? "Exit radio mode"
+                        : "Enter radio mode",
+                  );
+                }),
                 IconButton(
                   icon: const Icon(Icons.shuffle),
                   onPressed: () {},
@@ -349,7 +377,18 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
                   onPressed: () {},
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    var appController =
+                        Get.find<DesktopApplicationController>();
+                    if (appController.getCurrentPath() == "/queue") {
+                      appController.getCurrentPageKey()!.currentState!.pop();
+                    } else {
+                      appController
+                          .getCurrentPageKey()!
+                          .currentState!
+                          .pushNamed("/queue");
+                    }
+                  },
                   icon: const Icon(Icons.queue_music),
                 ),
                 _buildVolumeControlSlider(context),

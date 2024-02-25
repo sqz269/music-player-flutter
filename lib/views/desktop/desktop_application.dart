@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:tlmc_player_app/controllers/desktop/desktop_application_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/models/application_pages.dart';
+import 'package:tlmc_player_app/views/desktop/screens/explore_screen_desktop.dart';
 import 'package:tlmc_player_app/views/desktop/screens/home_screen_desktop.dart';
 import 'package:tlmc_player_app/views/desktop/widgets/bottom_play_bar_desktop.dart';
 
@@ -72,7 +73,7 @@ class DesktopApplicationPageWrapper extends StatelessWidget {
                 case ApplicationPages.home:
                   return const HomeScreenDesktop();
                 case ApplicationPages.explore:
-                  return const Text("Explore Page");
+                  return const ExploreScreenDesktop();
                 case ApplicationPages.library:
                   return const Text("Library Page");
               }

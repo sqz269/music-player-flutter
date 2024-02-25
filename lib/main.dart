@@ -1,3 +1,4 @@
+import 'package:context_menus/context_menus.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:tlmc_player_app/services/impl/audio_services/media_kit_audio_ser
 import 'package:tlmc_player_app/services/impl/authentication_service.dart';
 import 'package:tlmc_player_app/services/impl/logging_service.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
+import 'package:tlmc_player_app/services/impl/radio_service.dart';
 import 'package:tlmc_player_app/views/desktop/desktop_application.dart';
 
 import 'package:media_kit/media_kit.dart'; // Provides [Player], [Media], [Playlist] etc.
@@ -49,6 +51,7 @@ void main() {
   )));
   Get.put<ApiClientProvider>(ApiClientProvider());
   Get.put<QueueService>(QueueService());
+  Get.put<RadioService>(RadioService());
 
   runApp(const MyApp());
 }

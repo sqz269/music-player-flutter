@@ -24,6 +24,8 @@ class QueueService {
   bool get hasNext => _currentIndex.value < _queue.length - 1;
   bool get hasPrevious => _currentIndex.value > 0;
 
+  int get remainingTracks => _queue.length - _currentIndex.value - 1;
+
   final IAudioService _audioService = Get.find<IAudioService>();
 
   int _trackIndex = 0;
@@ -67,6 +69,7 @@ class QueueService {
       _logger.e(
         "Cannot play immediately and specify a position at the same time",
       );
+      return;
     }
 
     if (position != null && (position < 0 || position > _queue.length)) {
@@ -94,8 +97,14 @@ class QueueService {
     String groupTag = "default",
   }) async {
     // Fetch tracks from API
-    var albumApi = AlbumApi(Get.find<ApiClientProvider>().getApiClient());
-    var response = await albumApi.getTracks(requestBody: trackIds);
+    TrackGetMultipleResp? response;
+    try {
+      var albumApi = AlbumApi(Get.find<ApiClientProvider>().getApiClient());
+      response = await albumApi.getTracks(requestBody: trackIds);
+    } catch (e) {
+      _logger.e("Failed to fetch tracks from API: $e");
+      return null;
+    }
 
     if (response == null) {
       return null;
@@ -188,15 +197,16 @@ class QueueService {
     return removedTrack;
   }
 
-  int removeByGroupTag(String groupTag) {
+  int removeByGroupTag(String groupTag, {bool futureOnly = false}) {
     int removedCount = 0;
-    _queue.removeWhere((element) {
-      if (element.groupTag == groupTag) {
+    int startRange = futureOnly ? _currentIndex.value : 0;
+
+    for (var i = _queue.length - 1; i > startRange; i--) {
+      if (_queue[i].groupTag == groupTag) {
+        _queue.removeAt(i);
         removedCount++;
-        return true;
       }
-      return false;
-    });
+    }
 
     return removedCount;
   }

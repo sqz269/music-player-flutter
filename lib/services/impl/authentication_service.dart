@@ -1,11 +1,14 @@
 import 'package:get/get.dart';
 import 'package:openid_client/openid_client_io.dart';
+import 'package:tlmc_player_app/services/impl/logging_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:tlmc_player_app/models/oidc_configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OidcAuthenticationService extends GetxController {
   static const scope = ["openid", "profile", "email", "offline_access"];
+  final _logger =
+      Get.find<LoggingService>().getLogger("OidcAuthenticationService");
 
   final OidcConfiguration oidcConfiguration;
 
@@ -26,10 +29,19 @@ class OidcAuthenticationService extends GetxController {
   }
 
   Future<void> initialize() async {
-    issuer = await Issuer.discover(
-      Uri.parse(oidcConfiguration.oidcDiscoveryEndpointUrl),
-    );
-    client = Client(issuer!, oidcConfiguration.clientId);
+    _logger.i("Initializing OIDC authentication service");
+
+    try {
+      _logger.i("Discovering OIDC issuer");
+      issuer = await Issuer.discover(
+        Uri.parse(oidcConfiguration.oidcDiscoveryEndpointUrl),
+      );
+      client = Client(issuer!, oidcConfiguration.clientId);
+    } catch (e, s) {
+      _logger.e("Failed to discover OIDC issuer", error: e, stackTrace: s);
+      throw e;
+    }
+
     authenticator = Authenticator(
       client!,
       scopes: scope,
@@ -39,6 +51,7 @@ class OidcAuthenticationService extends GetxController {
         if (await canLaunchUrl(uri)) {
           await launchUrl(uri);
         } else {
+          _logger.e("Failed to launch URL: $url. Please check your browser.");
           throw 'Could not launch $url';
         }
       },
