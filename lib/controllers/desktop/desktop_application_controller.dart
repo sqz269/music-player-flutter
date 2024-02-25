@@ -50,4 +50,20 @@ class DesktopApplicationController extends GetxController
 
     return path;
   }
+
+  void navigateOrPopToRoute(String routeName) {
+    final BuildContext? context = getCurrentPageKey()?.currentContext;
+    if (context == null) return;
+
+    bool canPop = Navigator.canPop(context);
+    if (canPop) {
+      // Attempt to pop to the route if it exists in the stack
+      Navigator.popUntil(context, (route) {
+        return route.settings.name == routeName;
+      });
+    } else {
+      // If the route does not exist in the stack, push it
+      Navigator.pushNamed(context, routeName);
+    }
+  }
 }

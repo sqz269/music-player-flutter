@@ -21,13 +21,30 @@ class TrackTileWithThumbnailDesktop extends StatelessWidget {
   }
 
   Widget _buildImageThumbnail(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(4),
-      child: Image.network(
-        track.album!.thumbnail!.small!.url!,
-        fit: BoxFit.cover,
-        width: 56,
-        height: 56,
+    return SizedBox(
+      width: 64,
+      height: 64,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(4),
+        child: track.album!.thumbnail == null
+            ? LayoutBuilder(
+                builder: (context, constraint) => Icon(
+                  Icons.album,
+                  size: constraint.biggest.height * 0.9,
+                  color: Colors.grey.shade300,
+                ),
+              )
+            : Image.network(
+                track.album!.thumbnail!.medium!.url!,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, progress) {
+                  return progress == null
+                      ? child
+                      : const SizedBox.expand(
+                          child: CircularProgressIndicator(),
+                        );
+                },
+              ),
       ),
     );
   }

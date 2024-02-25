@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
-import 'package:tlmc_player_app/views/common/widget/track_tile_with_thumbnail_desktop.dart';
+import 'package:tlmc_player_app/views/common/widget/track_tile_with_thumbnail.dart';
 
 class QueueSceenDesktop extends StatelessWidget {
   final QueueService _queueService;

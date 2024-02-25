@@ -64,12 +64,10 @@ class _AudioTestScreenDesktopState extends State<AudioTestScreenDesktop> {
               // TODO: Debounce the slider value change
               () => Slider(
                 onChangeStart: (value) {
-                  print("onChangeStart: $value");
                   widget._isDragging.value = true;
                   widget._dragValue.value = value;
                 },
                 onChangeEnd: (value) {
-                  print("onChangeEnd: $value");
                   widget._isDragging.value = false;
 
                   audioService.seekTo(Duration(milliseconds: value.toInt()));

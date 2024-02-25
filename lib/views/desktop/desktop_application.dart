@@ -66,6 +66,16 @@ class DesktopApplicationPageWrapper extends StatelessWidget {
     return Navigator(
       key: navigatorKey,
       onGenerateRoute: (routeSettings) {
+        String? currentPath;
+        navigatorKey.currentState?.popUntil((route) {
+          currentPath = route.settings.name;
+          return true;
+        });
+
+        if (currentPath == "/queue") {
+          navigatorKey.currentState?.pop();
+        }
+
         if (routeSettings.name == '/') {
           return MaterialPageRoute(
             builder: (context) {

@@ -15,7 +15,7 @@ class TrackInfo {
   final String albumId;
   final String albumTitle;
   final List<CircleInfo> artists;
-  final String albumArtUrl;
+  final String? albumArtUrl;
 
   TrackInfo({
     required this.trackId,

@@ -20,7 +20,6 @@ class AudioTestScreenDesktopController extends GetxController
 
   @override
   void onInit() {
-    print("AudioTestScreenDesktopController onInit");
     super.onInit();
 
     loadTrack();

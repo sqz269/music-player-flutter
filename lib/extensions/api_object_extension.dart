@@ -12,6 +12,11 @@ extension TrackReadDtoExt on TrackReadDto {
             ))
         .toList();
 
+    String? albumArtUrl;
+    if (album!.thumbnail != null) {
+      albumArtUrl = album!.thumbnail!.large!.url!;
+    }
+
     return TrackInfo(
       trackId: id!,
       trackTitle: name!.default_,
@@ -19,7 +24,7 @@ extension TrackReadDtoExt on TrackReadDto {
       albumId: album!.id!,
       albumTitle: album!.albumName!.default_,
       artists: circles,
-      albumArtUrl: album!.thumbnail!.large!.url!,
+      albumArtUrl: albumArtUrl,
     );
   }
 }

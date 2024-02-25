@@ -26,6 +26,38 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
   final Rx<bool> _isDraggingProgressBar = false.obs;
   final Rx<double> _dragProgressBarValue = 0.0.obs;
 
+  Widget _buildCurrentlyPlayingAlbumThumbnail(BuildContext context) {
+    var currentTrack = widget.queueService.currentTrack.value;
+
+    if (currentTrack == null || currentTrack.track.album!.thumbnail == null) {
+      return LayoutBuilder(
+        builder: (context, constraints) {
+          return Container(
+            width: constraints.maxWidth,
+            height: constraints.maxHeight,
+            color: Theme.of(context).colorScheme.onSurface.withOpacity(0.1),
+            child: const Icon(
+              Icons.album,
+              size: 48,
+              color: Colors.grey,
+            ),
+          );
+        },
+      );
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: Image.network(
+          currentTrack.track.toTrackInfo().albumArtUrl!,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
   Widget _buildCurrentlyPlayingTrackInfoCard(BuildContext context) {
     return Obx(() {
       var currentTrack = widget.queueService.currentTrack.value;
@@ -46,7 +78,6 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
             style: Theme.of(context).textTheme.bodyLarge,
             recognizer: TapGestureRecognizer()
               ..onTap = () {
-                print("Want to navigate to circle");
                 Get.find<DesktopApplicationController>()
                     .getCurrentPageKey()!
                     .currentState!
@@ -65,16 +96,7 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
           padding: const EdgeInsets.all(8),
           child: Row(
             children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: Image.network(
-                    currentTrack.track.toTrackInfo().albumArtUrl,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
+              _buildCurrentlyPlayingAlbumThumbnail(context),
               Expanded(
                 flex: 4,
                 child: Padding(
@@ -95,7 +117,6 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
                           text: trackInfo.albumTitle,
                           recognizer: TapGestureRecognizer()
                             ..onTap = () {
-                              print("Want to navigate to album");
                               Get.find<DesktopApplicationController>()
                                   .getCurrentPageKey()!
                                   .currentState!
@@ -384,9 +405,9 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
                       appController.getCurrentPageKey()!.currentState!.pop();
                     } else {
                       appController
-                          .getCurrentPageKey()!
-                          .currentState!
-                          .pushNamed("/queue");
+                          .getCurrentPageKey()
+                          ?.currentState
+                          ?.pushNamed("/queue");
                     }
                   },
                   icon: const Icon(Icons.queue_music),
