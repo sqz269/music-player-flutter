@@ -1,9 +1,14 @@
 class OidcConfiguration {
-  final String oidcDiscoveryEndpointUrl;
+  final String oidcRealmUrl;
   final String clientId;
 
   OidcConfiguration({
-    required this.oidcDiscoveryEndpointUrl,
+    required this.oidcRealmUrl,
     required this.clientId,
   });
+
+  @override
+  String toString() {
+    return 'OidcConfiguration{oidcRealmUrl: $oidcRealmUrl, clientId: $clientId}';
+  }
 }

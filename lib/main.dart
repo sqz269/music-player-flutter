@@ -45,9 +45,8 @@ void main() {
   // Initialize services
   Get.put<OidcAuthenticationService>(OidcAuthenticationService(
       oidcConfiguration: OidcConfiguration(
-    oidcDiscoveryEndpointUrl:
-        "https://sso.marisad.me/realms/MusicPlayer/.well-known/openid-configuration",
-    clientId: "tlmc-player-app",
+    oidcRealmUrl: "https://sso.marisad.me/realms/MusicPlayer",
+    clientId: "localhost-flutter-nUCH1cAFywtQW6fDWkbbiL6UQcUZq",
   )));
   Get.put<ApiClientProvider>(ApiClientProvider());
   Get.put<QueueService>(QueueService());

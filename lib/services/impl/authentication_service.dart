@@ -29,14 +29,16 @@ class OidcAuthenticationService extends GetxController {
   }
 
   Future<void> initialize() async {
-    _logger.i("Initializing OIDC authentication service");
+    _logger.i(
+        "Initializing OIDC authentication service: ${oidcConfiguration.toString()}");
 
     try {
       _logger.i("Discovering OIDC issuer");
       issuer = await Issuer.discover(
-        Uri.parse(oidcConfiguration.oidcDiscoveryEndpointUrl),
+        Uri.parse(oidcConfiguration.oidcRealmUrl),
       );
       client = Client(issuer!, oidcConfiguration.clientId);
+      _logger.i("Discovered OIDC issuer: ${issuer!.metadata.issuer}");
     } catch (e, s) {
       _logger.e("Failed to discover OIDC issuer", error: e, stackTrace: s);
       throw e;
@@ -57,16 +59,22 @@ class OidcAuthenticationService extends GetxController {
       },
     );
 
+    _logger.i("OIDC authentication service initialized");
+
     await restoreSessionIfAvailable();
   }
 
   Future<void> restoreSessionIfAvailable() async {
+    _logger.i("Attempting to restore OIDC session from offline token");
     var pref = await SharedPreferences.getInstance();
     if (pref.containsKey("auth_offlineToken")) {
+      _logger.i("Restoring OIDC session from offline token");
       var offlineToken = pref.getString("auth_offlineToken");
       if (offlineToken != null) {
         await restoreFromOfflineToken(offlineToken);
       }
+    } else {
+      _logger.i("No offline token found");
     }
   }
 
@@ -75,8 +83,44 @@ class OidcAuthenticationService extends GetxController {
   }
 
   Future<void> authenticate() async {
+    _logger.i("Authenticating with OIDC provider");
     credential = await authenticator!.authorize();
-    closeInAppWebView();
+    isAuthenticated.value = true;
+    _logger.i("OIDC authentication successful");
+
+    var pref = await SharedPreferences.getInstance();
+    await pref.setString("auth_offlineToken", credential!.refreshToken!);
+    _logger.i("Stored offline token in shared preferences");
+
+    try {
+      closeInAppWebView();
+    } catch (e, s) {
+      _logger.e("Failed to close in-app web view", error: e, stackTrace: s);
+    }
+  }
+
+  Future<void> logout() async {
+    if (isAuthenticated.value == false) {
+      _logger.w("Logout called when not authenticated");
+      return;
+    }
+
+    _logger.i("Logging out from OIDC provider");
+    var pref = await SharedPreferences.getInstance();
+    await pref.remove("auth_offlineToken");
+    _logger.i("Removed offline token from shared preferences");
+
+    if (credential != null) {
+      try {
+        await credential!.revoke();
+        _logger.i("Revoked OIDC token");
+      } catch (e, s) {
+        _logger.e("Failed to revoke OIDC token", error: e, stackTrace: s);
+      }
+    }
+
+    isAuthenticated.value = false;
+    _logger.i("OIDC logout successful");
   }
 
   Future<TokenResponse> getToken() async {
