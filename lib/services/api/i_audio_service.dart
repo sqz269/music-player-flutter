@@ -14,6 +14,7 @@ abstract class IAudioService {
   Future<void> play(TrackInfo track);
   Future<void> pause();
   Future<void> resume();
+  Future<void> togglePause();
   Future<void> seekTo(Duration position);
   Future<void> stop();
   Future<void> setVolume(double volume);

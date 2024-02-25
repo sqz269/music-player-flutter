@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:tlmc_player_app/controllers/common/widget/sliver_album_grid_view_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/services/impl/api_client_provider.dart';
+import 'package:tlmc_player_app/services/impl/authentication_service.dart';
 import 'package:tlmc_player_app/views/common/widget/sliver_album_grid_view.dart';
 
 class HomeScreenDesktop extends StatelessWidget {
@@ -34,7 +35,14 @@ class HomeScreenDesktop extends StatelessWidget {
                 icon: const Icon(Icons.search),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  var oidcService = Get.find<OidcAuthenticationService>();
+                  if (oidcService.isAuthenticated.isTrue) {
+                    oidcService.logout();
+                  } else {
+                    oidcService.authenticate();
+                  }
+                },
                 icon: const Icon(Icons.account_circle_outlined),
               ),
             ],

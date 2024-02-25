@@ -75,6 +75,11 @@ class MediaKitAudioService implements IAudioService {
   }
 
   @override
+  Future<void> togglePause() {
+    return isPlaying.value ? pause() : resume();
+  }
+
+  @override
   Future<void> seekTo(Duration position) async {
     await player.seek(position);
   }

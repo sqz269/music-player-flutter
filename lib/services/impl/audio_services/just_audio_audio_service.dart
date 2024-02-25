@@ -51,6 +51,11 @@ class JustAudioAudioService implements IAudioService {
   }
 
   @override
+  Future<void> togglePause() {
+    return isPlaying.value ? pause() : resume();
+  }
+
+  @override
   Future<void> seekTo(Duration position) {
     return _audioPlayer.seek(position);
   }

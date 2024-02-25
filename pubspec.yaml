@@ -54,6 +54,7 @@ dependencies:
   # Audio Services
   just_audio: ^0.9.33
   audio_service: ^0.18.10
+  smtc_windows: ^0.1.2
   just_audio_platform_interface: ^4.2.1
   # Audio Services for Desktop Environment
   media_kit: ^1.1.10                             # Primary package.
@@ -61,7 +62,7 @@ dependencies:
   media_kit_libs_video: ^1.0.4                   # Native video dependencies.
 
   # Utils
-  uuid: ^4.3.3
+  uuid: ^3.0.7
   logger: ^2.0.2+1
 
   # API Client

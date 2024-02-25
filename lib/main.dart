@@ -6,11 +6,14 @@ import 'package:get/get.dart';
 import 'package:tlmc_player_app/models/oidc_configuration.dart';
 import 'package:tlmc_player_app/routes/routes.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';
+import 'package:tlmc_player_app/services/api/i_media_session_sevice.dart';
 import 'package:tlmc_player_app/services/impl/api_client_provider.dart';
 import 'package:tlmc_player_app/services/impl/audio_services/just_audio_audio_service.dart';
 import 'package:tlmc_player_app/services/impl/audio_services/media_kit_audio_service.dart';
 import 'package:tlmc_player_app/services/impl/authentication_service.dart';
 import 'package:tlmc_player_app/services/impl/logging_service.dart';
+import 'package:tlmc_player_app/services/impl/media_session_services/cross_platform_media_session_service.dart';
+import 'package:tlmc_player_app/services/impl/media_session_services/windows_smtc_media_session_service.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
 import 'package:tlmc_player_app/services/impl/radio_service.dart';
 import 'package:tlmc_player_app/views/desktop/desktop_application.dart';
@@ -38,6 +41,18 @@ void main() {
     Get.put<IAudioService>(JustAudioAudioService());
   }
 
+  Get.put<QueueService>(QueueService());
+
+  // Initialize Media Session services based on running platform
+  if (GetPlatform.isWindows) {
+    logger.i("Windows platform detected. Using SMTC Media Session Service.");
+    Get.put<IMediaSessionService>(WindowsSmtcMediaSessionService());
+  } else {
+    logger.i(
+        "Non-Windows platform detected. Using Cross-platform Media Session service (Implementor audio_session package).");
+    Get.put<IMediaSessionService>(CrossPlatformMediaSessionService());
+  }
+
   // Initialize routes
   logger.i("Initializing routes");
   Get.put<FluroRouter>(FluroRouter()).defineRoutes();
@@ -49,7 +64,6 @@ void main() {
     clientId: "localhost-flutter-nUCH1cAFywtQW6fDWkbbiL6UQcUZq",
   )));
   Get.put<ApiClientProvider>(ApiClientProvider());
-  Get.put<QueueService>(QueueService());
   Get.put<RadioService>(RadioService());
 
   runApp(const MyApp());
