@@ -16,6 +16,8 @@ class WindowsSmtcMediaSessionService implements IMediaSessionService {
   final QueueService queueService;
   final IAudioService audioService;
 
+  var _isSmtcDisabled = true;
+
   WindowsSmtcMediaSessionService()
       : smtcService = SMTCWindows(),
         queueService = Get.find<QueueService>(),
@@ -28,14 +30,16 @@ class WindowsSmtcMediaSessionService implements IMediaSessionService {
 
     smtcService.updateConfig(
       const SMTCConfig(
-          playEnabled: true,
-          pauseEnabled: true,
-          stopEnabled: true,
-          nextEnabled: true,
-          prevEnabled: true,
-          fastForwardEnabled: true,
-          rewindEnabled: true),
+          playEnabled: false,
+          pauseEnabled: false,
+          stopEnabled: false,
+          nextEnabled: false,
+          prevEnabled: false,
+          fastForwardEnabled: false,
+          rewindEnabled: false),
     );
+    smtcService.disableSmtc();
+    _isSmtcDisabled = true;
 
     bindClicks();
     bindEvents();
@@ -96,6 +100,10 @@ class WindowsSmtcMediaSessionService implements IMediaSessionService {
 
     queueService.currentIndex.stream.listen((index) {
       _logger.i("Current index changed: $index");
+      if (_isSmtcDisabled) {
+        smtcService.enableSmtc();
+      }
+
       var trackData = queueService.queue[index].track.toTrackInfo();
 
       smtcService.updateConfig(
