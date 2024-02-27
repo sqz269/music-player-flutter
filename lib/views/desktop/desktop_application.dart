@@ -7,49 +7,7 @@ import 'package:tlmc_player_app/models/application_pages.dart';
 import 'package:tlmc_player_app/views/desktop/screens/explore_screen_desktop.dart';
 import 'package:tlmc_player_app/views/desktop/screens/home_screen_desktop.dart';
 import 'package:tlmc_player_app/views/desktop/widgets/bottom_play_bar_desktop.dart';
-
-class SideNavigationRail extends StatelessWidget {
-  final ApplicationPages _currentPage;
-  final Function(ApplicationPages) _onPageSelected;
-
-  const SideNavigationRail({
-    super.key,
-    required ApplicationPages currentPage,
-    required Function(ApplicationPages) onPageSelected,
-  })  : _currentPage = currentPage,
-        _onPageSelected = onPageSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    return NavigationRail(
-      elevation: 6,
-      extended: true,
-      destinations: const [
-        NavigationRailDestination(
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          icon: Icon(Icons.home_outlined),
-          selectedIcon: Icon(Icons.home),
-          label: Text('Home'),
-        ),
-        NavigationRailDestination(
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          icon: Icon(Icons.explore_outlined),
-          selectedIcon: Icon(Icons.explore),
-          label: Text('Explore'),
-        ),
-        NavigationRailDestination(
-          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          icon: Icon(Icons.library_music_outlined),
-          selectedIcon: Icon(Icons.library_music),
-          label: Text('Library'),
-        ),
-      ],
-      selectedIndex: _currentPage.index,
-      onDestinationSelected: (index) =>
-          _onPageSelected(ApplicationPages.values[index]),
-    );
-  }
-}
+import 'package:tlmc_player_app/views/desktop/widgets/side_navigation_rail_desktop.dart';
 
 class DesktopApplicationPageWrapper extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;

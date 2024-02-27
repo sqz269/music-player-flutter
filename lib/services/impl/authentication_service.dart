@@ -72,6 +72,14 @@ class OidcAuthenticationService extends GetxController {
       var offlineToken = pref.getString("auth_offlineToken");
       if (offlineToken != null) {
         await restoreFromOfflineToken(offlineToken);
+
+        try {
+          var token = await getToken();
+          _logger.i("OIDC session restored successfully");
+          isAuthenticated.value = true;
+        } catch (e, s) {
+          _logger.e("Failed to restore OIDC session", error: e, stackTrace: s);
+        }
       }
     } else {
       _logger.i("No offline token found");

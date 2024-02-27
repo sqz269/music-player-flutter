@@ -7,6 +7,7 @@ import 'package:tlmc_player_app/models/oidc_configuration.dart';
 import 'package:tlmc_player_app/routes/routes.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';
 import 'package:tlmc_player_app/services/api/i_media_session_sevice.dart';
+import 'package:tlmc_player_app/services/api/i_playlist_service.dart';
 import 'package:tlmc_player_app/services/impl/api_client_provider.dart';
 import 'package:tlmc_player_app/services/impl/audio_services/just_audio_audio_service.dart';
 import 'package:tlmc_player_app/services/impl/audio_services/media_kit_audio_service.dart';
@@ -14,6 +15,7 @@ import 'package:tlmc_player_app/services/impl/authentication_service.dart';
 import 'package:tlmc_player_app/services/impl/logging_service.dart';
 import 'package:tlmc_player_app/services/impl/media_session_services/cross_platform_media_session_service.dart';
 import 'package:tlmc_player_app/services/impl/media_session_services/windows_smtc_media_session_service.dart';
+import 'package:tlmc_player_app/services/impl/playlist_services/ondemand_playlist_service.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
 import 'package:tlmc_player_app/services/impl/radio_service.dart';
 import 'package:tlmc_player_app/views/desktop/desktop_application.dart';
@@ -65,6 +67,7 @@ void main() {
   )));
   Get.put<ApiClientProvider>(ApiClientProvider());
   Get.put<RadioService>(RadioService());
+  Get.put<IPlaylistService>(OndemandPlaylistService());
 
   runApp(const MyApp());
 }
