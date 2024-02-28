@@ -78,7 +78,7 @@ class AlbumScreenDesktopController extends GetxController
     );
   }
 
-  Future loadAlbum() async {
+  Future<void> loadAlbum() async {
     var albumApi = AlbumApi(Get.find<ApiClientProvider>().getApiClient());
 
     AlbumReadDto? album;

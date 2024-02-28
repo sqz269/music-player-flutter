@@ -18,5 +18,8 @@ abstract class IPlaylistService {
       String id, String name, PlaylistVisibility visibility);
   Future<void> deletePlaylist(String id);
   Future<void> addTrackToPlaylist(String playlistId, String trackId);
+  Future<void> addTrackToFavoriate(String trackId);
+  Future<void> addTrackToHistory(String trackId);
+  Future<void> removeTrackFromFavoriate(String trackId);
   Future<void> removeTrackFromPlaylist(String playlistId, String trackId);
 }

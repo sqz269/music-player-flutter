@@ -11,6 +11,7 @@ class OndemandPlaylistService implements IPlaylistService {
       Get.find<LoggingService>().getLogger("OndemandPlaylistService");
 
   late PlaylistApi playlistApiService;
+  late PlaylistItemsApi playlistItemsApiService;
 
   final Rx<bool> _isReady = false.obs;
   @override
@@ -60,6 +61,7 @@ class OndemandPlaylistService implements IPlaylistService {
     var apiClientProvider = Get.find<ApiClientProvider>();
     var apiClient = apiClientProvider.getApiClient();
     playlistApiService = PlaylistApi(apiClient);
+    playlistItemsApiService = PlaylistItemsApi(apiClient);
 
     // Fetch playlists
     var allPlaylists = await getPlaylists();
@@ -98,9 +100,27 @@ class OndemandPlaylistService implements IPlaylistService {
   }
 
   @override
-  Future<void> addTrackToPlaylist(String playlistId, String trackId) {
-    // TODO: implement addTrackToPlaylist
-    throw UnimplementedError();
+  Future<void> addTrackToPlaylist(String playlistId, String trackId) async {
+    await playlistItemsApiService
+        .addTrackToPlaylist(playlistId, requestBody: [trackId]);
+  }
+
+  @override
+  Future<void> addTrackToFavoriate(String trackId) async {
+    await playlistItemsApiService
+        .addTrackToPlaylist(_favoriate.value.id!, requestBody: [trackId]);
+  }
+
+  @override
+  Future<void> addTrackToHistory(String trackId) async {
+    await playlistItemsApiService
+        .addTrackToPlaylist(_history.value.id!, requestBody: [trackId]);
+  }
+
+  @override
+  Future<void> removeTrackFromFavoriate(String trackId) async {
+    await playlistItemsApiService
+        .deleteTrackFromPlaylist(_favoriate.value.id!, requestBody: [trackId]);
   }
 
   @override
@@ -117,13 +137,13 @@ class OndemandPlaylistService implements IPlaylistService {
   }
 
   @override
-  Future<PlaylistReadDto> getPlaylist(String id) {
+  Future<PlaylistReadDto> getPlaylist(String playlistId) {
     // TODO: implement getPlaylist
     throw UnimplementedError();
   }
 
   @override
-  Future<List<TrackReadDto>> getPlaylistTracks(String id) {
+  Future<List<TrackReadDto>> getPlaylistTracks(String playlistId) {
     // TODO: implement getPlaylistTracks
     throw UnimplementedError();
   }
