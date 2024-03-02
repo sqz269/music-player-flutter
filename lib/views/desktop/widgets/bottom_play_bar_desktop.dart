@@ -7,6 +7,7 @@ import 'package:tlmc_player_app/services/api/i_audio_service.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
 import 'package:tlmc_player_app/services/impl/radio_service.dart';
 import 'package:tlmc_player_app/utils/duration_utils.dart';
+import 'package:tlmc_player_app/views/desktop/screens/add_to_playlist_modal_desktop.dart';
 
 class BottomPlayBarDesktop extends StatefulWidget {
   final IAudioService audioService;
@@ -155,7 +156,16 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
                     IconButton(
                       icon: const Icon(Icons.playlist_add_outlined),
                       color: Colors.purple.shade600,
-                      onPressed: () {},
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AddToPlaylistModalDesktop(
+                              trackId: currentTrack.track.id!,
+                            );
+                          },
+                        );
+                      },
                     ),
                   ],
                 ),

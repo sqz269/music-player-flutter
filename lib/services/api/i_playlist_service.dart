@@ -16,6 +16,11 @@ abstract class IPlaylistService {
       String name, PlaylistVisibility visibility);
   Future<void> updatePlaylist(
       String id, String name, PlaylistVisibility visibility);
+
+  Future<bool> isTrackInPlaylist(String playlistId, String trackId);
+  Future<Map<String, bool>> isTracksInPlaylist(
+      String playlistId, List<String> trackIds);
+
   Future<void> deletePlaylist(String id);
   Future<void> addTrackToPlaylist(String playlistId, String trackId);
   Future<void> addTrackToFavoriate(String trackId);

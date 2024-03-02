@@ -160,9 +160,10 @@ class OndemandPlaylistService implements IPlaylistService {
   }
 
   @override
-  Future<void> removeTrackFromPlaylist(String playlistId, String trackId) {
-    // TODO: implement removeTrackFromPlaylist
-    throw UnimplementedError();
+  Future<void> removeTrackFromPlaylist(
+      String playlistId, String trackId) async {
+    await playlistItemsApiService
+        .deleteTrackFromPlaylist(playlistId, requestBody: [trackId]);
   }
 
   @override
@@ -170,5 +171,43 @@ class OndemandPlaylistService implements IPlaylistService {
       String id, String name, PlaylistVisibility visibility) {
     // TODO: implement updatePlaylist
     throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> isTrackInPlaylist(String playlistId, String trackId) async {
+    return (await isTracksInPlaylist(playlistId, [trackId]))[trackId]!;
+  }
+
+  @override
+  Future<Map<String, bool>> isTracksInPlaylist(
+      String playlistId, List<String> trackIds) async {
+    var result = <String, bool>{};
+
+    List<PlaylistItemReadDto> playlistItems = [];
+    int offset = 0;
+    while (true) {
+      var items = await playlistItemsApiService.getPlaylistItems(
+        playlistId,
+        limit: 50,
+        start: offset,
+      );
+
+      if (items == null || items.isEmpty) {
+        break;
+      }
+      playlistItems.addAll(items);
+
+      offset += items.length;
+      if (items.length < 50) {
+        break;
+      }
+    }
+
+    for (var trackId in trackIds) {
+      result[trackId] =
+          playlistItems.any((element) => element.trackId! == trackId);
+    }
+
+    return result;
   }
 }
