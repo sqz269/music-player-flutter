@@ -11,6 +11,11 @@ class AddToPlaylistModalDesktop extends StatefulWidget {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final String trackId;
 
+  final RxBool showPlaylistCreateForm = false.obs;
+  final Rx<PlaylistVisibility> selectedVisibility =
+      PlaylistVisibility.private.obs;
+  final RxString playlistName = ''.obs;
+
   AddToPlaylistModalDesktop({super.key, required this.trackId})
       : controller = Get.getOrPut(
           AddToPlaylistModalDesktopController(trackId: trackId),
@@ -48,27 +53,31 @@ class _AddToPlaylistModalDesktopState extends State<AddToPlaylistModalDesktop> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            const Divider(),
             TextFormField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Name',
                 hintText: 'Enter playlist title...',
                 isDense: true,
               ),
-              maxLength: 150, // Sets the maximum length of the input.
+              maxLength: 150,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Please enter a title';
                 }
                 return null;
               },
+              onChanged: (value) {
+                widget.playlistName.value = value;
+              },
             ),
-            SizedBox(height: 8), // Adds space between the fields
+            const SizedBox(height: 8), // Adds space between the fields
             DropdownButtonFormField<PlaylistVisibility>(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Privacy',
                 isDense: true,
               ),
-              value: PlaylistVisibility.private,
+              value: widget.selectedVisibility.value,
               items: PlaylistVisibility.values.map((PlaylistVisibility value) {
                 return DropdownMenuItem<PlaylistVisibility>(
                   value: value,
@@ -76,20 +85,38 @@ class _AddToPlaylistModalDesktopState extends State<AddToPlaylistModalDesktop> {
                 );
               }).toList(),
               onChanged: (newValue) {
-                // Do something when the value changes
+                widget.selectedVisibility.value = newValue!;
               },
             ),
-            SizedBox(height: 8), // Adds space before the button
+            const SizedBox(height: 8), // Adds space before the button
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
                   onPressed: () {
+                    widget.showPlaylistCreateForm.value = false;
+                  },
+                  child: const Text('Cancel'),
+                  // Style your button here as needed
+                ),
+                TextButton(
+                  onPressed: () {
                     if (widget._formKey.currentState!.validate()) {
-                      // If the form is valid, proceed to create a playlist
+                      widget.controller
+                          .createPlaylist(
+                        widget.playlistName.value,
+                        widget.selectedVisibility.value,
+                      )
+                          .then(
+                        (value) {
+                          widget.controller.addToPlaylist(value.id!);
+                        },
+                      );
+
+                      widget.showPlaylistCreateForm.value = false;
                     }
                   },
-                  child: Text('Create'),
+                  child: const Text('Create'),
                   // Style your button here as needed
                 ),
               ],
@@ -107,11 +134,11 @@ class _AddToPlaylistModalDesktopState extends State<AddToPlaylistModalDesktop> {
         Expanded(
           child: TextButton(
             onPressed: () {
-              // Create a new playlist
+              widget.showPlaylistCreateForm.value = true;
             },
             child: const Text('Create new playlist'),
             style: TextButton.styleFrom(
-              minimumSize: Size(160, 52),
+              minimumSize: const Size(160, 52),
             ),
           ),
         )
@@ -123,14 +150,14 @@ class _AddToPlaylistModalDesktopState extends State<AddToPlaylistModalDesktop> {
       AddToPlaylistModalDesktopState states, BuildContext context) {
     return Expanded(
       child: Scrollbar(
-        
         child: ListView.builder(
           itemCount: playlistService.playlists.length,
           itemBuilder: (context, index) {
             var playlist = playlistService.playlists[index];
             var playlistId = playlist.id!;
-        
-            var isTrackInPlaylist = states.isTrackInPlaylist[playlistId] ?? false;
+
+            var isTrackInPlaylist =
+                states.isTrackInPlaylist[playlistId] ?? false;
             return CheckboxListTile(
               value: isTrackInPlaylist,
               onChanged: (value) {
@@ -142,8 +169,8 @@ class _AddToPlaylistModalDesktopState extends State<AddToPlaylistModalDesktop> {
                 }
               },
               title: Text(playlistService.playlists[index].name!),
-              secondary:
-                  _buildPrivacyIcon(playlistService.playlists[index].visibility!),
+              secondary: _buildPrivacyIcon(
+                  playlistService.playlists[index].visibility!),
             );
           },
         ),
@@ -167,7 +194,7 @@ class _AddToPlaylistModalDesktopState extends State<AddToPlaylistModalDesktop> {
             onPressed: () {
               Navigator.of(context).pop(); // Close the dialog
             },
-            icon: Icon(Icons.close),
+            icon: const Icon(Icons.close),
           ),
         ],
       ),
@@ -176,16 +203,28 @@ class _AddToPlaylistModalDesktopState extends State<AddToPlaylistModalDesktop> {
 
   Widget _buildMainView(
       AddToPlaylistModalDesktopState? states, BuildContext context) {
+    if (states == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          _buildDialogHeader(states!, context),
+          _buildDialogHeader(states, context),
           const SizedBox(height: 20),
           // Add playlist items here
-          _buildPlaylistView(states!, context),
+          _buildPlaylistView(states, context),
           const SizedBox(height: 20),
-          _buildCreatePlaylistForm(states, context)
+          Obx(
+            () {
+              if (widget.showPlaylistCreateForm.value) {
+                return _buildCreatePlaylistForm(states, context);
+              } else {
+                return _buildCreatePlaylistButton(states, context);
+              }
+            },
+          ),
         ],
       ),
     );

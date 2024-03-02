@@ -34,11 +34,11 @@ class OndemandPlaylistService implements IPlaylistService {
   Rx<PlaylistReadDto> get queue => throw UnimplementedError();
 
   OndemandPlaylistService() {
-    preinitialize();
+    initialize();
   }
 
-  Future<void> preinitialize() async {
-    _logger.i("Pre-Initializing OndemandPlaylistService");
+  Future<void> initialize() async {
+    _logger.i("Initializing OndemandPlaylistService");
 
     var authService = Get.find<OidcAuthenticationService>();
     if (!authService.isAuthenticated.value) {
@@ -47,15 +47,15 @@ class OndemandPlaylistService implements IPlaylistService {
       authService.isAuthenticated.listen((isAuthenticated) {
         if (isAuthenticated) {
           _logger.i("Authenticated user detected, initializing");
-          _initialize();
+          _update();
         }
       });
     } else {
-      _initialize();
+      _update();
     }
   }
 
-  Future<void> _initialize() async {
+  Future<void> _update() async {
     _logger.i("Initializing OndemandPlaylistService");
 
     var apiClientProvider = Get.find<ApiClientProvider>();
@@ -125,9 +125,17 @@ class OndemandPlaylistService implements IPlaylistService {
 
   @override
   Future<PlaylistReadDto> createPlaylist(
-      String name, PlaylistVisibility visibility) {
-    // TODO: implement createPlaylist
-    throw UnimplementedError();
+      String name, PlaylistVisibility visibility) async {
+    var result = await playlistApiService.addPlaylist(
+      playlistInfo: PlaylistInfo(
+        name: name,
+        visibility: visibility,
+      ),
+    );
+
+    await _update();
+
+    return result!;
   }
 
   @override

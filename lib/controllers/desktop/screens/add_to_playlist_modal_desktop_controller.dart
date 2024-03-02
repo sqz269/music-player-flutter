@@ -21,7 +21,7 @@ class AddToPlaylistModalDesktopController extends GetxController
     with StateMixin<AddToPlaylistModalDesktopState> {
   final String trackId;
 
-  late AddToPlaylistModalDesktopState state;
+  late AddToPlaylistModalDesktopState states;
 
   AddToPlaylistModalDesktopController({required this.trackId});
 
@@ -47,12 +47,20 @@ class AddToPlaylistModalDesktopController extends GetxController
       playlists[playlist.id!] = playlist;
     }
 
-    state = AddToPlaylistModalDesktopState(
+    states = AddToPlaylistModalDesktopState(
       trackId: trackId,
       isTrackInPlaylist: results,
       playlists: playlists,
     );
-    change(state, status: RxStatus.success());
+    change(states, status: RxStatus.success());
+  }
+
+  Future<PlaylistReadDto> createPlaylist(
+      String playlistName, PlaylistVisibility visibility) async {
+    var playlistService = Get.find<IPlaylistService>();
+    var result = await playlistService.createPlaylist(playlistName, visibility);
+    await load();
+    return result;
   }
 
   Future<void> addToPlaylist(String playlistId) async {
