@@ -1,15 +1,25 @@
 import 'package:BackendClientApi/api.dart';
 import 'package:flutter/material.dart';
+import 'package:tlmc_player_app/services/api/options_builder/i_track_option.dart';
+import 'package:tlmc_player_app/services/impl/options_builder/track_options_builder.dart';
+import 'package:tlmc_player_app/services/impl/options_builder/track_options_builder_extensions.dart';
 import 'package:tlmc_player_app/utils/duration_utils.dart';
 
 class TrackTileWithThumbnailDesktop extends StatelessWidget {
   final TrackReadDto track;
   final int? reorderableIndex;
   final bool isPlaying;
+  final TrackOptions? popupMenuOptions;
   final void Function(TrackReadDto track, int? reorderableIndex)? onTap;
 
-  const TrackTileWithThumbnailDesktop(this.track,
-      {super.key, this.reorderableIndex, this.isPlaying = false, this.onTap});
+  const TrackTileWithThumbnailDesktop(
+    this.track, {
+    super.key,
+    this.reorderableIndex,
+    this.isPlaying = false,
+    this.onTap,
+    this.popupMenuOptions,
+  });
 
   Widget _buildReorderableDragHandle(BuildContext context) {
     return reorderableIndex != null
@@ -96,21 +106,51 @@ class TrackTileWithThumbnailDesktop extends StatelessWidget {
     );
   }
 
+  Widget _buildOptionsDropdownMenu(BuildContext context) {
+    if (popupMenuOptions == null) return const SizedBox();
+
+    List<PopupMenuItem<ITrackOption>> menuItems = [];
+    for (var option in popupMenuOptions!.options) {
+      var menuItem = PopupMenuItem(
+        value: option,
+        child: Text(option.title),
+      );
+      menuItems.add(menuItem);
+    }
+
+    return PopupMenuButton(
+      itemBuilder: (context) {
+        return menuItems;
+      },
+      onSelected: (value) {
+        value.execute();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-      decoration: BoxDecoration(
-        color: isPlaying ? Colors.grey.shade200 : null,
-      ),
-      child: Row(
-        children: [
-          _buildReorderableDragHandle(context),
-          const SizedBox(width: 8),
-          _buildImageThumbnail(context),
-          const SizedBox(width: 8),
-          _buildTrackInfo(context),
-        ],
+    return InkWell(
+      // Splash effect will appear to stop abruptly if the widget rebuilds during the
+      // animation, which looks bad, so we disable the splash effect
+      splashColor: Colors.transparent,
+      onTap: onTap != null ? () => onTap!(track, reorderableIndex) : null,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        decoration: BoxDecoration(
+          color: isPlaying ? Colors.grey.shade200 : null,
+        ),
+        child: Row(
+          children: [
+            _buildReorderableDragHandle(context),
+            const SizedBox(width: 8),
+            _buildImageThumbnail(context),
+            const SizedBox(width: 8),
+            _buildTrackInfo(context),
+            const SizedBox(width: 8),
+            _buildOptionsDropdownMenu(context),
+          ],
+        ),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:tlmc_player_app/controllers/desktop/desktop_application_controller.dart';
 import 'package:tlmc_player_app/extensions/api_object_extension.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';
+import 'package:tlmc_player_app/services/api/i_playlist_service.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
 import 'package:tlmc_player_app/services/impl/radio_service.dart';
 import 'package:tlmc_player_app/utils/duration_utils.dart';
@@ -12,11 +13,14 @@ import 'package:tlmc_player_app/views/desktop/screens/add_to_playlist_modal_desk
 class BottomPlayBarDesktop extends StatefulWidget {
   final IAudioService audioService;
   final QueueService queueService;
+  final IPlaylistService playlistService;
   final RadioService radioService;
+  final RxBool isCurrentTrackInFavorite = false.obs;
 
   BottomPlayBarDesktop({super.key})
       : audioService = Get.find<IAudioService>(),
         queueService = Get.find<QueueService>(),
+        playlistService = Get.find<IPlaylistService>(),
         radioService = Get.find<RadioService>();
 
   @override
@@ -62,11 +66,16 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
   Widget _buildCurrentlyPlayingTrackInfoCard(BuildContext context) {
     return Obx(() {
       var currentTrack = widget.queueService.currentTrack.value;
+
       if (currentTrack == null) {
         return Expanded(
           flex: 2,
           child: Container(),
         );
+      } else {
+        widget.playlistService
+            .isTrackInFavoriate(currentTrack.track.id!)
+            .then((value) => widget.isCurrentTrackInFavorite.value = value);
       }
 
       var artistsTextSpans = <TextSpan>[];
@@ -148,10 +157,20 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
                   children: [
                     IconButton(
                       icon: Icon(
-                        Icons.favorite_outline,
+                        widget.isCurrentTrackInFavorite.value
+                            ? Icons.favorite
+                            : Icons.favorite_border,
                         color: Colors.red.shade600,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (widget.isCurrentTrackInFavorite.value) {
+                          widget.playlistService
+                              .removeTrackFromFavoriate(currentTrack.track.id!);
+                        } else {
+                          widget.playlistService
+                              .addTrackToFavoriate(currentTrack.track.id!);
+                        }
+                      },
                     ),
                     IconButton(
                       icon: const Icon(Icons.playlist_add_outlined),

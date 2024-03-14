@@ -1,4 +1,3 @@
-import 'package:context_menus/context_menus.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +64,9 @@ void main() {
     oidcRealmUrl: "https://sso.marisad.me/realms/MusicPlayer",
     clientId: "localhost-flutter-nUCH1cAFywtQW6fDWkbbiL6UQcUZq",
   )));
+
   Get.put<ApiClientProvider>(ApiClientProvider());
+
   Get.put<RadioService>(RadioService());
   Get.put<IPlaylistService>(OndemandPlaylistService());
 

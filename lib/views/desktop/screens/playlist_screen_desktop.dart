@@ -198,6 +198,9 @@ class _PlaylistScreenDesktopState extends State<PlaylistScreenDesktop> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Playlist"),
+      ),
       body: _buildTracksView(states, context),
     );
   }

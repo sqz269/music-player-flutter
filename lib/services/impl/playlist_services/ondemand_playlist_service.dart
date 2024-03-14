@@ -218,4 +218,9 @@ class OndemandPlaylistService implements IPlaylistService {
 
     return result;
   }
+
+  @override
+  Future<bool> isTrackInFavoriate(String trackId) async {
+    return await isTrackInPlaylist(_favoriate.value.id!, trackId);
+  }
 }

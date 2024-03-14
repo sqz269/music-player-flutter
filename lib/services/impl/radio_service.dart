@@ -18,11 +18,9 @@ class RadioService {
   RadioService()
       : _queueService = Get.find<QueueService>(),
         _audioService = Get.find<IAudioService>() {
-    _queueService.queue.stream.listen(
-      (event) {
-        onQueueChanged();
-      },
-    );
+    _queueService.currentIndex.listen((event) {
+      onCurrentPlayChanged();
+    });
 
     active.listen((event) {
       _logger.i("Radio mode active state changed: $event");
@@ -35,7 +33,10 @@ class RadioService {
     _logger.i("RadioService initialized");
   }
 
-  void onQueueChanged() {
+  void onCurrentPlayChanged() {
+    _logger.d(
+        "Currently Playing changed, checking if more tracks are needed. Remaining: ${_queueService.remainingTracks}");
+
     if (active.value && _queueService.remainingTracks <= 10) {
       _logger.i("Queue is running low, loading more tracks");
       _loadTracks();
