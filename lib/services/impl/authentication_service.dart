@@ -41,7 +41,7 @@ class OidcAuthenticationService extends GetxController {
       _logger.i("Discovered OIDC issuer: ${issuer!.metadata.issuer}");
     } catch (e, s) {
       _logger.e("Failed to discover OIDC issuer", error: e, stackTrace: s);
-      throw e;
+      rethrow;
     }
 
     authenticator = Authenticator(

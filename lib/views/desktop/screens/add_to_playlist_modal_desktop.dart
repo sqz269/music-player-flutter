@@ -1,6 +1,5 @@
 import 'package:BackendClientApi/api.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_app/controllers/desktop/screens/add_to_playlist_modal_desktop_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
@@ -136,10 +135,10 @@ class _AddToPlaylistModalDesktopState extends State<AddToPlaylistModalDesktop> {
             onPressed: () {
               widget.showPlaylistCreateForm.value = true;
             },
-            child: const Text('Create new playlist'),
             style: TextButton.styleFrom(
               minimumSize: const Size(160, 52),
             ),
+            child: const Text('Create new playlist'),
           ),
         )
       ],

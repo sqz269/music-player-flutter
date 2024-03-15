@@ -134,17 +134,17 @@ class _PlaylistScreenDesktopState extends State<PlaylistScreenDesktop> {
           );
         },
         firstPageErrorIndicatorBuilder: (context) {
-          return Center(
+          return const Center(
             child: Text("Failed to load tracks"),
           );
         },
         noItemsFoundIndicatorBuilder: (context) {
-          return Center(
+          return const Center(
             child: Text("No tracks found"),
           );
         },
         newPageErrorIndicatorBuilder: (context) {
-          return Center(
+          return const Center(
             child: Text("Failed to load more tracks"),
           );
         },
@@ -199,7 +199,7 @@ class _PlaylistScreenDesktopState extends State<PlaylistScreenDesktop> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Playlist"),
+        title: const Text("Playlist"),
       ),
       body: _buildTracksView(states, context),
     );

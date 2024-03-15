@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:tlmc_player_app/services/impl/authentication_service.dart';
 
 class ApiClientProvider extends Authentication {
-  OidcAuthenticationService _authService;
+  final OidcAuthenticationService _authService;
 
   ApiClientProvider() : _authService = Get.find<OidcAuthenticationService>();
 

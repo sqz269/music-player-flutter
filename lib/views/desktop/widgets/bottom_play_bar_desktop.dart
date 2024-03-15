@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:tlmc_player_app/controllers/desktop/desktop_application_controller.dart';
 import 'package:tlmc_player_app/extensions/api_object_extension.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';

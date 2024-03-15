@@ -61,7 +61,7 @@ class QueueSceenDesktop extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Queue"),
+        title: const Text("Queue"),
       ),
       body: Center(
         child: _buildQueueView(context),

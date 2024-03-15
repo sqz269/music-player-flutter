@@ -1,6 +1,5 @@
 import 'package:BackendClientApi/api.dart';
 import 'package:get/get.dart';
-import 'package:logger/logger.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';
 import 'package:tlmc_player_app/services/impl/api_client_provider.dart';
 import 'package:tlmc_player_app/services/impl/logging_service.dart';

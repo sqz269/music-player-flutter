@@ -34,8 +34,6 @@ class QueueService {
 
   final IAudioService _audioService = Get.find<IAudioService>();
 
-  int _trackIndex = 0;
-
   QueueService() {
     _audioService.onComplete.listen((event) {
       _logger.i("Track completed");
@@ -134,7 +132,6 @@ class QueueService {
         .map(
           (e) => QueuedTrack(
             track: e,
-            index: _trackIndex++,
             groupTag: groupTag,
           ),
         )
@@ -242,11 +239,6 @@ class QueueService {
   }
 
   void shuffle() {
-    // before shuffling, record the current index for each track
-    for (var i = 0; i < _queue.length; i++) {
-      _queue[i].index = i;
-    }
-
     _queue.shuffle();
   }
 
@@ -258,9 +250,6 @@ class QueueService {
     // only unshuffle tracks after the current index
     var startRange = _currentIndex.value + 1;
     var tracksToUnshuffle = _queue.sublist(startRange);
-
-    // sort the tracks by their original index
-    tracksToUnshuffle.sort((a, b) => a.index.compareTo(b.index));
 
     // insert the unshuffled tracks back into the queue
     _queue.replaceRange(startRange, _queue.length, tracksToUnshuffle);

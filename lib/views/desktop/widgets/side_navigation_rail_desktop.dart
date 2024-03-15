@@ -8,7 +8,7 @@ class SideNavigationRail extends StatelessWidget {
   final ApplicationPages _currentPage;
   final Function(ApplicationPages) _onPageSelected;
 
-  SideNavigationRail({
+  const SideNavigationRail({
     super.key,
     required ApplicationPages currentPage,
     required Function(ApplicationPages) onPageSelected,
@@ -66,26 +66,26 @@ class SideNavigationRail extends StatelessWidget {
     // return SizedBox();
     return Column(
       children: [
-        Divider(
+        const Divider(
           height: 16,
           thickness: 2,
         ),
         PlaylistIconTileDesktop(
           playlistName: "Favorites",
           playlistId: playlistService.favoriate.value!.id!,
-          icon: Icon(
+          icon: const Icon(
             Icons.favorite,
           ),
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         PlaylistIconTileDesktop(
           playlistName: "History",
           playlistId: playlistService.history.value!.id!,
-          icon: Icon(
+          icon: const Icon(
             Icons.history,
           ),
         ),
-        Divider(
+        const Divider(
           height: 16,
           thickness: 2,
         ),

@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:BackendClientApi/api.dart';
 import 'package:flutter/material.dart';
@@ -112,7 +111,7 @@ class TrackOptionGotoAlbum extends ITrackOption {
   TrackOptionGotoAlbum(TrackReadDto track) : super(track);
 
   @override
-  Future execute() async {
+  Future<void> execute() async {
     Get.find<DesktopApplicationController>()
         .getCurrentPageKey()!
         .currentState!

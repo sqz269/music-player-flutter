@@ -1,6 +1,5 @@
 import 'package:BackendClientApi/api.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:tlmc_player_app/services/api/i_playlist_service.dart';
 import 'package:tlmc_player_app/services/impl/api_client_provider.dart';
 import 'package:tlmc_player_app/services/impl/authentication_service.dart';

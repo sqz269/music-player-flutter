@@ -19,7 +19,7 @@ abstract class ITrackOption {
 
   ITrackOption(TrackReadDto track) : _track = track;
 
-  Future execute();
+  Future<void> execute();
 
   void addCallback(VoidCallback callback) {
     callbacks.add(callback);

@@ -381,9 +381,9 @@ class AlbumScreenDesktop extends StatelessWidget {
         child: GroupBox(
           title: groupBoxTitle,
           child: disc.tracks!.isEmpty
-              ? Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: const Center(
+              ? const Padding(
+                  padding: EdgeInsets.all(24.0),
+                  child: Center(
                     child: Text(
                       "No tracks found",
                       style: TextStyle(fontSize: 24),

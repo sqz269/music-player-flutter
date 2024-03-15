@@ -1,8 +1,6 @@
 import 'package:BackendClientApi/api.dart';
 import 'package:flutter/material.dart';
 import 'package:tlmc_player_app/services/api/options_builder/i_track_option.dart';
-import 'package:tlmc_player_app/services/impl/options_builder/track_options_builder.dart';
-import 'package:tlmc_player_app/services/impl/options_builder/track_options_builder_extensions.dart';
 import 'package:tlmc_player_app/utils/duration_utils.dart';
 
 class TrackTileWithThumbnailDesktop extends StatelessWidget {
@@ -25,7 +23,7 @@ class TrackTileWithThumbnailDesktop extends StatelessWidget {
     return reorderableIndex != null
         ? ReorderableDragStartListener(
             index: reorderableIndex!,
-            child: Icon(Icons.drag_handle),
+            child: const Icon(Icons.drag_handle),
           )
         : const SizedBox();
   }
