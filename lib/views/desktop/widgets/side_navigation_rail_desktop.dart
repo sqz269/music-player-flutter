@@ -46,16 +46,17 @@ class SideNavigationRail extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    return ListView.builder(
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        var playlist = playlistService.playlists.value[index];
-        return PlaylistIconTileDesktop(
-          playlistName: playlist.name!,
-          playlistId: playlist.id!,
-        );
-      },
-      itemCount: playlistService.playlists.length,
+    return Column(
+      children: List.generate(
+        playlistService.playlists.length,
+        (index) {
+          var playlist = playlistService.playlists[index];
+          return PlaylistIconTileDesktop(
+            playlistName: playlist.name!,
+            playlistId: playlist.id!,
+          );
+        },
+      ),
     );
   }
 
@@ -116,14 +117,25 @@ class SideNavigationRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NavigationRail(
-      elevation: 6,
-      extended: true,
-      trailing: _buildPlaylistView(context),
-      destinations: _buildNavigationDestinations(context),
-      selectedIndex: _currentPage.index,
-      onDestinationSelected: (index) =>
-          _onPageSelected(ApplicationPages.values[index]),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: IntrinsicHeight(
+              child: NavigationRail(
+                elevation: 6,
+                extended: true,
+                selectedIndex: _currentPage.index,
+                trailing: _buildPlaylistView(context),
+                onDestinationSelected: (int index) =>
+                    _onPageSelected(ApplicationPages.values[index]),
+                destinations: _buildNavigationDestinations(context),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
