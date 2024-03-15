@@ -60,7 +60,10 @@ class SideNavigationRail extends StatelessWidget {
   }
 
   Widget _buildSpecialPlaylistItems(BuildContext context) {
-    return const Column(
+    var playlistService = Get.find<IPlaylistService>();
+
+    // return SizedBox();
+    return Column(
       children: [
         Divider(
           height: 16,
@@ -68,7 +71,7 @@ class SideNavigationRail extends StatelessWidget {
         ),
         PlaylistIconTileDesktop(
           playlistName: "Favorites",
-          playlistId: "favorites",
+          playlistId: playlistService.favoriate.value!.id!,
           icon: Icon(
             Icons.favorite,
           ),
@@ -76,7 +79,7 @@ class SideNavigationRail extends StatelessWidget {
         SizedBox(height: 16),
         PlaylistIconTileDesktop(
           playlistName: "History",
-          playlistId: "history",
+          playlistId: playlistService.history.value!.id!,
           icon: Icon(
             Icons.history,
           ),

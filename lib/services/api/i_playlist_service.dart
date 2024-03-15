@@ -5,9 +5,9 @@ abstract class IPlaylistService {
   Rx<bool> get isReady;
 
   RxList<PlaylistReadDto> get playlists;
-  Rx<PlaylistReadDto> get favoriate;
-  Rx<PlaylistReadDto> get history;
-  Rx<PlaylistReadDto> get queue;
+  Rx<PlaylistReadDto?> get favoriate;
+  Rx<PlaylistReadDto?> get history;
+  Rx<PlaylistReadDto?> get queue;
 
   Future<List<PlaylistReadDto>> getPlaylists();
   Future<PlaylistReadDto> getPlaylist(String id);

@@ -21,13 +21,13 @@ class OndemandPlaylistService implements IPlaylistService {
   @override
   RxList<PlaylistReadDto> get playlists => _playlists;
 
-  final Rx<PlaylistReadDto> _favoriate = PlaylistReadDto().obs;
+  final Rx<PlaylistReadDto?> _favoriate = Rx<PlaylistReadDto?>(null);
   @override
-  Rx<PlaylistReadDto> get favoriate => throw UnimplementedError();
+  Rx<PlaylistReadDto?> get favoriate => _favoriate;
 
-  final Rx<PlaylistReadDto> _history = PlaylistReadDto().obs;
+  final Rx<PlaylistReadDto?> _history = Rx<PlaylistReadDto?>(null);
   @override
-  Rx<PlaylistReadDto> get history => throw UnimplementedError();
+  Rx<PlaylistReadDto?> get history => _history;
 
   final Rx<PlaylistReadDto> _queue = PlaylistReadDto().obs;
   @override
@@ -74,18 +74,27 @@ class OndemandPlaylistService implements IPlaylistService {
   }
 
   void setPlaylists(List<PlaylistReadDto> playlists) {
+    _logger.d("Setting playlists");
     var regularPlaylists = playlists
         .where((element) => element.type == PlaylistType.normal)
         .toList();
 
+    _logger.d("Found ${regularPlaylists.length} regular playlists");
+
     var favoritePlaylist = playlists
         .firstWhereOrNull((element) => element.type == PlaylistType.favorite);
+
+    _logger.d("Found Fav playlist: ${favoritePlaylist?.id}");
 
     var historyPlaylist = playlists
         .firstWhereOrNull((element) => element.type == PlaylistType.history);
 
+    _logger.d("Found History playlist: ${historyPlaylist?.id}");
+
     var queuePlaylist = playlists
         .firstWhereOrNull((element) => element.type == PlaylistType.queue);
+
+    _logger.d("Found Queue playlist: ${queuePlaylist?.id}");
 
     if ([favoritePlaylist, historyPlaylist, queuePlaylist]
         .any((element) => element == null)) {
@@ -97,6 +106,8 @@ class OndemandPlaylistService implements IPlaylistService {
     _history.value = historyPlaylist!;
     _queue.value = queuePlaylist!;
     _playlists.value = regularPlaylists;
+
+    _logger.d("Playlists set");
   }
 
   @override
@@ -108,19 +119,19 @@ class OndemandPlaylistService implements IPlaylistService {
   @override
   Future<void> addTrackToFavoriate(String trackId) async {
     await playlistItemsApiService
-        .addTrackToPlaylist(_favoriate.value.id!, requestBody: [trackId]);
+        .addTrackToPlaylist(_favoriate.value!.id!, requestBody: [trackId]);
   }
 
   @override
   Future<void> addTrackToHistory(String trackId) async {
     await playlistItemsApiService
-        .addTrackToPlaylist(_history.value.id!, requestBody: [trackId]);
+        .addTrackToPlaylist(_history.value!.id!, requestBody: [trackId]);
   }
 
   @override
   Future<void> removeTrackFromFavoriate(String trackId) async {
     await playlistItemsApiService
-        .deleteTrackFromPlaylist(_favoriate.value.id!, requestBody: [trackId]);
+        .deleteTrackFromPlaylist(_favoriate.value!.id!, requestBody: [trackId]);
   }
 
   @override
@@ -221,6 +232,6 @@ class OndemandPlaylistService implements IPlaylistService {
 
   @override
   Future<bool> isTrackInFavoriate(String trackId) async {
-    return await isTrackInPlaylist(_favoriate.value.id!, trackId);
+    return await isTrackInPlaylist(favoriate.value!.id!, trackId);
   }
 }
