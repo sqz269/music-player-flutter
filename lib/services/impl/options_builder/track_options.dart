@@ -1,9 +1,9 @@
 import 'dart:ui';
 
+import 'package:BackendClientApi/api.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/icon.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_app/services/api/options_builder/i_album_option.dart';
+import 'package:tlmc_player_app/controllers/desktop/desktop_application_controller.dart';
 import 'package:tlmc_player_app/services/api/options_builder/i_track_option.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
 
@@ -17,7 +17,7 @@ class TrackOptionPlayNext extends ITrackOption {
   @override
   String get description => 'Play this track next in the queue';
 
-  TrackOptionPlayNext(String trackId) : super(trackId);
+  TrackOptionPlayNext(TrackReadDto track) : super(track);
 
   @override
   Future execute() async {
@@ -39,12 +39,12 @@ class TrackOptionAddToQueue extends ITrackOption {
   @override
   String get description => 'Add this track to the end of queue';
 
-  TrackOptionAddToQueue(String trackId) : super(trackId);
+  TrackOptionAddToQueue(TrackReadDto track) : super(track);
 
   @override
   Future execute() async {
     var queueService = Get.find<QueueService>();
-    queueService.addTrackById(trackId);
+    queueService.addTrackById(track.id!);
 
     for (var callback in callbacks) {
       callback();
@@ -62,7 +62,7 @@ class TrackOptionAddToPlaylist extends ITrackOption {
   @override
   String get description => 'Add this track to a playlist';
 
-  TrackOptionAddToPlaylist(String trackId) : super(trackId);
+  TrackOptionAddToPlaylist(TrackReadDto track) : super(track);
 
   @override
   Future execute() async {
@@ -84,11 +84,14 @@ class TrackOptionGotoArtist extends ITrackOption {
   @override
   String get description => 'View the artist of this track';
 
-  TrackOptionGotoArtist(String trackId) : super(trackId);
+  TrackOptionGotoArtist(TrackReadDto track) : super(track);
 
   @override
   Future execute() async {
-    print('Going to artist');
+    Get.find<DesktopApplicationController>()
+        .getCurrentPageKey()!
+        .currentState!
+        .pushNamed("/circle/${track.album!.albumArtist!.first.id}");
 
     for (var callback in callbacks) {
       callback();
@@ -106,11 +109,14 @@ class TrackOptionGotoAlbum extends ITrackOption {
   @override
   String get description => 'View the album of this track';
 
-  TrackOptionGotoAlbum(String trackId) : super(trackId);
+  TrackOptionGotoAlbum(TrackReadDto track) : super(track);
 
   @override
   Future execute() async {
-    print('Going to album');
+    Get.find<DesktopApplicationController>()
+        .getCurrentPageKey()!
+        .currentState!
+        .pushNamed("/album/${track.album!.id}");
 
     for (var callback in callbacks) {
       callback();

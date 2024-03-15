@@ -1,12 +1,13 @@
 import 'dart:ui';
 
+import 'package:BackendClientApi/api.dart';
 import 'package:tlmc_player_app/services/api/options_builder/i_track_option.dart';
 
 final class TrackOptionsBuilder {
   final List<ITrackOption> _options = [];
-  final String trackId;
+  final TrackReadDto track;
 
-  TrackOptionsBuilder({required this.trackId});
+  TrackOptionsBuilder({required this.track});
 
   TrackOptionsBuilder addOption(ITrackOption? option) {
     if (option != null) _options.add(option);

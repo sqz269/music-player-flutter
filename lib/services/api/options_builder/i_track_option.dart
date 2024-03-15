@@ -1,3 +1,4 @@
+import 'package:BackendClientApi/api.dart';
 import 'package:flutter/material.dart';
 
 final class TrackOptions {
@@ -7,8 +8,8 @@ final class TrackOptions {
 }
 
 abstract class ITrackOption {
-  final String _trackId;
-  String get trackId => _trackId;
+  final TrackReadDto _track;
+  TrackReadDto get track => _track;
 
   final List<VoidCallback> callbacks = [];
 
@@ -16,7 +17,7 @@ abstract class ITrackOption {
   String get description;
   Icon get icon;
 
-  ITrackOption(String trackId) : _trackId = trackId;
+  ITrackOption(TrackReadDto track) : _track = track;
 
   Future execute();
 

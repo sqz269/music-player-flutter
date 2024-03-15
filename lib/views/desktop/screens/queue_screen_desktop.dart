@@ -12,8 +12,8 @@ class QueueSceenDesktop extends StatelessWidget {
 
   QueueSceenDesktop({super.key}) : _queueService = Get.find<QueueService>();
 
-  TrackOptions _buildTrackOptions(String trackId) {
-    var builder = TrackOptionsBuilder(trackId: trackId);
+  TrackOptions _buildTrackOptions(TrackReadDto track) {
+    var builder = TrackOptionsBuilder(track: track);
 
     var options =
         builder.withAddToPlaylist().withGotoAlbum().withGotoArtist().build();
@@ -40,7 +40,7 @@ class QueueSceenDesktop extends StatelessWidget {
             _queueService.reorderQueue(oldIndex, newIndex);
           },
           itemBuilder: (context, index) {
-            var options = _buildTrackOptions(queue[index].track.id!);
+            var options = _buildTrackOptions(queue[index].track);
 
             return TrackTileWithThumbnailDesktop(
               key: ValueKey(queue[index].track.id),

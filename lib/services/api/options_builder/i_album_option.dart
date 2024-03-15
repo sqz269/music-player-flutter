@@ -1,3 +1,4 @@
+import 'package:BackendClientApi/api.dart';
 import 'package:flutter/material.dart';
 
 final class AlbumOptions {
@@ -7,8 +8,8 @@ final class AlbumOptions {
 }
 
 abstract class IAlbumOption {
-  final String _albumId;
-  String get albumId => _albumId;
+  final AlbumReadDto _album;
+  AlbumReadDto get album => _album;
 
   final List<VoidCallback> callbacks = [];
 
@@ -16,7 +17,7 @@ abstract class IAlbumOption {
   String get description;
   Icon get icon;
 
-  IAlbumOption(String albumId) : _albumId = albumId;
+  IAlbumOption(AlbumReadDto album) : _album = album;
 
   Future execute();
 

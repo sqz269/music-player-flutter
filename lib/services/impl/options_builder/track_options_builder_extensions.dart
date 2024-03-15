@@ -3,22 +3,22 @@ import 'package:tlmc_player_app/services/impl/options_builder/track_options_buil
 
 extension TrackOptionsBuilderExtension on TrackOptionsBuilder {
   TrackOptionsBuilder withPlayNext() {
-    return addOption(TrackOptionPlayNext(trackId));
+    return addOption(TrackOptionPlayNext(track));
   }
 
   TrackOptionsBuilder withAddToQueue() {
-    return addOption(TrackOptionAddToQueue(trackId));
+    return addOption(TrackOptionAddToQueue(track));
   }
 
   TrackOptionsBuilder withAddToPlaylist() {
-    return addOption(TrackOptionAddToPlaylist(trackId));
+    return addOption(TrackOptionAddToPlaylist(track));
   }
 
   TrackOptionsBuilder withGotoArtist() {
-    return addOption(TrackOptionGotoArtist(trackId));
+    return addOption(TrackOptionGotoArtist(track));
   }
 
   TrackOptionsBuilder withGotoAlbum() {
-    return addOption(TrackOptionGotoAlbum(trackId));
+    return addOption(TrackOptionGotoAlbum(track));
   }
 }

@@ -1,16 +1,19 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:logger/logger.dart';
 import 'package:tlmc_player_app/controllers/desktop/desktop_application_controller.dart';
 import 'package:tlmc_player_app/extensions/api_object_extension.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';
 import 'package:tlmc_player_app/services/api/i_playlist_service.dart';
+import 'package:tlmc_player_app/services/impl/logging_service.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
 import 'package:tlmc_player_app/services/impl/radio_service.dart';
 import 'package:tlmc_player_app/utils/duration_utils.dart';
 import 'package:tlmc_player_app/views/desktop/screens/add_to_playlist_modal_desktop.dart';
 
 class BottomPlayBarDesktop extends StatefulWidget {
+  final _logger = Get.find<LoggingService>().getLogger('BottomPlayBarDesktop');
   final IAudioService audioService;
   final QueueService queueService;
   final IPlaylistService playlistService;
@@ -63,137 +66,170 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
     );
   }
 
-  Widget _buildCurrentlyPlayingTrackInfoCard(BuildContext context) {
-    return Obx(() {
-      var currentTrack = widget.queueService.currentTrack.value;
+  Widget _buildCurrentlyPlayingTrackInfoCardTrackInfo(BuildContext context) {
+    return Obx(
+      () {
+        var currentTrack = widget.queueService.currentTrack.value;
 
-      if (currentTrack == null) {
+        if (currentTrack == null) {
+          return Expanded(
+            flex: 2,
+            child: Container(),
+          );
+        } else {
+          widget.playlistService
+              .isTrackInFavoriate(currentTrack.track.id!)
+              .then((value) => widget.isCurrentTrackInFavorite.value = value);
+        }
+
+        var artistsTextSpans = <TextSpan>[];
+
+        var trackInfo = currentTrack.track.toTrackInfo();
+        for (var artist in trackInfo.artists) {
+          artistsTextSpans.add(
+            TextSpan(
+              text: artist.circleName,
+              style: Theme.of(context).textTheme.bodyLarge,
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  Get.find<DesktopApplicationController>()
+                      .getCurrentPageKey()!
+                      .currentState!
+                      .pushNamed('/circle/${artist.circleId}');
+                },
+            ),
+          );
+          artistsTextSpans.add(const TextSpan(text: ', '));
+        }
+
+        artistsTextSpans.removeLast();
+
         return Expanded(
-          flex: 2,
-          child: Container(),
-        );
-      } else {
-        widget.playlistService
-            .isTrackInFavoriate(currentTrack.track.id!)
-            .then((value) => widget.isCurrentTrackInFavorite.value = value);
-      }
-
-      var artistsTextSpans = <TextSpan>[];
-
-      var trackInfo = currentTrack.track.toTrackInfo();
-      for (var artist in trackInfo.artists) {
-        artistsTextSpans.add(
-          TextSpan(
-            text: artist.circleName,
-            style: Theme.of(context).textTheme.bodyLarge,
-            recognizer: TapGestureRecognizer()
-              ..onTap = () {
-                Get.find<DesktopApplicationController>()
-                    .getCurrentPageKey()!
-                    .currentState!
-                    .pushNamed('/circle/${artist.circleId}');
-              },
-          ),
-        );
-        artistsTextSpans.add(const TextSpan(text: ', '));
-      }
-
-      artistsTextSpans.removeLast();
-
-      return Expanded(
-        flex: 2,
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Row(
-            children: [
-              _buildCurrentlyPlayingAlbumThumbnail(context),
-              Expanded(
-                flex: 4,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        trackInfo.trackTitle,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      // spacer
-                      const SizedBox(height: 8),
-                      Text.rich(
-                        TextSpan(
-                          text: trackInfo.albumTitle,
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Get.find<DesktopApplicationController>()
-                                  .getCurrentPageKey()!
-                                  .currentState!
-                                  .pushNamed('/album/${trackInfo.albumId}');
-                            },
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      Expanded(
-                        child: RichText(
-                          text: TextSpan(
-                            children: artistsTextSpans,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
+          flex: 4,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  trackInfo.trackTitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+                // spacer
+                const SizedBox(height: 8),
+                Text.rich(
+                  TextSpan(
+                    text: trackInfo.albumTitle,
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        Get.find<DesktopApplicationController>()
+                            .getCurrentPageKey()!
+                            .currentState!
+                            .pushNamed('/album/${trackInfo.albumId}');
+                      },
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                Expanded(
+                  child: RichText(
+                    text: TextSpan(
+                      children: artistsTextSpans,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              ),
-              Expanded(
-                flex: 1,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        widget.isCurrentTrackInFavorite.value
-                            ? Icons.favorite
-                            : Icons.favorite_border,
-                        color: Colors.red.shade600,
-                      ),
-                      onPressed: () {
-                        if (widget.isCurrentTrackInFavorite.value) {
-                          widget.playlistService
-                              .removeTrackFromFavoriate(currentTrack.track.id!);
-                        } else {
-                          widget.playlistService
-                              .addTrackToFavoriate(currentTrack.track.id!);
-                        }
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.playlist_add_outlined),
-                      color: Colors.purple.shade600,
-                      onPressed: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AddToPlaylistModalDesktop(
-                              trackId: currentTrack.track.id!,
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              )
-            ],
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
+  }
+
+  Widget _buildCurrentlyPlayingTrackInfoCardFavBar(BuildContext context) {
+    var currentTrack = widget.queueService.currentTrack.value;
+
+    return Expanded(
+      flex: 1,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          IconButton(
+            icon: Icon(
+              widget.isCurrentTrackInFavorite.value
+                  ? Icons.favorite
+                  : Icons.favorite_border,
+              color: Colors.red.shade600,
+            ),
+            onPressed: () {
+              if (widget.isCurrentTrackInFavorite.value) {
+                widget.playlistService
+                    .removeTrackFromFavoriate(currentTrack!.track.id!)
+                    .then((value) {
+                  widget._logger.d("Removed track from favoriate");
+                  widget.isCurrentTrackInFavorite.value = false;
+                });
+              } else {
+                widget.playlistService
+                    .addTrackToFavoriate(currentTrack!.track.id!)
+                    .then((value) {
+                  widget._logger.d("Added track to favoriate");
+                  widget.isCurrentTrackInFavorite.value = true;
+                });
+              }
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.playlist_add_outlined),
+            color: Colors.purple.shade600,
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AddToPlaylistModalDesktop(
+                    trackId: currentTrack!.track.id!,
+                  );
+                },
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCurrentlyPlayingTrackInfoCard(BuildContext context) {
+    return Obx(
+      () {
+        var currentTrack = widget.queueService.currentTrack.value;
+
+        if (currentTrack == null) {
+          return Expanded(
+            flex: 2,
+            child: Container(),
+          );
+        }
+
+        return Expanded(
+          flex: 2,
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Row(
+              children: [
+                _buildCurrentlyPlayingAlbumThumbnail(context),
+                _buildCurrentlyPlayingTrackInfoCardTrackInfo(context),
+                _buildCurrentlyPlayingTrackInfoCardFavBar(context),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Widget _buildProgressSlider(BuildContext context) {

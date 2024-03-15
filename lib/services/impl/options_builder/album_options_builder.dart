@@ -1,12 +1,13 @@
 import 'dart:ui';
 
+import 'package:BackendClientApi/api.dart';
 import 'package:tlmc_player_app/services/api/options_builder/i_album_option.dart';
 
 final class AlbumOptionsBuilder {
   final List<IAlbumOption> _options = [];
-  final String albumId;
+  final AlbumReadDto album;
 
-  AlbumOptionsBuilder({required this.albumId});
+  AlbumOptionsBuilder({required this.album});
 
   AlbumOptionsBuilder addOption(IAlbumOption? option) {
     if (option != null) _options.add(option);
