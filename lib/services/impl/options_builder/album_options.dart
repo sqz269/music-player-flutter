@@ -1,3 +1,4 @@
+import 'package:BackendClientApi/api.dart';
 import 'package:flutter/material.dart';
 import 'package:tlmc_player_app/services/api/options_builder/i_album_option.dart';
 
@@ -11,7 +12,7 @@ class AlbumOptionPlayNext extends IAlbumOption {
   @override
   String get description => 'Play this album next in the queue';
 
-  AlbumOptionPlayNext(String albumId) : super(albumId);
+  AlbumOptionPlayNext(AlbumReadDto album) : super(album);
 
   @override
   Future execute() async {
@@ -33,7 +34,7 @@ class AlbumOptionAddToQueue extends IAlbumOption {
   @override
   String get description => 'Add this album to the end of queue';
 
-  AlbumOptionAddToQueue(String albumId) : super(albumId);
+  AlbumOptionAddToQueue(AlbumReadDto album) : super(album);
 
   @override
   Future execute() async {
