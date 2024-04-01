@@ -34,14 +34,42 @@ class HomeScreenDesktop extends StatelessWidget {
                 },
                 icon: const Icon(Icons.search),
               ),
-              IconButton(
-                onPressed: () {
-                  var oidcService = Get.find<OidcAuthenticationService>();
-                  if (oidcService.isAuthenticated.isTrue) {
-                    oidcService.logout();
-                  } else {
-                    oidcService.authenticate();
+              PopupMenuButton<String>(
+                onSelected: (option) {
+                  switch (option) {
+                    case 'Login':
+                      Get.find<OidcAuthenticationService>().authenticate();
+                      break;
+                    case 'Logout':
+                      Get.find<OidcAuthenticationService>().logout();
+                      break;
+                    case 'Settings':
+                      Navigator.pushNamed(context, "/settings", arguments: {});
+                      break;
+                    case 'Account':
+                      Navigator.pushNamed(context, "/account", arguments: {});
+                      break;
                   }
+                },
+                itemBuilder: (BuildContext context) {
+                  // Options will change depending on if the user is authenticated
+                  List<String> options;
+                  if (Get.find<OidcAuthenticationService>()
+                      .isAuthenticated
+                      .isTrue) {
+                    options = ['Account', 'Settings', 'Logout'];
+                  } else {
+                    options = ['Settings', 'Login'];
+                  }
+
+                  return options
+                      .map(
+                        (option) => PopupMenuItem<String>(
+                          value: option,
+                          child: Text(option),
+                        ),
+                      )
+                      .toList();
                 },
                 icon: const Icon(Icons.account_circle_outlined),
               ),
