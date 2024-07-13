@@ -2,6 +2,7 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tlmc_player_app/global_configuration.dart';
 import 'package:tlmc_player_app/models/oidc_configuration.dart';
 import 'package:tlmc_player_app/routes/routes.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';
@@ -61,8 +62,8 @@ void main() {
   // Initialize services
   Get.put<OidcAuthenticationService>(OidcAuthenticationService(
       oidcConfiguration: OidcConfiguration(
-    oidcRealmUrl: "https://sso.marisad.me/realms/MusicPlayer",
-    clientId: "localhost-flutter-nUCH1cAFywtQW6fDWkbbiL6UQcUZq",
+    oidcRealmUrl: GlobalConfiguration.SSO_ENDPOINT,
+    clientId: GlobalConfiguration.SSO_CLIENT_ID,
   )));
 
   Get.put<ApiClientProvider>(ApiClientProvider());

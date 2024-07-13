@@ -70,7 +70,7 @@ class AlbumCard extends StatelessWidget {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        albumData.albumName!.default_,
+                        albumData.name!.default_,
                         style: Theme.of(context).textTheme.bodyMedium,
                         maxLines: 1,
                         textAlign: TextAlign.left,

@@ -1,8 +1,10 @@
 import 'package:BackendClientApi/api.dart';
+import 'package:tlmc_player_app/global_configuration.dart';
 import 'package:tlmc_player_app/models/track_info.dart';
 
 extension TrackReadDtoExt on TrackReadDto {
-  String get assetUrl => 'https://api-music.marisad.me/api/asset/track/$id';
+  String get assetUrl =>
+      '${GlobalConfiguration.API_BASE_URL}/api/asset/track/$id';
 
   TrackInfo toTrackInfo() {
     var circles = album!.albumArtist!
@@ -22,7 +24,7 @@ extension TrackReadDtoExt on TrackReadDto {
       trackTitle: name!.default_,
       trackAudioUrl: assetUrl,
       albumId: album!.id!,
-      albumTitle: album!.albumName!.default_,
+      albumTitle: album!.name!.default_,
       artists: circles,
       albumArtUrl: albumArtUrl,
     );

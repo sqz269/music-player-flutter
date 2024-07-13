@@ -38,7 +38,7 @@ class PlaylistScreenDesktopController extends GetxController
       int start, int limit) async {
     var playlistItemsApi =
         PlaylistItemsApi(Get.find<ApiClientProvider>().getApiClient());
-    var albumApi = AlbumApi(Get.find<ApiClientProvider>().getApiClient());
+    var albumApi = TrackApi(Get.find<ApiClientProvider>().getApiClient());
 
     var playlistItems = await playlistItemsApi.getPlaylistItems(
       playlistId,

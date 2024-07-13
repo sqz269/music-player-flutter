@@ -29,7 +29,7 @@ class AudioTestScreenDesktopController extends GetxController
     change(null, status: RxStatus.loading());
 
     try {
-      var trackApi = AlbumApi(Get.find<ApiClientProvider>().getApiClient());
+      var trackApi = TrackApi(Get.find<ApiClientProvider>().getApiClient());
 
       var track = (await trackApi.getTrack(trackId))!;
 

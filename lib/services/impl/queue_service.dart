@@ -103,8 +103,8 @@ class QueueService {
     // Fetch tracks from API
     TrackGetMultipleResp? response;
     try {
-      var albumApi = AlbumApi(Get.find<ApiClientProvider>().getApiClient());
-      response = await albumApi.getTracks(requestBody: trackIds);
+      var trackApi = TrackApi(Get.find<ApiClientProvider>().getApiClient());
+      response = await trackApi.getTracks(requestBody: trackIds);
     } catch (e) {
       _logger.e("Failed to fetch tracks from API: $e");
       return null;

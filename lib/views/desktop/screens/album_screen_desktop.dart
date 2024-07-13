@@ -198,7 +198,7 @@ class AlbumScreenDesktop extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
-                            states.masterAlbum.albumName!.default_,
+                            states.masterAlbum.name!.default_,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.headlineLarge,
@@ -506,7 +506,7 @@ class AlbumScreenDesktop extends StatelessWidget {
           SliverAppBar(
             pinned: true,
             floating: true,
-            title: Text(states.masterAlbum.albumName!.default_),
+            title: Text(states.masterAlbum.name!.default_),
           ),
           _buildAlbumInfoView(states, context),
           _buildAlbumControlView(states, context),

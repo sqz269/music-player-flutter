@@ -1,5 +1,6 @@
 import 'package:BackendClientApi/api.dart';
 import 'package:get/get.dart';
+import 'package:tlmc_player_app/global_configuration.dart';
 import 'package:tlmc_player_app/services/impl/authentication_service.dart';
 
 class ApiClientProvider extends Authentication {
@@ -10,11 +11,11 @@ class ApiClientProvider extends Authentication {
   ApiClient getApiClient() {
     if (_authService.isAuthenticated.value) {
       return ApiClient(
-          basePath: 'https://api-music.marisad.me', authentication: this);
+          basePath: GlobalConfiguration.API_BASE_URL, authentication: this);
     }
 
     return ApiClient(
-      basePath: 'https://api-music.marisad.me',
+      basePath: GlobalConfiguration.API_BASE_URL,
     );
   }
 
