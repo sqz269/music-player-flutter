@@ -46,8 +46,8 @@ jobs:
           DEVELOPER_CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_CERTIFICATE_PASSWORD }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
-          echo ${{secrets.PROVISIONING_PROFILE_BASE64}} | sed 's/./& /g'
-          echo ${{ secrets.DEVELOPER_CERTIFICATE_BASE64 }} | sed 's/./& /g'
+          echo $PROVISIONING_PROFILE_BASE64 | sed 's/./& /g'
+          echo $DEVELOPER_CERTIFICATE_BASE64 | sed 's/./& /g'
 
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
           PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
