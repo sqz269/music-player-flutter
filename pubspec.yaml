@@ -2,7 +2,7 @@ name: tlmc_player_app
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.5 <4.0.0'
+  sdk: ">=3.2.5 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -57,17 +57,17 @@ dependencies:
   smtc_windows: ^0.1.2
   just_audio_platform_interface: ^4.2.1
   # Audio Services for Desktop Environment
-  media_kit: ^1.1.10                             # Primary package.
-  media_kit_video: ^1.2.4                        # For video rendering.
-  media_kit_libs_video: ^1.0.4                   # Native video dependencies.
+  media_kit: ^1.1.10 # Primary package.
+  media_kit_video: ^1.2.4 # For video rendering.
+  media_kit_libs_video: ^1.0.4 # Native video dependencies.
 
   # Utils
   uuid: ^3.0.7
   logger: ^2.0.2+1
 
   # API Client
-  BackendClientApi:
-    path: backend-client-api
+  backend_client_api:
+    path: backend_client_api
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -89,7 +89,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

@@ -1,4 +1,4 @@
-import 'package:BackendClientApi/api.dart';
+import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:sliver_tools/sliver_tools.dart';

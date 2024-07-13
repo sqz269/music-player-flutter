@@ -1,4 +1,4 @@
-import 'package:BackendClientApi/api.dart';
+import 'package:backend_client_api/api.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_app/global_configuration.dart';
 import 'package:tlmc_player_app/services/impl/authentication_service.dart';

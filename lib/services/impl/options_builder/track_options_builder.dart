@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:BackendClientApi/api.dart';
+import 'package:backend_client_api/api.dart';
 import 'package:tlmc_player_app/services/api/options_builder/i_track_option.dart';
 
 final class TrackOptionsBuilder {
