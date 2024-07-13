@@ -8,7 +8,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Get full history
 
@@ -18,9 +18,9 @@ jobs:
           channel: 'stable' # Can be adjusted to beta or dev as needed
 
       - name: Install Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: '20'
 
       - name: Install OpenAPI Generator
         run: npm install @openapitools/openapi-generator-cli -g

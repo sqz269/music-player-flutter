@@ -9,13 +9,25 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Setup Flutter SDK
-        uses: flutter-actions/setup-flutter@v3
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          channel: stable
-          version: 3.16.9
+          channel: 'stable' # Can be adjusted to beta or dev as needed
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install OpenAPI Generator
+        run: npm install @openapitools/openapi-generator-cli -g
+
+      - name: Generate API Client
+        run: |
+          chmod +x ./gen-client.sh
+          ./gen-client.sh
 
       - name: Install Dependencies
         run: flutter pub get
