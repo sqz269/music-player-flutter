@@ -45,13 +45,8 @@ jobs:
           DEVELOPER_CERTIFICATE_BASE64: ${{ secrets.DEVELOPER_CERTIFICATE_BASE64 }}
           DEVELOPER_CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_CERTIFICATE_PASSWORD }}
         run: |
-          echo "$PROVISIONING_PROFILE_BASE64" | base64 --decode > provisioning_profile.mobileprovision
-          echo "$DEVELOPER_CERTIFICATE_BASE64" | base64 --decode > developer_certificate.p12
-          security create-keychain -p "" build.keychain
-          security import developer_certificate.p12 -k build.keychain -P "$DEVELOPER_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
-          security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp provisioning_profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+          chmod +x ./scripts/setup-signing-certs.sh
+          ./scripts/setup-signing-certs.sh
 
       - name: Build iOS
         run: flutter build ios --release --no-codesign
