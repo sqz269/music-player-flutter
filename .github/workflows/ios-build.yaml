@@ -1,0 +1,69 @@
+name: Build Flutter iOS Application
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Install CocoaPods
+        run: |
+          sudo gem install cocoapods
+          cd ios
+          pod install
+          cd ..
+
+      - name: Setup Signing Certificates
+        env:
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+          DEVELOPER_CERTIFICATE_BASE64: ${{ secrets.DEVELOPER_CERTIFICATE_BASE64 }}
+          DEVELOPER_CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_CERTIFICATE_PASSWORD }}
+        run: |
+          echo "$PROVISIONING_PROFILE_BASE64" | base64 --decode > provisioning_profile.mobileprovision
+          echo "$DEVELOPER_CERTIFICATE_BASE64" | base64 --decode > developer_certificate.p12
+          security create-keychain -p "" build.keychain
+          security import developer_certificate.p12 -k build.keychain -P "$DEVELOPER_CERTIFICATE_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "" build.keychain
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp provisioning_profile.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/
+
+      - name: Build iOS
+        run: flutter build ios --release --no-codesign
+
+      - name: Archive iOS
+        run: |
+          xcodebuild -workspace ios/Runner.xcworkspace \
+          -scheme Runner \
+          -sdk iphoneos \
+          -configuration Release \
+          -archivePath $PWD/build/Runner.xcarchive \
+          clean archive \
+          CODE_SIGN_STYLE=Manual \
+          PROVISIONING_PROFILE_SPECIFIER="YourProvisioningProfileName" \
+          DEVELOPMENT_TEAM="YourTeamID"
+
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+          -archivePath $PWD/build/Runner.xcarchive \
+          -exportPath $PWD/build/Runner \
+          -exportOptionsPlist ios/ExportOptions.plist
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v2
+        with:
+          name: Runner.ipa
+          path: build/Runner/Runner.ipa
