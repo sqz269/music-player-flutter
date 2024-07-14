@@ -47,44 +47,6 @@ jobs:
           DEVELOPER_CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_CERTIFICATE_PASSWORD }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
-          echo $PROVISIONING_PROFILE_BASE64 | sed 's/./& /g'
-          echo $DEVELOPER_CERTIFICATE_BASE64 | sed 's/./& /g'
-
-          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
-          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
-          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
-
-          # import certificate and provisioning profile from secrets
-          echo "$DEVELOPER_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
-          echo "$PROVISIONING_PROFILE_BASE64" | base64 --decode -o $PP_PATH
-
-      - name: Export all env
-        env:
-          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
-          DEVELOPER_CERTIFICATE_BASE64: ${{ secrets.DEVELOPER_CERTIFICATE_BASE64 }}
-          DEVELOPER_CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_CERTIFICATE_PASSWORD }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-        run: |
-          printenv > env.txt
-
-      - name: Setup upterm session
-        env:
-          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
-          DEVELOPER_CERTIFICATE_BASE64: ${{ secrets.DEVELOPER_CERTIFICATE_BASE64 }}
-          DEVELOPER_CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_CERTIFICATE_PASSWORD }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-        uses: lhotari/action-upterm@v1
-
-      - name: Setup Signing Certificates
-        env:
-          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
-          DEVELOPER_CERTIFICATE_BASE64: ${{ secrets.DEVELOPER_CERTIFICATE_BASE64 }}
-          DEVELOPER_CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_CERTIFICATE_PASSWORD }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-        run: |
-          echo $PROVISIONING_PROFILE_BASE64 | sed 's/./& /g'
-          echo $DEVELOPER_CERTIFICATE_BASE64 | sed 's/./& /g'
-
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
           PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
@@ -105,7 +67,7 @@ jobs:
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
 
           # import certificate to keychain
-          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security import $CERTIFICATE_PATH -P "$DEVELOPER_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
           security list-keychain -d user -s $DEVELOPER_CERTIFICATE_PASSWORD
 
@@ -117,6 +79,9 @@ jobs:
         run: flutter build ios --release --no-codesign
 
       - name: Archive iOS
+        env:
+          PROVISIONING_PROFILE_NAME: ${{ secrets.PROVISIONING_PROFILE_NAME }}
+          APPLE_DEVELOPER_TEAM_ID: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
         run: |
           xcodebuild -workspace ios/Runner.xcworkspace \
           -scheme Runner \
@@ -125,8 +90,8 @@ jobs:
           -archivePath $PWD/build/Runner.xcarchive \
           clean archive \
           CODE_SIGN_STYLE=Manual \
-          PROVISIONING_PROFILE_SPECIFIER="YourProvisioningProfileName" \
-          DEVELOPMENT_TEAM="YourTeamID"
+          PROVISIONING_PROFILE_SPECIFIER="$PROVISIONING_PROFILE_NAME" \
+          DEVELOPMENT_TEAM="$APPLE_DEVELOPER_TEAM_ID"
 
       - name: Export IPA
         run: |
