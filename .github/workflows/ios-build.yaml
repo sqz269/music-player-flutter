@@ -57,8 +57,12 @@ jobs:
           echo "$DEVELOPER_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
           echo "$PROVISIONING_PROFILE_BASE64" | base64 --decode -o $PP_PATH
 
-      - uses: actions/checkout@v2
       - name: Setup upterm session
+        env:
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+          DEVELOPER_CERTIFICATE_BASE64: ${{ secrets.DEVELOPER_CERTIFICATE_BASE64 }}
+          DEVELOPER_CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_CERTIFICATE_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         uses: lhotari/action-upterm@v1
 
       - name: Setup Signing Certificates
