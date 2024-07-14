@@ -57,6 +57,28 @@ jobs:
           echo "$DEVELOPER_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
           echo "$PROVISIONING_PROFILE_BASE64" | base64 --decode -o $PP_PATH
 
+      - uses: actions/checkout@v2
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
+
+      - name: Setup Signing Certificates
+        env:
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+          DEVELOPER_CERTIFICATE_BASE64: ${{ secrets.DEVELOPER_CERTIFICATE_BASE64 }}
+          DEVELOPER_CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_CERTIFICATE_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          echo $PROVISIONING_PROFILE_BASE64 | sed 's/./& /g'
+          echo $DEVELOPER_CERTIFICATE_BASE64 | sed 's/./& /g'
+
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+          # import certificate and provisioning profile from secrets
+          echo "$DEVELOPER_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
+          echo "$PROVISIONING_PROFILE_BASE64" | base64 --decode -o $PP_PATH
+
           # Printout the sha256 hash of the certificate and provisioning profile
           echo "[Debug] Developer Certificate SHA256 hash:"
           shasum -a 256 $CERTIFICATE_PATH
