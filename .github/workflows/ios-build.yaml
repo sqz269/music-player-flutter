@@ -44,10 +44,10 @@ jobs:
       - name: Install the Apple certificate and provisioning profile
         shell: bash
         env:
-          IOS_BUILD_CERTIFICATE_BASE64: ${{ inputs.certificate-base64 }}
-          IOS_BUILD_CERTIFICATE_PASSWORD: ${{ inputs.certificate-password }}
-          IOS_MOBILE_PROVISIONING_PROFILE_BASE64: ${{ inputs.provisioning-profile-base64 }}
-          IOS_GITHUB_KEYCHAIN_PASSWORD: ${{ inputs.keychain-password }}
+          IOS_BUILD_CERTIFICATE_BASE64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
+          IOS_BUILD_CERTIFICATE_PASSWORD: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
+          IOS_MOBILE_PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
+          IOS_GITHUB_KEYCHAIN_PASSWORD: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
           # Slight modification in the script from https://docs.github.com/en/actions/deployment/deploying-xcode-applications/installing-an-apple-certificate-on-macos-runners-for-xcode-development
           # that adds the uuid to the mobile provision so xcode can find it
         run: |
