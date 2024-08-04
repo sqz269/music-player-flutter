@@ -40,23 +40,6 @@ jobs:
           pod install
           cd ..
 
-      - name: Export all env
-        env:
-          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
-          DEVELOPER_CERTIFICATE_BASE64: ${{ secrets.DEVELOPER_CERTIFICATE_BASE64 }}
-          DEVELOPER_CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_CERTIFICATE_PASSWORD }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-        run: |
-          printenv > env.txt
-
-      - name: Setup upterm session
-        env:
-          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
-          DEVELOPER_CERTIFICATE_BASE64: ${{ secrets.DEVELOPER_CERTIFICATE_BASE64 }}
-          DEVELOPER_CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_CERTIFICATE_PASSWORD }}
-          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-        uses: lhotari/action-upterm@v1
-
       - name: Setup Signing Certificates
         env:
           PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
@@ -94,6 +77,14 @@ jobs:
 
       - name: Build iOS
         run: flutter build ios --release --no-codesign
+
+      - name: Setup upterm session
+        env:
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+          DEVELOPER_CERTIFICATE_BASE64: ${{ secrets.DEVELOPER_CERTIFICATE_BASE64 }}
+          DEVELOPER_CERTIFICATE_PASSWORD: ${{ secrets.DEVELOPER_CERTIFICATE_PASSWORD }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        uses: lhotari/action-upterm@v1
 
       - name: Archive iOS
         env:
