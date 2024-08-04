@@ -8,7 +8,7 @@
 PRODUCT_NAME = tlmc_player_app
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.tlmcPlayerApp
+PRODUCT_BUNDLE_IDENTIFIER = com.sqz269.tlmcplayer-flutter
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2024 com.example. All rights reserved.
