@@ -15,6 +15,19 @@ jobs:
         with:
           channel: "stable"
 
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+  
+      - name: Install OpenAPI Generator
+        run: npm install @openapitools/openapi-generator-cli -g
+  
+      - name: Generate API Client
+        run: |
+          chmod +x ./scripts/gen-client.sh
+          ./scripts/gen-client.sh
+
       - name: Install Dependencies
         run: flutter pub get
 
