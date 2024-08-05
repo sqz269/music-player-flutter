@@ -1,0 +1,110 @@
+name: Build and Export IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    environment: dev
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+  
+      - name: Install OpenAPI Generator
+        run: npm install @openapitools/openapi-generator-cli -g
+  
+      - name: Generate API Client
+        run: |
+          chmod +x ./scripts/gen-client.sh
+          ./scripts/gen-client.sh
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      # see https://docs.github.com/en/actions/deployment/deploying-xcode-applications/installing-an-apple-certificate-on-macos-runners-for-xcode-development for more info
+      - name: Install the Apple certificate and provisioning profile
+        shell: bash
+        env:
+          IOS_BUILD_CERTIFICATE_BASE64: ${{ secrets.IOS_BUILD_CERTIFICATE_BASE64 }}
+          IOS_BUILD_CERTIFICATE_PASSWORD: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWORD }}
+          IOS_MOBILE_PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_MOBILE_PROVISIONING_PROFILE_BASE64 }}
+          IOS_GITHUB_KEYCHAIN_PASSWORD: ${{ secrets.IOS_GITHUB_KEYCHAIN_PASSWORD }}
+          # Slight modification in the script from https://docs.github.com/en/actions/deployment/deploying-xcode-applications/installing-an-apple-certificate-on-macos-runners-for-xcode-development
+          # that adds the uuid to the mobile provision so xcode can find it
+        run: |
+          # create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          PP_PATH=$RUNNER_TEMP/temp.mobileprovision
+
+
+          # import certificate and provisioning profile from secrets
+          echo -n "$IOS_BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
+          echo -n "$IOS_MOBILE_PROVISIONING_PROFILE_BASE64" | base64 --decode -o $PP_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$IOS_GITHUB_KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$IOS_GITHUB_KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$IOS_BUILD_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+          security find-identity -v
+
+          # use uuid for the name of provisioning profile
+          UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(/usr/bin/security cms -D -i $PP_PATH))
+
+          # apply provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles/$UUID.mobileprovision
+
+      - name: Flutter, Enable iOS
+        run: |
+          flutter config --enable-ios
+          flutter create .
+
+      - name: Flutter, Build iOS
+        run: |
+          flutter build ios --release --no-codesign
+
+      - name: Build and Export IPA
+        env:
+          APPLE_DEVELOPER_TEAM_ID: ${{ secrets.APPLE_DEVELOPER_TEAM_ID }}
+          APP_SPECIFIC_PASSWORD: ${{ secrets.APP_SPECIFIC_PASSWORD }}
+          APPLE_DEVELOPER_EMAIL: ${{ secrets.APPLE_DEVELOPER_EMAIL }}
+        run: |
+          chmod +x ./scripts/ios_build_sign.sh
+          ./scripts/ios_build_sign.sh
+
+
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
+  
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v2
+        with:
+          name: Runner.ipa
+          path: build/IPA/*.ipa
+
+
+      - name: Clean up any certificates and provisioning profiles
+        if: ${{ always() }}
+        run: |
+          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+          rm -f ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision
+          rm -f $RUNNER_TEMP/build_certificate.p12
+          rm -f $RUNNER_TEMP/temp.mobileprovision
