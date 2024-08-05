@@ -25,7 +25,7 @@ P12_CERTIFICATE_NAME=$(security find-identity -v -p codesigning | grep -o '"[^"]
 echo "P12_CERTIFICATE_NAME: $P12_CERTIFICATE_NAME"
 
 # Identify the Provisioning Profile UUID
-PROVISIOING_PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(/usr/bin/security cms -D -i ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision)
+PROVISIOING_PROFILE_UUID=$(/usr/libexec/PlistBuddy -c "Print UUID" /dev/stdin <<< $(/usr/bin/security cms -D -i ~/Library/MobileDevice/Provisioning\ Profiles/*.mobileprovision))
 echo "PROVISIOING_PROFILE_UUID: $PROVISIOING_PROFILE_UUID"
 
 APP_BUNDLE_ID=$(cat ios/Runner.xcodeproj/project.pbxproj | grep -o "PRODUCT_BUNDLE_IDENTIFIER = [^;]*" | head -1 | cut -d ' ' -f 3)
