@@ -1,6 +1,6 @@
 # Assert to check if the required environment variables are set
 if [ -z "$OTA_DISTRIBUTION_BASE_URL" ]; then
-    echo "Please set the APPLE_DEVELOPER_TEAM_ID environment variable"
+    echo "Please set the OTA_DISTRIBUTION_BASE_URL environment variable"
     exit 1
 fi
 
@@ -25,24 +25,18 @@ echo "APP_BUNDLE_ID: $APP_BUNDLE_ID"
 APP_BUNDLE_VERSION=$(cat ios/Runner/Info.plist | grep -o "CFBundleShortVersionString</key>[^<]*" | head -1 | cut -d '>' -f 2)
 echo "APP_BUNDLE_VERSION: $APP_BUNDLE_VERSION"
 
-# Reference command
-# curl --location \
-#   --request POST 'https://backend-worker.sqz269.workers.dev/ipa/create' \
-#   --form 'file=@"tlmc_player_app.ipa"' \
-#   --data-urlencode 'bundleIdentifier=com.sqz269.tlmcPlayerApp' \
-#   --data-urlencode 'bundleVersion=1.0' \
-#   --data-urlencode 'appName=App'
+# IF we can't extract the bundle version, default to 1.0.0
+if [ -z "$APP_BUNDLE_VERSION" ]; then
+    APP_BUNDLE_VERSION="1.0.0"
+fi
 
-API_URL="$OTA_DISTRIBUTION_BASE_URL/ipa/create"
+API_URL="$OTA_DISTRIBUTION_BASE_URL/ipa/create?appName=$OTA_DISTRIBUTION_APP_NAME&bundleIdentifier=$APP_BUNDLE_ID&bundleVersion=$APP_BUNDLE_VERSION"
 
 echo "Uploading the IPA file to OTA distribution server..."
 
 RESPONSE = $(curl --location --silent \
   --request POST $API_URL \
-  --form "file=@$IPA_FILE" \
-  --data-urlencode "bundleIdentifier=$APP_BUNDLE_ID" \
-  --data-urlencode "bundleVersion=$APP_BUNDLE_VERSION" \
-  --data-urlencode "appName=$OTA_DISTRIBUTION_APP_NAME")
+  --form "file=@$IPA_FILE")
 
 # Parse response to json
 IS_ERROR = $(echo $RESPONSE | jq -r '.error')
