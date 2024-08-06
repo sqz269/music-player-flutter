@@ -95,7 +95,7 @@ jobs:
       # Install requirements for OTA distribution script
       - name: Install requirements for OTA distribution script
         run: |
-          sudo apt install qrencode
+          brew install qrencode
 
       - name: Upload IPA for OTA
         run: |
