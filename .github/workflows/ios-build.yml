@@ -92,6 +92,18 @@ jobs:
       # - name: Setup upterm session
       #   uses: lhotari/action-upterm@v1
   
+      # Install requirements for OTA distribution script
+      - name: Install requirements for OTA distribution script
+        run: |
+          sudo apt install qrencode
+
+      - name: Upload IPA for OTA
+        run: |
+          export OTA_DISTRIBUTION_BASE_URL=https://over-the-air.margatro.id/
+          export OTA_DISTRIBUTION_APP_NAME=TlmcPlayer
+          chmod +x ./scripts/upload_ipa_to_ota.sh
+          ./scripts/upload_ipa_to_ota.sh
+
       - name: Upload IPA
         uses: actions/upload-artifact@v2
         with:
