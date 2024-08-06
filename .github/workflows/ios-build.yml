@@ -88,14 +88,15 @@ jobs:
         run: |
           chmod +x ./scripts/ios_build_sign.sh
           ./scripts/ios_build_sign.sh
-
-      # - name: Setup upterm session
-      #   uses: lhotari/action-upterm@v1
   
       # Install requirements for OTA distribution script
       - name: Install requirements for OTA distribution script
         run: |
           brew install qrencode
+          brew install curl
+
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
 
       - name: Upload IPA for OTA
         run: |
