@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:tlmc_player_app/controllers/common/application_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/models/application_pages.dart';
+import 'package:tlmc_player_app/views/mobile/screens/home_screen_mobile.dart';
 
 class MobileApplicationPageWrapper extends StatelessWidget {
   final GlobalKey<NavigatorState> navigatorKey;
@@ -35,8 +36,8 @@ class MobileApplicationPageWrapper extends StatelessWidget {
           return MaterialPageRoute(
             builder: (context) {
               switch (page) {
-                // case ApplicationPages.home:
-                //   return const HomeScreenMobile();
+                case ApplicationPages.home:
+                  return const HomeScreenMobile();
                 // case ApplicationPages.explore:
                 //   return const ExploreScreenMobile();
                 case ApplicationPages.library:

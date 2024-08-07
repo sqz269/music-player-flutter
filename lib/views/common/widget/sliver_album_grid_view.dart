@@ -73,8 +73,8 @@ class SliverAlbumGridView extends StatelessWidget {
   }
 
   Widget _buildGridView(SliverAlbumGridViewStates state, BuildContext context) {
-    var itemsCount = MediaQuery.of(context).size.width ~/ 250;
-    var calculatedHeight = 250 * 1.05;
+    var itemsCount = MediaQuery.of(context).size.width ~/ 150;
+    var calculatedHeight = 150 * 1.05;
 
     return SliverGrid.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
