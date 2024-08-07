@@ -20,7 +20,8 @@ import 'package:tlmc_player_app/services/impl/queue_service.dart';
 import 'package:tlmc_player_app/services/impl/radio_service.dart';
 import 'package:tlmc_player_app/views/desktop/desktop_application.dart';
 
-import 'package:media_kit/media_kit.dart'; // Provides [Player], [Media], [Playlist] etc.
+import 'package:media_kit/media_kit.dart';
+import 'package:tlmc_player_app/views/mobile/mobile_application.dart'; // Provides [Player], [Media], [Playlist] etc.
 // Provides [VideoController] & [Video] etc.
 
 void main() {
@@ -99,7 +100,16 @@ class _MyAppState extends State<MyApp> {
         scheme: FlexScheme.verdunHemlock,
         useMaterial3: true,
       ),
-      home: DesktopApplication(),
+      // Depending on screen size, show either mobile or desktop application
+      home: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth < 600) {
+            return MobileApplication();
+          } else {
+            return DesktopApplication();
+          }
+        },
+      ),
     );
   }
 }

@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_app/models/application_pages.dart';
 
-class DesktopApplicationStates {
+class ApplicationStates {
   ApplicationPages currentPage;
   GlobalKey<NavigatorState> currentNavigationKey;
-  DesktopApplicationStates(
+
+  ApplicationStates(
       {required this.currentPage, required this.currentNavigationKey});
 }
 
-class DesktopApplicationController extends GetxController
-    with StateMixin<DesktopApplicationStates> {
+class ApplicationController extends GetxController
+    with StateMixin<ApplicationStates> {
   final Map<ApplicationPages, GlobalKey<NavigatorState>> navigatorKeys;
 
-  DesktopApplicationController()
+  ApplicationController()
       : navigatorKeys = {
           ApplicationPages.home: GlobalKey<NavigatorState>(),
           ApplicationPages.explore: GlobalKey<NavigatorState>(),
@@ -36,7 +37,7 @@ class DesktopApplicationController extends GetxController
 
   void changePage(ApplicationPages page) {
     change(
-        DesktopApplicationStates(
+        ApplicationStates(
             currentPage: page, currentNavigationKey: navigatorKeys[page]!),
         status: RxStatus.success());
   }

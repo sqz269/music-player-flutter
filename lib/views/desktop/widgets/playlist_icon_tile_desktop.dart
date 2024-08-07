@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_app/controllers/desktop/desktop_application_controller.dart';
+import 'package:tlmc_player_app/controllers/common/application_controller.dart';
 
 class PlaylistIconTileDesktop extends StatelessWidget {
   final String playlistName;
@@ -24,7 +24,7 @@ class PlaylistIconTileDesktop extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         onTap: () {
-          var desktopContext = Get.find<DesktopApplicationController>();
+          var desktopContext = Get.find<ApplicationController>();
           desktopContext.getCurrentPageKey()!.currentState!.pushNamed(
                 '/playlist/$playlistId',
               );

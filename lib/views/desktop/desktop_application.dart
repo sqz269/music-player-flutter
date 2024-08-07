@@ -1,7 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_app/controllers/desktop/desktop_application_controller.dart';
+import 'package:tlmc_player_app/controllers/common/application_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/models/application_pages.dart';
 import 'package:tlmc_player_app/views/desktop/screens/explore_screen_desktop.dart';
@@ -56,13 +56,12 @@ class DesktopApplicationPageWrapper extends StatelessWidget {
 }
 
 class DesktopApplication extends StatelessWidget {
-  DesktopApplicationController controller;
+  final ApplicationController controller;
 
   DesktopApplication({super.key})
-      : controller = Get.getOrPut(DesktopApplicationController());
+      : controller = Get.getOrPut(ApplicationController());
 
-  Widget _buildOffstageNavigator(
-      DesktopApplicationStates state, BuildContext context,
+  Widget _buildOffstageNavigator(ApplicationStates state, BuildContext context,
       {required ApplicationPages page}) {
     return Offstage(
       offstage: state.currentPage != page,
@@ -73,8 +72,7 @@ class DesktopApplication extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomPlayBar(
-      DesktopApplicationStates state, BuildContext context) {
+  Widget _buildBottomPlayBar(ApplicationStates state, BuildContext context) {
     // return a fix sized container for now
     return Row(
       children: [
@@ -83,8 +81,7 @@ class DesktopApplication extends StatelessWidget {
     );
   }
 
-  Widget _buildApplication(
-      DesktopApplicationStates? state, BuildContext context) {
+  Widget _buildApplication(ApplicationStates? state, BuildContext context) {
     if (state == null) {
       throw Exception('State is null');
     }
@@ -144,7 +141,7 @@ class DesktopApplication extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var controller = Get.getOrPut(DesktopApplicationController());
+    var controller = Get.getOrPut(ApplicationController());
 
     return controller.obx(
       (state) => PopScope(

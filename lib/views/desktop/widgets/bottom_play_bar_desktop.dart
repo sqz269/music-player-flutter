@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_app/controllers/desktop/desktop_application_controller.dart';
+import 'package:tlmc_player_app/controllers/common/application_controller.dart';
 import 'package:tlmc_player_app/extensions/api_object_extension.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';
 import 'package:tlmc_player_app/services/api/i_playlist_service.dart';
@@ -91,7 +91,7 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
               style: Theme.of(context).textTheme.bodyLarge,
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  Get.find<DesktopApplicationController>()
+                  Get.find<ApplicationController>()
                       .getCurrentPageKey()!
                       .currentState!
                       .pushNamed('/circle/${artist.circleId}');
@@ -123,7 +123,7 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
                     text: trackInfo.albumTitle,
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        Get.find<DesktopApplicationController>()
+                        Get.find<ApplicationController>()
                             .getCurrentPageKey()!
                             .currentState!
                             .pushNamed('/album/${trackInfo.albumId}');
@@ -463,8 +463,7 @@ class _BottomPlayBarDesktopState extends State<BottomPlayBarDesktop> {
                 ),
                 IconButton(
                   onPressed: () {
-                    var appController =
-                        Get.find<DesktopApplicationController>();
+                    var appController = Get.find<ApplicationController>();
                     if (appController.getCurrentPath() == "/queue") {
                       appController.getCurrentPageKey()!.currentState!.pop();
                     } else {

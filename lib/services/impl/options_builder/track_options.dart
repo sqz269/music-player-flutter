@@ -1,7 +1,7 @@
 import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_app/controllers/desktop/desktop_application_controller.dart';
+import 'package:tlmc_player_app/controllers/common/application_controller.dart';
 import 'package:tlmc_player_app/services/api/options_builder/i_track_option.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
 
@@ -86,7 +86,7 @@ class TrackOptionGotoArtist extends ITrackOption {
 
   @override
   Future execute() async {
-    Get.find<DesktopApplicationController>()
+    Get.find<ApplicationController>()
         .getCurrentPageKey()!
         .currentState!
         .pushNamed("/circle/${track.album!.albumArtist!.first.id}");
@@ -111,7 +111,7 @@ class TrackOptionGotoAlbum extends ITrackOption {
 
   @override
   Future<void> execute() async {
-    Get.find<DesktopApplicationController>()
+    Get.find<ApplicationController>()
         .getCurrentPageKey()!
         .currentState!
         .pushNamed("/album/${track.album!.id}");
