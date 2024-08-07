@@ -115,7 +115,7 @@ jobs:
 
       - name: Upload IPA for OTA
         run: |
-          export OTA_DISTRIBUTION_BASE_URL=https://over-the-air.margatro.id/
+          export OTA_DISTRIBUTION_BASE_URL=https://over-the-air.margatro.id
           export OTA_DISTRIBUTION_APP_NAME=TlmcPlayer
           chmod +x ./scripts/upload_ipa_to_ota.sh
           ./scripts/upload_ipa_to_ota.sh

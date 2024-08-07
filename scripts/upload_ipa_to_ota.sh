@@ -34,12 +34,12 @@ API_URL="$OTA_DISTRIBUTION_BASE_URL/ipa/create?appName=$OTA_DISTRIBUTION_APP_NAM
 
 echo "Uploading the IPA file to OTA distribution server..."
 
-RESPONSE = $(curl --location --silent \
+RESPONSE=$(curl --location --silent \
   --request POST $API_URL \
   --form "file=@$IPA_FILE")
 
 # Parse response to json
-IS_ERROR = $(echo $RESPONSE | jq -r '.error')
+IS_ERROR=$(echo $RESPONSE | jq -r '.error')
 
 if [ "$error" = "true" ]; then
     echo "Error: $(echo $RESPONSE | jq -r '.message')"
@@ -47,7 +47,7 @@ if [ "$error" = "true" ]; then
 fi
 
 # Grab the Direct OTA install url
-OTA_INSTALL_URL = $(echo $RESPONSE | jq -r '.directOtaUrl')
+OTA_INSTALL_URL=$(echo $RESPONSE | jq -r '.directOtaUrl')
 
 echo "OTA Install URL: $OTA_INSTALL_URL"
 
