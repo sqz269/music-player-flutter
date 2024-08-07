@@ -22,6 +22,12 @@ jobs:
         with:
           node-version: '20'
   
+      - name: Show Flutter Doctor
+        run: flutter doctor
+
+      - name: Switch to stable channel
+        run: flutter channel stable
+
       - name: Install OpenAPI Generator
         run: npm install @openapitools/openapi-generator-cli -g
   
@@ -29,6 +35,11 @@ jobs:
         run: |
           chmod +x ./scripts/gen-client.sh
           ./scripts/gen-client.sh
+
+      - name: Clear Flutter Cache
+        run: |
+          flutter clean
+          flutter pub cache clean
 
       - name: Install Dependencies
         run: flutter pub get
