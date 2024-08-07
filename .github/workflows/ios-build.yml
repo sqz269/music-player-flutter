@@ -16,6 +16,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
+          flutter-version: "3.22.3"
 
       - name: Install Node.js
         uses: actions/setup-node@v4
@@ -24,6 +25,9 @@ jobs:
   
       - name: Show Flutter Doctor
         run: flutter doctor
+
+      - name: Show Flutter Version
+        run: flutter --version
 
       - name: Switch to stable channel
         run: flutter channel stable
@@ -39,7 +43,7 @@ jobs:
       - name: Clear Flutter Cache
         run: |
           flutter clean
-          flutter pub cache clean
+          flutter pub cache clean -f
 
       - name: Install Dependencies
         run: flutter pub get
