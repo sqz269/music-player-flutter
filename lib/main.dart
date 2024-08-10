@@ -91,13 +91,15 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'ABC',
       theme: FlexThemeData.light(
-        scheme: FlexScheme.jungle,
+        fontFamily: 'FiraCode',
+        // scheme: FlexScheme.jungle,
         useMaterial3: true,
       ),
       darkTheme: FlexThemeData.dark(
-        scheme: FlexScheme.verdunHemlock,
+        fontFamily: 'FiraCode',
+        // scheme: FlexScheme.verdunHemlock,
         useMaterial3: true,
       ),
       // Depending on screen size, show either mobile or desktop application

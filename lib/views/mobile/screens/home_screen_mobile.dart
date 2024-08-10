@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:tlmc_player_app/controllers/common/widget/sliver_album_grid_view_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/services/impl/api_client_provider.dart';
+import 'package:tlmc_player_app/views/common/widget/sliver_album_aligned_grid_view.dart';
 import 'package:tlmc_player_app/views/common/widget/sliver_album_grid_view.dart';
 
 class HomeScreenMobile extends StatelessWidget {
@@ -72,7 +73,7 @@ class HomeScreenMobile extends StatelessWidget {
           ),
           SliverPadding(
               padding: const EdgeInsets.all(8),
-              sliver: SliverAlbumGridView(controller: controller)),
+              sliver: SliverAlbumAlignedGridView(controller: controller)),
         ],
       ),
     );

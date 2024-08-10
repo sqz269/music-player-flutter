@@ -68,6 +68,16 @@ class MobileApplication extends StatelessWidget {
       );
     }
 
+    // get screen size
+    var screenWidth = MediaQuery.of(context).size.width;
+
+    // Ensure the screen width is not 0
+    if (screenWidth == 0) {
+      return const Center(
+        child: Text("Assertion Error: Screen width is 0"),
+      );
+    }
+
     return Scaffold(
       body: MobileApplicationPageWrapper(
         page: state.currentPage,

@@ -10,110 +10,80 @@ class AlbumCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.of(context).pushNamed(
-          "/album/${albumData.id}",
-        );
-      },
-      onLongPress: () {},
-      child: SizedBox(
+    return Card.outlined(
+      clipBehavior: Clip.hardEdge,
+      child: InkWell(
+        onTap: () {},
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: OutlinedCard(
-            child: SizedBox(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: AspectRatio(
-                          aspectRatio: 1,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(4),
-                            child: albumData.thumbnail == null
-                                ? LayoutBuilder(
-                                    builder: (context, constraint) => Icon(
-                                      Icons.album,
-                                      size: constraint.biggest.height * 0.9,
-                                      color: Colors.grey.shade300,
-                                    ),
-                                  )
-                                : Image.network(
-                                    albumData.thumbnail!.medium!.url!,
-                                    fit: BoxFit.cover,
-                                    loadingBuilder: (context, child, progress) {
-                                      return progress == null
-                                          ? child
-                                          : SizedBox.expand(
-                                              child: Shimmer.fromColors(
-                                                baseColor: Colors.grey[300]!,
-                                                highlightColor:
-                                                    Colors.grey[100]!,
-                                                child: Container(
-                                                  color: Colors.white,
-                                                ),
-                                              ),
-                                            );
-                                    },
-                                  ),
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              AspectRatio(
+                aspectRatio: 1,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: albumData.thumbnail == null
+                      ? LayoutBuilder(
+                          builder: (context, constraint) => Icon(
+                            Icons.album,
+                            size: constraint.biggest.height * 0.9,
+                            color: Colors.grey.shade300,
                           ),
+                        )
+                      : Image.network(
+                          albumData.thumbnail!.medium!.url!,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, progress) {
+                            return progress == null
+                                ? child
+                                : SizedBox.expand(
+                                    child: Shimmer.fromColors(
+                                      baseColor: Colors.grey[300]!,
+                                      highlightColor: Colors.grey[100]!,
+                                      child: Container(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  );
+                          },
                         ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 12, 0, 6),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    albumData.name!.default_,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(),
+                    maxLines: 2,
+                    textAlign: TextAlign.left,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: albumData.albumArtist![0].name,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall!
+                            .copyWith(color: Colors.grey.shade600),
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        albumData.name!.default_,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                        maxLines: 1,
-                        textAlign: TextAlign.left,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: "Album",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(color: Colors.grey.shade600),
-                          ),
-                          TextSpan(
-                            text: ' · ',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(color: Colors.grey.shade600),
-                          ),
-                          TextSpan(
-                            text: albumData.albumArtist![0].name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall!
-                                .copyWith(color: Colors.grey.shade600),
-                          ),
-                        ],
-                      ),
-                      maxLines: 1,
-                      textAlign: TextAlign.left,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  )
-                ],
-              ),
-            ),
+                  maxLines: 1,
+                  textAlign: TextAlign.left,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              )
+            ],
           ),
         ),
       ),

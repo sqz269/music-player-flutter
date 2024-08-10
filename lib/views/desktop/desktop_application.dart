@@ -43,7 +43,7 @@ class DesktopApplicationPageWrapper extends StatelessWidget {
                 case ApplicationPages.explore:
                   return const ExploreScreenDesktop();
                 case ApplicationPages.library:
-                  return const Text("Library Page");
+                  return const Text("Library PAAAage");
               }
             },
           );
