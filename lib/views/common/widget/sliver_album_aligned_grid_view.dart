@@ -6,45 +6,12 @@ import 'package:tlmc_player_app/views/common/widget/album_card.dart';
 
 class SliverAlbumAlignedGridView extends StatelessWidget {
   final SliverAlbumGridViewController controller;
+  final ScrollController scrollController = ScrollController();
 
-  const SliverAlbumAlignedGridView({
+  SliverAlbumAlignedGridView({
     Key? key,
     required this.controller,
   }) : super(key: key);
-
-  // Widget _buildAlignedGridView(
-  //     SliverAlbumGridViewStates state, BuildContext context) {
-  //   // Compute the optimal cross axis count based on the screen width
-  //   // Adjust the axis spacing instead of the card size to make the grid responsive
-  //   var fixedCardSize = 270;
-  //   var screenWidth = MediaQuery.of(context).size.width;
-
-  //   if (screenWidth == 0) {
-  //     return const SliverToBoxAdapter(
-  //       child: Center(
-  //         child:
-  //             Text("Assertion Error: Screen width is 0, skipping grid view."),
-  //       ),
-  //     );
-  //   }
-
-  //   assert(
-  //       fixedCardSize < screenWidth, "Card size is larger than screen width");
-
-  //   var crossAxisCount = (screenWidth / fixedCardSize).floor();
-  //   var mainAxisSpacing =
-  //       (screenWidth - (crossAxisCount * fixedCardSize)) / (crossAxisCount - 1);
-  //   return AlignedGridView.count(
-  //     crossAxisCount: crossAxisCount,
-  //     mainAxisSpacing: 12,
-  //     crossAxisSpacing: mainAxisSpacing,
-  //     shrinkWrap: true,
-  //     itemCount: state.albums.length,
-  //     itemBuilder: (context, index) {
-  //       return AlbumCard(albumData: state.albums[index]);
-  //     },
-  //   );
-  // }
 
   Widget _buildAlignedGridView(
       SliverAlbumGridViewStates state, BuildContext context) {
@@ -57,6 +24,7 @@ class SliverAlbumAlignedGridView extends StatelessWidget {
       crossAxisSpacing: 6,
       shrinkWrap: true,
       itemCount: state.albums.length,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         return AlbumCard(albumData: state.albums[index]);
       },
