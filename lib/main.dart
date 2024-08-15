@@ -18,6 +18,7 @@ import 'package:tlmc_player_app/services/impl/media_session_services/windows_smt
 import 'package:tlmc_player_app/services/impl/playlist_services/ondemand_playlist_service.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
 import 'package:tlmc_player_app/services/impl/radio_service.dart';
+import 'package:tlmc_player_app/views/common/screen_size_dependent.dart';
 import 'package:tlmc_player_app/views/desktop/desktop_application.dart';
 
 import 'package:media_kit/media_kit.dart';
@@ -103,14 +104,9 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       // Depending on screen size, show either mobile or desktop application
-      home: LayoutBuilder(
-        builder: (context, constraints) {
-          if (constraints.maxWidth < 600) {
-            return MobileApplication();
-          } else {
-            return DesktopApplication();
-          }
-        },
+      home: ScreenSizeDependent(
+        desktopScreen: DesktopApplication(),
+        mobileScreen: MobileApplication(),
       ),
     );
   }

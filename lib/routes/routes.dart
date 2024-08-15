@@ -1,4 +1,5 @@
 import 'package:fluro/fluro.dart';
+import 'package:tlmc_player_app/views/common/screen_size_dependent.dart';
 import 'package:tlmc_player_app/views/desktop/screens/album_screen_desktop.dart';
 import 'package:tlmc_player_app/views/desktop/screens/artist_screen_desktop.dart';
 import 'package:tlmc_player_app/views/desktop/screens/audio_test_screen_desktop.dart';
@@ -12,8 +13,13 @@ extension FluroRouterExtension on FluroRouter {
       '/album/:albumId',
       handler: Handler(
         handlerFunc: (context, parameters) {
-          return AlbumScreenDesktop(
-            albumId: parameters['albumId']![0],
+          return ScreenSizeDependent(
+            // mobile: AlbumSCreenMobile(
+            //   albumId: parameters['albumId']![0],
+            // ),
+            desktopScreen: AlbumScreenDesktop(
+              albumId: parameters['albumId']![0],
+            ),
           );
         },
       ),

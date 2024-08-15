@@ -61,6 +61,44 @@ class MobileApplication extends StatelessWidget {
   MobileApplication({super.key})
       : controller = Get.getOrPut(ApplicationController());
 
+  Widget _buildBottomNavigationBar(
+      ApplicationStates state, BuildContext context) {
+    final navigationOptions = [
+      {
+        "activeIcon": Icons.home,
+        "inactiveIcon": Icons.home_outlined,
+        "label": "Home",
+      },
+      {
+        "activeIcon": Icons.explore,
+        "inactiveIcon": Icons.explore_outlined,
+        "label": "Explore",
+      },
+      {
+        "activeIcon": Icons.library_music,
+        "inactiveIcon": Icons.library_music_outlined,
+        "label": "Library",
+      }
+    ];
+
+    List<NavigationDestination> destinations = [];
+    for (var option in navigationOptions) {
+      destinations.add(NavigationDestination(
+        icon: Icon((option["inactiveIcon"] as IconData)),
+        selectedIcon: Icon((option["activeIcon"] as IconData)),
+        label: option["label"] as String,
+      ));
+    }
+
+    return NavigationBar(
+      destinations: destinations,
+      selectedIndex: state.currentPage.index,
+      onDestinationSelected: (index) {
+        controller.changePage(ApplicationPages.values[index]);
+      },
+    );
+  }
+
   Widget _buildApplication(ApplicationStates? state, BuildContext context) {
     if (state == null) {
       return const Center(
@@ -83,6 +121,7 @@ class MobileApplication extends StatelessWidget {
         page: state.currentPage,
         navigatorKey: controller.getCurrentPageKey()!,
       ),
+      bottomNavigationBar: _buildBottomNavigationBar(state, context),
     );
   }
 
