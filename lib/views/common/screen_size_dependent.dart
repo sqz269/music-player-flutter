@@ -15,9 +15,9 @@ class ScreenSizeDependent extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth > 700) {
-          return desktopScreen ?? Placeholder();
+          return desktopScreen ?? const Placeholder();
         } else {
-          return mobileScreen ?? Placeholder();
+          return mobileScreen ?? const Placeholder();
         }
       },
     );

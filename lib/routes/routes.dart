@@ -5,6 +5,7 @@ import 'package:tlmc_player_app/views/desktop/screens/artist_screen_desktop.dart
 import 'package:tlmc_player_app/views/desktop/screens/audio_test_screen_desktop.dart';
 import 'package:tlmc_player_app/views/desktop/screens/playlist_screen_desktop.dart';
 import 'package:tlmc_player_app/views/desktop/screens/queue_screen_desktop.dart';
+import 'package:tlmc_player_app/views/mobile/screens/album_screen_mobile.dart';
 
 extension FluroRouterExtension on FluroRouter {
   void defineRoutes() {
@@ -14,9 +15,9 @@ extension FluroRouterExtension on FluroRouter {
       handler: Handler(
         handlerFunc: (context, parameters) {
           return ScreenSizeDependent(
-            // mobile: AlbumSCreenMobile(
-            //   albumId: parameters['albumId']![0],
-            // ),
+            mobileScreen: AlbumScreenMobile(
+              albumId: parameters['albumId']![0],
+            ),
             desktopScreen: AlbumScreenDesktop(
               albumId: parameters['albumId']![0],
             ),

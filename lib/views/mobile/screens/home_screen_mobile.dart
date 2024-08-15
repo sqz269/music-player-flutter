@@ -5,7 +5,6 @@ import 'package:tlmc_player_app/controllers/common/widget/sliver_album_grid_view
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/services/impl/api_client_provider.dart';
 import 'package:tlmc_player_app/views/common/widget/sliver_album_aligned_grid_view.dart';
-import 'package:tlmc_player_app/views/common/widget/sliver_album_grid_view.dart';
 
 class HomeScreenMobile extends StatelessWidget {
   const HomeScreenMobile({Key? key}) : super(key: key);
