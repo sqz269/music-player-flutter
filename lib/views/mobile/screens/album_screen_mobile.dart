@@ -72,14 +72,66 @@ class _AlbumScreenMobileState extends State<AlbumScreenMobile> {
           primary: true,
           elevation: 0.0,
           title: Opacity(
-            opacity: albumInfoOpacity.value,
-            child: Text("${albumInfoOpacity.value}"),
+            opacity: 1 - albumInfoOpacity.value,
+            child: Text("${1 - albumInfoOpacity.value}"),
           ),
           backgroundColor: Theme.of(context)
               .colorScheme
-              .surface
-              .withOpacity(albumInfoOpacity.value),
-          forceMaterialTransparency: albumInfoOpacity.value != 1,
+              .primary
+              .withOpacity(1 - albumInfoOpacity.value),
+          forceMaterialTransparency: albumInfoOpacity.value == 1,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAlbumMiscInfo(
+      AlbumScreenDesktopState state, BuildContext context) {
+    return SizedBox(
+      height: kToolbarHeight,
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.width * 0.2),
+        child: AbsorbPointer(
+          child: Column(
+            children: [
+              RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                  text: state.masterAlbum.albumArtist!.first.name,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+              RichText(
+                text: TextSpan(
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  children: [
+                    TextSpan(
+                      text: "Album",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: Colors.grey.shade600),
+                    ),
+                    TextSpan(
+                      text: ' · ',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: Colors.grey.shade600),
+                    ),
+                    TextSpan(
+                      text: '${state.masterAlbum.releaseDate!.year}',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodySmall!
+                          .copyWith(color: Colors.grey.shade600),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -183,13 +235,16 @@ class _AlbumScreenMobileState extends State<AlbumScreenMobile> {
     }
 
     return Scaffold(
-      // extendBodyBehindAppBar: true,
-      appBar: _buildAppBar(states, context) as PreferredSizeWidget?,
+      extendBodyBehindAppBar: true,
+      appBar: _buildAppBar(states, context),
       body: Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         child: CustomScrollView(
           controller: _scrollController,
           slivers: [
+            SliverToBoxAdapter(
+              child: _buildAlbumMiscInfo(states, context),
+            ),
             SliverToBoxAdapter(
               child: _buildAlbumInfoView(states, context),
             ),
