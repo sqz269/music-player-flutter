@@ -91,7 +91,9 @@ class _AlbumScreenMobileState extends State<AlbumScreenMobile> {
       height: kToolbarHeight,
       child: Padding(
         padding: EdgeInsets.symmetric(
-            horizontal: MediaQuery.of(context).size.width * 0.2),
+          horizontal: MediaQuery.of(context).size.width * 0.2,
+          vertical: 8.0,
+        ),
         child: AbsorbPointer(
           child: Column(
             children: [
@@ -209,6 +211,7 @@ class _AlbumScreenMobileState extends State<AlbumScreenMobile> {
     return Column(
       children: [
         ListView.builder(
+          padding: const EdgeInsets.all(0),
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: states.masterAlbum.tracks!.length,
