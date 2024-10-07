@@ -1,4 +1,5 @@
 import 'package:fluro/fluro.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
@@ -19,41 +20,48 @@ class MobileApplicationPageWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Navigator(
-      key: navigatorKey,
-      onGenerateRoute: (routeSettings) {
-        String? currentPath;
-        navigatorKey.currentState?.popUntil((route) {
-          currentPath = route.settings.name;
-          return true;
-        });
-
-        if (currentPath == "/queue") {
-          navigatorKey.currentState?.pop();
-        }
-
-        if (routeSettings.name == '/') {
-          return MaterialPageRoute(
-            builder: (context) {
-              switch (page) {
-                case ApplicationPages.home:
-                  return const HomeScreenMobile();
-                // case ApplicationPages.explore:
-                //   return const ExploreScreenMobile();
-                case ApplicationPages.library:
-                  return const Text("Library Page");
-                case _:
-                  return const Text("Home Page");
-              }
-            },
-          );
-        }
-
-        return Get.find<FluroRouter>().generator(routeSettings);
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (bool didPop) {
+        navigatorKey.currentState?.pop();
       },
+      child: Navigator(
+        key: navigatorKey,
+        onGenerateRoute: (routeSettings) {
+          String? currentPath;
+          navigatorKey.currentState?.popUntil((route) {
+            currentPath = route.settings.name;
+            return true;
+          });
+
+          if (currentPath == "/queue") {
+            navigatorKey.currentState?.pop();
+          }
+
+          if (routeSettings.name == '/') {
+            return CupertinoPageRoute(
+              builder: (context) {
+                switch (page) {
+                  case ApplicationPages.home:
+                    return const HomeScreenMobile();
+                  // case ApplicationPages.explore:
+                  //   return const ExploreScreenMobile();
+                  case ApplicationPages.library:
+                    return const Text("Library Page");
+                  case _:
+                    return const Text("Home Page");
+                }
+              },
+            );
+          }
+
+          return Get.find<FluroRouter>().generator(routeSettings);
+        },
+      ),
     );
   }
 }
+
 
 class MobileApplication extends StatelessWidget {
   final ApplicationController controller;

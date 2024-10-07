@@ -104,11 +104,23 @@ class _MyAppState extends State<MyApp> {
       theme: FlexThemeData.light(
         fontFamily: 'FiraCode',
         scheme: FlexScheme.greenM3,
+        // pageTransitionsTheme: const PageTransitionsTheme(
+        //   builders: {
+        //     TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        //     TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        //   },
+        // ),
         useMaterial3: true,
       ),
       darkTheme: FlexThemeData.dark(
         fontFamily: 'FiraCode',
         scheme: FlexScheme.verdunHemlock,
+        // pageTransitionsTheme: const PageTransitionsTheme(
+        //   builders: {
+        //     TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        //     TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+        //   },
+        // ),
         useMaterial3: true,
       ),
       // Depending on screen size, show either mobile or desktop application
