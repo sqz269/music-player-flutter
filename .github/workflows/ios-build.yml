@@ -124,7 +124,7 @@ jobs:
           ./scripts/upload_ipa_to_ota.sh
 
       - name: Upload IPA
-        uses: actions/upload-artifact@4
+        uses: actions/upload-artifact@v4
         with:
           name: Runner.ipa
           path: build/IPA/*.ipa
