@@ -40,7 +40,7 @@ jobs:
         run: tar -czf flutter_project.tar.gz .
 
       - name: Upload Archive as Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@4
         with:
           name: flutter-ios-project
           path: flutter_project.tar.gz
