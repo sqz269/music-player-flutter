@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_app/controllers/desktop/screens/album_screen_desktop_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
+import 'package:tlmc_player_app/views/mobile/widgets/track_tile.dart';
 
 class AlbumScreenMobile extends StatefulWidget {
   final String albumId;
@@ -19,7 +20,7 @@ class AlbumScreenMobile extends StatefulWidget {
 }
 
 class _AlbumScreenMobileState extends State<AlbumScreenMobile> {
-  final Rx<double> albumInfoOpacity = 0.0.obs;
+  final Rx<double> albumInfoOpacity = 1.0.obs;
 
   final sliverAlbumControlKey = GlobalKey();
   final ScrollController _scrollController = ScrollController();
@@ -73,7 +74,7 @@ class _AlbumScreenMobileState extends State<AlbumScreenMobile> {
           elevation: 0.0,
           title: Opacity(
             opacity: 1 - albumInfoOpacity.value,
-            child: Text("${1 - albumInfoOpacity.value}"),
+            child: Text(states.masterAlbum.name!.default_),
           ),
           backgroundColor: Theme.of(context)
               .colorScheme
@@ -217,13 +218,7 @@ class _AlbumScreenMobileState extends State<AlbumScreenMobile> {
           itemCount: states.masterAlbum.tracks!.length,
           itemBuilder: (context, index) {
             var track = states.masterAlbum.tracks![index];
-            return ListTile(
-              title: Text(track.name!.default_),
-              trailing: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.more_vert),
-              ),
-            );
+            return TrackTile(trackData: track, albumData: states.masterAlbum);
           },
         ),
       ],
@@ -247,6 +242,11 @@ class _AlbumScreenMobileState extends State<AlbumScreenMobile> {
           slivers: [
             SliverToBoxAdapter(
               child: _buildAlbumMiscInfo(states, context),
+            ),
+            SliverToBoxAdapter(
+              child: const Divider(
+                height: 1,
+              ),
             ),
             SliverToBoxAdapter(
               child: _buildAlbumInfoView(states, context),

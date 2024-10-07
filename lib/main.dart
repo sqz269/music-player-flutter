@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ import 'package:media_kit/media_kit.dart';
 import 'package:tlmc_player_app/views/mobile/mobile_application.dart'; // Provides [Player], [Media], [Playlist] etc.
 // Provides [VideoController] & [Video] etc.
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   MediaKit.ensureInitialized();
 
@@ -55,6 +56,13 @@ void main() {
     logger.i(
         "Non-Windows platform detected. Using Cross-platform Media Session service (Implementor audio_session package).");
     Get.put<IMediaSessionService>(CrossPlatformMediaSessionService());
+    var audioHandler = await AudioService.init(
+      builder: () => Get.find<IMediaSessionService>() as BaseAudioHandler,
+      config: const AudioServiceConfig(
+        androidNotificationChannelId: 'com.sqz269.tlmc_player_app',
+        androidNotificationChannelName: 'Test',
+      ),
+    );
   }
 
   // Initialize routes
@@ -95,12 +103,12 @@ class _MyAppState extends State<MyApp> {
       title: 'ABC',
       theme: FlexThemeData.light(
         fontFamily: 'FiraCode',
-        // scheme: FlexScheme.jungle,
+        scheme: FlexScheme.greenM3,
         useMaterial3: true,
       ),
       darkTheme: FlexThemeData.dark(
         fontFamily: 'FiraCode',
-        // scheme: FlexScheme.verdunHemlock,
+        scheme: FlexScheme.verdunHemlock,
         useMaterial3: true,
       ),
       // Depending on screen size, show either mobile or desktop application
