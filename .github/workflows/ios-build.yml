@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - app-refactor-new
+      - "**"
 
 jobs:
   build:
