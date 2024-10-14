@@ -1,7 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_app/controllers/common/application_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
@@ -20,41 +19,28 @@ class MobileApplicationPageWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (bool didPop) {
-        navigatorKey.currentState?.pop();
+    return WillPopScope(
+      onWillPop: () async {
+        return !await navigatorKey.currentState!
+            .maybePop(); // Allow swipe back if possible
       },
       child: Navigator(
         key: navigatorKey,
         onGenerateRoute: (routeSettings) {
-          String? currentPath;
-          navigatorKey.currentState?.popUntil((route) {
-            currentPath = route.settings.name;
-            return true;
-          });
-
-          if (currentPath == "/queue") {
-            navigatorKey.currentState?.pop();
-          }
-
           if (routeSettings.name == '/') {
             return CupertinoPageRoute(
               builder: (context) {
                 switch (page) {
                   case ApplicationPages.home:
                     return const HomeScreenMobile();
-                  // case ApplicationPages.explore:
-                  //   return const ExploreScreenMobile();
                   case ApplicationPages.library:
                     return const Text("Library Page");
-                  case _:
+                  default:
                     return const Text("Home Page");
                 }
               },
             );
           }
-
           return Get.find<FluroRouter>().generator(routeSettings);
         },
       ),

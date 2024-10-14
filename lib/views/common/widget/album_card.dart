@@ -1,8 +1,6 @@
 import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:tlmc_player_app/views/common/widget/outlined_card.dart';
 
 class AlbumCard extends StatelessWidget {
   final AlbumReadDto albumData;

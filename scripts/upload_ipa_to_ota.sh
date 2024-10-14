@@ -1,3 +1,23 @@
+EXTRACT_BUNDLE_VERSION_FROM_IPA () {
+    # Extract the bundle version from the IPA file
+    # $1: Path to the IPA file
+
+    # Unzip the IPA file
+    unzip -q -o $1 -d /tmp/ipa
+
+    # Locate the Info.plist file by recursively searching for it
+    INFO_PLIST_FILE=$(find /tmp/ipa -name Info.plist)
+
+    # use PlistBuddy to extract the bundle version
+    BUNDLE_VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" $INFO_PLIST_FILE)
+
+    # Clean up the temporary directory
+    rm -rf /tmp/ipa
+
+    echo $BUNDLE_VERSION
+}
+
+
 # Assert to check if the required environment variables are set
 if [ -z "$OTA_DISTRIBUTION_BASE_URL" ]; then
     echo "Please set the OTA_DISTRIBUTION_BASE_URL environment variable"

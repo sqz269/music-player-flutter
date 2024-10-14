@@ -12,6 +12,29 @@
 3. Follow [this](https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/manually-running-a-workflow) docs to run the **Add iOS Support and Export Tarball** workflow
 4. Once the workflow completes, follow [this](https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/downloading-workflow-artifacts) docs to download the exported artifact
 5. Extract the artifact and copy it's `ios` folder to your repo, you should now see a `Podfile` in the `ios` folder
+6. Once the `Podfile` is in the `ios` folder, open the `Podfile` and navigate to the section that contains the following lines:
+    ```
+    post_install do |installer|
+        installer.pods_project.targets.each do |target|
+            flutter_additional_ios_build_settings(target)
+        end
+    end
+    ```
+7. Modify the post install section to the following:
+    ```
+    post_install do |installer|
+      installer.pods_project.targets.each do |target|
+        flutter_additional_ios_build_settings(target)
+
+        # For disabling code signing for any Pod libraries
+        # Signing Pod libraries will cause the signing process to fail
+        target.build_configurations.each do |config|
+          config.build_settings['CODE_SIGNING_REQUIRED'] = "NO"
+          config.build_settings['CODE_SIGNING_ALLOWED'] = "NO"
+        end
+      end
+    end
+    ```
 
 ## Tutorial: Finding Flutter Bundle ID
 
@@ -129,3 +152,8 @@ base64 -w 0 -i ios_enterprise.mobileprovision
 ```
 
 Then copy the content of `ios_enterprise.mobileprovision` and paste it into the secret
+
+
+## Configurations and Caveats
+
+Before a build 

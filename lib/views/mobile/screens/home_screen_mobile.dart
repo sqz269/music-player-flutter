@@ -25,13 +25,13 @@ class HomeScreenMobile extends StatelessWidget {
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
-            leading: Icon(Icons.menu),
+            leading: const Icon(Icons.menu),
             actions: [
               IconButton(
                 onPressed: () {
                   Navigator.pushNamed(context, "/search", arguments: {});
                 },
-                icon: Icon(Icons.search),
+                icon: const Icon(Icons.search),
               ),
               PopupMenuButton<String>(
                 onSelected: (option) {

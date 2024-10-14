@@ -243,8 +243,8 @@ class _AlbumScreenMobileState extends State<AlbumScreenMobile> {
             SliverToBoxAdapter(
               child: _buildAlbumMiscInfo(states, context),
             ),
-            SliverToBoxAdapter(
-              child: const Divider(
+            const SliverToBoxAdapter(
+              child: Divider(
                 height: 1,
               ),
             ),
