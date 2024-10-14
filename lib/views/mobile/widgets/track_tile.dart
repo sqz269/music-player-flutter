@@ -1,5 +1,8 @@
 import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
+import 'package:tlmc_player_app/services/impl/options_builder/track_options_builder.dart';
+import 'package:tlmc_player_app/services/impl/options_builder/track_options_builder_extensions.dart';
+import 'package:tlmc_player_app/views/mobile/widgets/track_bottom_sheet_options_list.dart';
 
 class TrackTile extends StatelessWidget {
   final TrackReadDto trackData;
@@ -15,7 +18,22 @@ class TrackTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       onTap: () {},
-      onLongPress: () {},
+      onLongPress: () {
+        var opt = TrackOptionsBuilder(track: trackData)
+            .withAddToPlaylist()
+            .withAddToQueue()
+            .withPlayNext()
+            .build();
+
+        showModalBottomSheet(
+            context: context,
+            builder: (context) {
+              return SafeArea(
+                child: TrackBottomSheetOptionsList.fromOptions(
+                    opt, trackData, albumData),
+              );
+            });
+      },
       leading: Text(
         trackData.index.toString(),
       ),

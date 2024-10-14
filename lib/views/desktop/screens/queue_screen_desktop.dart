@@ -1,7 +1,7 @@
 import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_app/services/api/options_builder/i_track_option.dart';
+import 'package:tlmc_player_app/services/impl/options_builder/i_track_option.dart';
 import 'package:tlmc_player_app/services/impl/options_builder/track_options_builder.dart';
 import 'package:tlmc_player_app/services/impl/options_builder/track_options_builder_extensions.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';

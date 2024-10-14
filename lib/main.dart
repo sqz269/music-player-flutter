@@ -56,7 +56,7 @@ Future<void> main() async {
     logger.i(
         "Non-Windows platform detected. Using Cross-platform Media Session service (Implementor audio_session package).");
     Get.put<IMediaSessionService>(CrossPlatformMediaSessionService());
-    var audioHandler = await AudioService.init(
+    await AudioService.init(
       builder: () => Get.find<IMediaSessionService>() as BaseAudioHandler,
       config: const AudioServiceConfig(
         androidNotificationChannelId: 'com.sqz269.tlmc_player_app',
@@ -104,23 +104,23 @@ class _MyAppState extends State<MyApp> {
       theme: FlexThemeData.light(
         fontFamily: 'FiraCode',
         scheme: FlexScheme.greenM3,
-        // pageTransitionsTheme: const PageTransitionsTheme(
-        //   builders: {
-        //     TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-        //     TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-        //   },
-        // ),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          },
+        ),
         useMaterial3: true,
       ),
       darkTheme: FlexThemeData.dark(
         fontFamily: 'FiraCode',
         scheme: FlexScheme.verdunHemlock,
-        // pageTransitionsTheme: const PageTransitionsTheme(
-        //   builders: {
-        //     TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-        //     TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-        //   },
-        // ),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          },
+        ),
         useMaterial3: true,
       ),
       // Depending on screen size, show either mobile or desktop application

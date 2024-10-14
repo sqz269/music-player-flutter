@@ -2,7 +2,7 @@ import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_app/controllers/common/application_controller.dart';
-import 'package:tlmc_player_app/services/api/options_builder/i_track_option.dart';
+import 'package:tlmc_player_app/services/impl/options_builder/i_track_option.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
 
 class TrackOptionPlayNext extends ITrackOption {
@@ -19,8 +19,6 @@ class TrackOptionPlayNext extends ITrackOption {
 
   @override
   Future execute() async {
-    print('Playing next');
-
     for (var callback in callbacks) {
       callback();
     }

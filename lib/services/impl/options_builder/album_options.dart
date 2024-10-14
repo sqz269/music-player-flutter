@@ -1,6 +1,6 @@
 import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
-import 'package:tlmc_player_app/services/api/options_builder/i_album_option.dart';
+import 'package:tlmc_player_app/services/impl/options_builder/i_album_option.dart';
 
 class AlbumOptionPlayNext extends IAlbumOption {
   @override
