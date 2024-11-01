@@ -20,6 +20,7 @@ import 'package:tlmc_player_app/services/impl/media_session_services/windows_smt
 import 'package:tlmc_player_app/services/impl/playlist_services/ondemand_playlist_service.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
 import 'package:tlmc_player_app/services/impl/radio_service.dart';
+import 'package:tlmc_player_app/utils/wrapper.dart';
 import 'package:tlmc_player_app/views/common/screen_size_dependent.dart';
 import 'package:tlmc_player_app/views/desktop/desktop_application.dart';
 
@@ -97,8 +98,10 @@ class MyApp extends StatelessWidget {
     initialLocation: "/home",
     routes: <RouteBase>[
       StatefulShellRoute.indexedStack(
-        builder: (context, child, navigationShell) => MobileApplication(
-          navigationShell: navigationShell,
+        builder: (context, child, navigationShell) => Wrapper(
+          child: MobileApplication(
+            navigationShell: navigationShell,
+          ),
         ),
         branches: <StatefulShellBranch>[
           StatefulShellBranch(
