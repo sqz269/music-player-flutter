@@ -1,6 +1,7 @@
 import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:tlmc_player_app/views/common/widget/outlined_card.dart';
 
@@ -87,7 +88,7 @@ class AlbumCard extends StatelessWidget {
       elevation: 2,
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, "/album/${albumData.id}");
+          context.go('/album/${albumData.id}');
         },
         child: Padding(
           padding: const EdgeInsets.all(16),

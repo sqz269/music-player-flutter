@@ -3,9 +3,10 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tlmc_player_app/global_configuration.dart';
 import 'package:tlmc_player_app/models/oidc_configuration.dart';
-import 'package:tlmc_player_app/routes/routes.dart';
+import 'package:tlmc_player_app/routes/go_router_routes.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';
 import 'package:tlmc_player_app/services/api/i_media_session_sevice.dart';
 import 'package:tlmc_player_app/services/api/i_playlist_service.dart';
@@ -23,7 +24,8 @@ import 'package:tlmc_player_app/views/common/screen_size_dependent.dart';
 import 'package:tlmc_player_app/views/desktop/desktop_application.dart';
 
 import 'package:media_kit/media_kit.dart';
-import 'package:tlmc_player_app/views/mobile/mobile_application.dart'; // Provides [Player], [Media], [Playlist] etc.
+import 'package:tlmc_player_app/views/mobile/mobile_application.dart';
+import 'package:tlmc_player_app/views/mobile/screens/home_screen_mobile.dart'; // Provides [Player], [Media], [Playlist] etc.
 // Provides [VideoController] & [Video] etc.
 
 Future<void> main() async {
@@ -67,8 +69,6 @@ Future<void> main() async {
 
   // Initialize routes
   logger.i("Initializing routes");
-  Get.put<FluroRouter>(FluroRouter()).defineRoutes();
-
   // Initialize services
   Get.put<OidcAuthenticationService>(OidcAuthenticationService(
       oidcConfiguration: OidcConfiguration(
@@ -81,53 +81,75 @@ Future<void> main() async {
   Get.put<RadioService>(RadioService());
   Get.put<IPlaylistService>(OndemandPlaylistService());
 
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
+GlobalKey<NavigatorState> _homeNavigatorKey = GlobalKey<NavigatorState>();
+GlobalKey<NavigatorState> _exploreNavigatorKey = GlobalKey<NavigatorState>();
+GlobalKey<NavigatorState> _libraryNavigatorKey = GlobalKey<NavigatorState>();
 
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
+class MyApp extends StatelessWidget {
+  MyApp({super.key});
 
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  final GoRouter _router = GoRouter(
+    navigatorKey: _rootNavigatorKey,
+    initialLocation: "/home",
+    routes: <RouteBase>[
+      StatefulShellRoute.indexedStack(
+        builder: (context, child, navigationShell) => MobileApplication(
+          navigationShell: navigationShell,
+        ),
+        branches: <StatefulShellBranch>[
+          StatefulShellBranch(
+            navigatorKey: _homeNavigatorKey,
+            routes: <RouteBase>[
+              GoRoute(
+                path: "/home",
+                builder: (context, child) => const HomeScreenMobile(),
+              ),
+              ...GoRouterCommonRoutes
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _exploreNavigatorKey,
+            routes: <RouteBase>[
+              GoRoute(
+                path: "/explore",
+                builder: (context, child) => const Placeholder(),
+              ),
+              ...GoRouterCommonRoutes
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: _libraryNavigatorKey,
+            routes: <RouteBase>[
+              GoRoute(
+                path: "/library",
+                builder: (context, child) => const Placeholder(),
+              ),
+              ...GoRouterCommonRoutes
+            ],
+          ),
+        ],
+      ),
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ABC',
+    return MaterialApp.router(
       theme: FlexThemeData.light(
         fontFamily: 'FiraCode',
         scheme: FlexScheme.greenM3,
-        // pageTransitionsTheme: const PageTransitionsTheme(
-        //   builders: {
-        //     TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-        //     TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-        //   },
-        // ),
         useMaterial3: true,
       ),
       darkTheme: FlexThemeData.dark(
         fontFamily: 'FiraCode',
         scheme: FlexScheme.verdunHemlock,
-        // pageTransitionsTheme: const PageTransitionsTheme(
-        //   builders: {
-        //     TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-        //     TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-        //   },
-        // ),
         useMaterial3: true,
       ),
-      // Depending on screen size, show either mobile or desktop application
-      home: ScreenSizeDependent(
-        desktopScreen: DesktopApplication(),
-        mobileScreen: MobileApplication(),
-      ),
+      routerConfig: _router,
     );
   }
 }
