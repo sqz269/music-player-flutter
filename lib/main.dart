@@ -29,6 +29,7 @@ import 'package:tlmc_player_app/views/common/screen_size_dependent.dart';
 import 'package:tlmc_player_app/views/desktop/desktop_application.dart';
 
 import 'package:media_kit/media_kit.dart';
+import 'package:tlmc_player_app/views/mobile/screens/home_screen_mobile.dart';
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _sectionANavigatorKey =
@@ -126,7 +127,7 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
                 // bottom navigation bar.
                 path: '/a',
                 builder: (BuildContext context, GoRouterState state) =>
-                    const RootScreen(label: 'A', detailsPath: '/a/details'),
+                    const HomeScreenMobile(),
                 routes: <RouteBase>[
                   // The details screen to display stacked on navigator of the
                   // first tab. This will cover screen A but not the application
@@ -137,10 +138,11 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
                         const DetailsScreen(label: 'A'),
                   ),
                   GoRoute(
-                    path: 'album',
+                    path: 'album/:albumId',
                     builder: (context, state) {
+                      print(state.pathParameters['albumId']);
                       return AlbumScreenMobile(
-                          albumId: '2e0324ed-db9d-4266-8ca8-ae5d61e6d2c6');
+                          albumId: state.pathParameters['albumId']!);
                     },
                   ),
                 ],
