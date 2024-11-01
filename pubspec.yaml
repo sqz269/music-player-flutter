@@ -33,6 +33,7 @@ dependencies:
 
   # Routing
   fluro: ^2.0.5
+  go_router: ^14.3.0
 
   # State Management
   get: ^4.6.6
