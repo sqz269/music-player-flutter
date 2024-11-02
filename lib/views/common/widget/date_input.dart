@@ -44,6 +44,13 @@ class DateInput extends StatelessWidget {
       decoration: decoration?.copyWith(label: Text(label)) ??
           InputDecoration(
             label: Text(label),
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.clear),
+              visualDensity: VisualDensity.compact,
+              onPressed: () {
+                controller.clear();
+              },
+            ),
           ),
       onTap: () => _showDatePickerAndSubmit(context),
     );

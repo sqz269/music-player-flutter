@@ -30,16 +30,25 @@ class _RadioScreenMobileState extends State<RadioScreenMobile> {
         title: const Text('Radio'),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
         child: Column(
           children: [
             DateInput(
               controller: TextEditingController(),
-              label: 'Start Range',
+              label: 'Release Date (After)',
               initialDate: widget.startRange,
               firstDate: DateTime(1970, 1, 1),
               lastDate: DateTime.now(),
             ),
+            const SizedBox(height: 16),
+            DateInput(
+              controller: TextEditingController(),
+              label: 'Release Date (Before)',
+              initialDate: widget.endRange,
+              firstDate: DateTime(1970, 1, 1),
+              lastDate: DateTime.now(),
+            ),
+            const SizedBox(height: 16),
           ],
         ),
       ),

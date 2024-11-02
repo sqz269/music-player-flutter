@@ -62,18 +62,21 @@ class HomeScreenMobile extends StatelessWidget {
                   options = ['Login'];
                   // }
                   return options
-                      .map((option) => PopupMenuItem<String>(
-                            value: option,
-                            child: Text(option),
-                          ))
+                      .map(
+                        (option) => PopupMenuItem<String>(
+                          value: option,
+                          child: Text(option),
+                        ),
+                      )
                       .toList();
                 },
               ),
             ],
           ),
           SliverPadding(
-              padding: const EdgeInsets.all(8),
-              sliver: SliverAlbumAlignedGridView(controller: controller)),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            sliver: SliverAlbumAlignedGridView(controller: controller),
+          ),
         ],
       ),
     );

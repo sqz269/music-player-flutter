@@ -23,6 +23,7 @@ class ExploreScreenMobile extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ListTile(
+                    visualDensity: VisualDensity.comfortable,
                     onTap: () {
                       GoRouter.of(context).goNamed('explore_radio');
                     },

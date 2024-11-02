@@ -85,7 +85,10 @@ class AlbumCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card.outlined(
       clipBehavior: Clip.hardEdge,
-      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+        side: BorderSide(color: Theme.of(context).dividerColor),
+      ),
       child: InkWell(
         onTap: () {
           GoRouter.of(context).goNamed('home_album', pathParameters: {

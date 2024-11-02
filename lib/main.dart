@@ -198,6 +198,7 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
+      themeMode: ThemeMode.system,
       routerConfig: _router,
     );
   }

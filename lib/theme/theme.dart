@@ -1,66 +1,64 @@
+// Theme config for FlexColorScheme version 7.3.x. Make sure you use
+// same or higher package version, but still same major version. If you
+// use a lower package version, some properties may not be supported.
+// In that case remove them after copying this theme to your app.
 import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-/// The [AppTheme] defines light and dark themes for the app.
-///
-/// Theme setup for FlexColorScheme package v8.
-/// Use same major flex_color_scheme package version. If you use a
-/// lower minor version, some properties may not be supported.
-/// In that case, remove them after copying this theme to your
-/// app or upgrade package to version 8.0.0-dev.2.
-///
-/// Use in [MaterialApp] like this:
-///
-/// MaterialApp(
-///  theme: AppTheme.light,
-///  darkTheme: AppTheme.dark,
-///  :
-/// );
-sealed class AppTheme {
-  // The defined light theme.
-  static ThemeData light = FlexThemeData.light(
+class AppTheme {
+  static final light = FlexThemeData.light(
     scheme: FlexScheme.materialBaseline,
+    surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+    blendLevel: 7,
     subThemesData: const FlexSubThemesData(
-      interactionEffects: true,
-      tintedDisabledControls: true,
+      blendOnLevel: 10,
+      blendOnColors: false,
+      blendTextTheme: true,
+      useTextTheme: true,
       useM2StyleDividerInM3: true,
       defaultRadius: 6.0,
-      textButtonRadius: 6.0,
-      filledButtonRadius: 6.0,
-      elevatedButtonRadius: 6.0,
-      outlinedButtonRadius: 6.0,
-      outlinedButtonBorderWidth: 1.5,
-      outlinedButtonPressedBorderWidth: 2.0,
-      inputDecoratorIsFilled: true,
-      inputDecoratorBorderType: FlexInputBorderType.outline,
+      switchThumbFixedSize: true,
+      inputDecoratorUnfocusedHasBorder: false,
       alignedDropdown: true,
-      navigationRailUseIndicator: true,
-      navigationRailLabelType: NavigationRailLabelType.all,
+      useInputDecoratorThemeInDialogs: true,
+      snackBarRadius: 6,
+      bottomSheetRadius: 6.0,
+      navigationBarIndicatorRadius: 6.0,
+      navigationBarElevation: 6.0,
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
+    useMaterial3: true,
+    swapLegacyOnMaterial3: true,
+    // To use the Playground font, add GoogleFonts package and uncomment
+    // fontFamily: GoogleFonts.notoSans().fontFamily,
   );
-  // The defined dark theme.
-  static ThemeData dark = FlexThemeData.dark(
+
+  static final dark = FlexThemeData.dark(
     scheme: FlexScheme.materialBaseline,
+    surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
+    blendLevel: 13,
     subThemesData: const FlexSubThemesData(
-      interactionEffects: true,
-      tintedDisabledControls: true,
-      blendOnColors: true,
+      blendOnLevel: 20,
+      blendTextTheme: true,
+      useTextTheme: true,
       useM2StyleDividerInM3: true,
       defaultRadius: 6.0,
-      textButtonRadius: 6.0,
-      filledButtonRadius: 6.0,
-      elevatedButtonRadius: 6.0,
-      outlinedButtonRadius: 6.0,
-      outlinedButtonBorderWidth: 1.5,
-      outlinedButtonPressedBorderWidth: 2.0,
-      inputDecoratorIsFilled: true,
-      inputDecoratorBorderType: FlexInputBorderType.outline,
+      switchThumbFixedSize: true,
+      inputDecoratorUnfocusedHasBorder: false,
       alignedDropdown: true,
-      navigationRailUseIndicator: true,
-      navigationRailLabelType: NavigationRailLabelType.all,
+      useInputDecoratorThemeInDialogs: true,
+      snackBarRadius: 6,
+      bottomSheetRadius: 6.0,
+      navigationBarIndicatorRadius: 6.0,
+      navigationBarElevation: 6.0,
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
+    useMaterial3: true,
+    swapLegacyOnMaterial3: true,
+    // To use the Playground font, add GoogleFonts package and uncomment
+    // fontFamily: GoogleFonts.notoSans().fontFamily,
   );
 }
+// If you do not have a themeMode switch, uncomment this line
+// to let the device system mode control the theme mode:
+// themeMode: ThemeMode.system,
