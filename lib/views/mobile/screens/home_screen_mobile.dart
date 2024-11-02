@@ -1,6 +1,7 @@
 import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tlmc_player_app/controllers/common/widget/sliver_album_grid_view_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/services/impl/api_client_provider.dart';
@@ -29,25 +30,22 @@ class HomeScreenMobile extends StatelessWidget {
             title: Text('Home'),
             actions: [
               IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, "/search", arguments: {});
-                },
+                onPressed: () {},
                 icon: Icon(Icons.search),
               ),
               PopupMenuButton<String>(
                 onSelected: (option) {
                   switch (option) {
                     case 'Login':
-                      // Get.find<OidcAuthenticationService>().authenticate();
                       break;
                     case 'Logout':
-                      // Get.find<OidcAuthenticationService>().logout();
                       break;
                     case 'Settings':
-                      Navigator.pushNamed(context, "/settings", arguments: {});
                       break;
                     case 'Account':
-                      Navigator.pushNamed(context, "/account", arguments: {});
+                      break;
+                    case 'Audio Debug':
+                      GoRouter.of(context).pushNamed('home_audio_debug');
                       break;
                   }
                 },
@@ -59,7 +57,7 @@ class HomeScreenMobile extends StatelessWidget {
                   //     .isTrue) {
                   //   options = ['Account', 'Settings', 'Logout'];
                   // } else {
-                  options = ['Login'];
+                  options = ['Login', 'Audio Debug'];
                   // }
                   return options
                       .map(

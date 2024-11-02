@@ -5,11 +5,15 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
-class AppTheme {
+sealed class AppTextStyle {
+  static const test = TextStyle(color: Colors.red);
+}
+
+sealed class AppTheme {
   static final light = FlexThemeData.light(
     scheme: FlexScheme.materialBaseline,
     surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
-    blendLevel: 7,
+    blendLevel: 13,
     subThemesData: const FlexSubThemesData(
       blendOnLevel: 10,
       blendOnColors: false,

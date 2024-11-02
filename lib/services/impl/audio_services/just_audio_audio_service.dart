@@ -1,9 +1,12 @@
+import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:tlmc_player_app/models/track_info.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';
+import 'package:tlmc_player_app/services/impl/logging_service.dart';
 
 class JustAudioAudioService implements IAudioService {
+  final _logger = Get.find<LoggingService>().getLogger("JustAudioAudioService");
   final AudioPlayer _audioPlayer = AudioPlayer();
 
   final Rx<Duration?> _bufferedPosition = Rx<Duration?>(null);
@@ -41,6 +44,7 @@ class JustAudioAudioService implements IAudioService {
 
   @override
   Future<void> play(TrackInfo track) async {
+    _logger.d('Playing track: ${track.trackId} ${track.trackAudioUrl}');
     await _audioPlayer.setUrl(track.trackAudioUrl);
     return _audioPlayer.play();
   }

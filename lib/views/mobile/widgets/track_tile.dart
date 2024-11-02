@@ -1,5 +1,7 @@
 import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:tlmc_player_app/services/impl/queue_service.dart';
 
 class TrackTile extends StatelessWidget {
   final TrackReadDto trackData;
@@ -14,8 +16,13 @@ class TrackTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      onTap: () {},
-      onLongPress: () {},
+      onTap: () {
+        Get.find<QueueService>()
+            .addTrackById(trackData.id!, playImmediately: true);
+      },
+      onLongPress: () {
+        Get.find<QueueService>().addTrackById(trackData.id!);
+      },
       leading: Text(
         trackData.index.toString(),
       ),

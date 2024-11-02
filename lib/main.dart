@@ -28,6 +28,7 @@ import 'package:tlmc_player_app/views/common/screen_size_dependent.dart';
 import 'package:tlmc_player_app/views/desktop/desktop_application.dart';
 
 import 'package:media_kit/media_kit.dart';
+import 'package:tlmc_player_app/views/mobile/screens/audio_debug_page.dart';
 import 'package:tlmc_player_app/views/mobile/screens/explore_screen_mobile.dart';
 import 'package:tlmc_player_app/views/mobile/screens/home_screen_mobile.dart';
 import 'package:tlmc_player_app/views/mobile/screens/radio_screen_mobile.dart';
@@ -145,6 +146,11 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
                       return AlbumScreenMobile(
                           albumId: state.pathParameters['albumId']!);
                     },
+                  ),
+                  GoRoute(
+                    path: 'audio_debug',
+                    name: 'home_audio_debug',
+                    builder: (context, state) => AudioDebugPage(),
                   ),
                 ],
               ),
