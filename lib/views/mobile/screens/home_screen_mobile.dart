@@ -26,6 +26,7 @@ class HomeScreenMobile extends StatelessWidget {
         slivers: [
           SliverAppBar(
             leading: Icon(Icons.menu),
+            title: Text('Home'),
             actions: [
               IconButton(
                 onPressed: () {

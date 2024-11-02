@@ -1,5 +1,6 @@
 import 'package:backend_client_api/api.dart';
 import 'package:get/get.dart';
+import 'package:tlmc_player_app/models/radio_filters.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';
 import 'package:tlmc_player_app/services/impl/api_client_provider.dart';
 import 'package:tlmc_player_app/services/impl/logging_service.dart';
@@ -10,6 +11,8 @@ class RadioService {
   final _logger = Get.find<LoggingService>().getLogger("RadioService");
 
   Rx<bool> active = false.obs;
+
+  Rx<RadioFilters> filters = RadioFilters().obs;
 
   final QueueService _queueService;
   final IAudioService _audioService;
@@ -64,5 +67,21 @@ class RadioService {
     }
 
     _queueService.addTracksById(trackIds, groupTag: groupTag);
+  }
+
+  void setFilters(RadioFilters filters) {
+    this.filters.value = filters;
+  }
+
+  RadioFilters getFilters() {
+    return filters.value;
+  }
+
+  void clearFilters() {
+    filters.value = RadioFilters();
+  }
+
+  void applyFilters() {
+    _loadTracks();
   }
 }

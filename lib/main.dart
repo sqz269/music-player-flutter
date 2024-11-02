@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tlmc_player_app/services/impl/static_data_provider.dart';
 import 'package:tlmc_player_app/views/mobile/screens/album_screen_mobile.dart';
 import 'package:audio_service/audio_service.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
@@ -29,7 +30,10 @@ import 'package:tlmc_player_app/views/common/screen_size_dependent.dart';
 import 'package:tlmc_player_app/views/desktop/desktop_application.dart';
 
 import 'package:media_kit/media_kit.dart';
+import 'package:tlmc_player_app/views/mobile/screens/explore_screen_mobile.dart';
 import 'package:tlmc_player_app/views/mobile/screens/home_screen_mobile.dart';
+import 'package:tlmc_player_app/views/mobile/screens/radio_screen_mobile.dart';
+
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _sectionANavigatorKey =
@@ -92,6 +96,7 @@ Future<void> main() async {
 
   Get.put<RadioService>(RadioService());
   Get.put<IPlaylistService>(OndemandPlaylistService());
+  Get.put<StaticDataProvider>(StaticDataProvider());
 
   runApp(NestedTabNavigationExampleApp());
 }
@@ -137,7 +142,7 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
                   // shell (bottom navigation bar).
                   GoRoute(
                     path: 'album/:albumId',
-                    name: 'a_album',
+                    name: 'home_album',
                     builder: (context, state) {
                       return AlbumScreenMobile(
                           albumId: state.pathParameters['albumId']!);
@@ -159,21 +164,18 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
                 // bottom navigation bar.
                 path: '/explore',
                 builder: (BuildContext context, GoRouterState state) =>
-                    const Placeholder(),
-                // routes: <RouteBase>[
-                //   GoRoute(
-                //     path: 'details/:param',
-                //     builder: (BuildContext context, GoRouterState state) =>
-                //         DetailsScreen(
-                //       label: 'B',
-                //       param: state.pathParameters['param'],
-                //     ),
-                //   ),
-                // ],
+                    const ExploreScreenMobile(),
+                routes: <RouteBase>[
+                  GoRoute(
+                    path: 'radio',
+                    name: 'explore_radio',
+                    builder: (BuildContext context, GoRouterState state) =>
+                        const RadioScreenMobile(),
+                  ),
+                ],
               ),
             ],
           ),
-
           // The route branch for the third tab of the bottom navigation bar.
           StatefulShellBranch(
             routes: <RouteBase>[
