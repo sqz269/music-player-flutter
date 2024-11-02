@@ -5,11 +5,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tlmc_player_app/services/impl/static_data_provider.dart';
+import 'package:tlmc_player_app/theme/theme.dart';
 import 'package:tlmc_player_app/views/mobile/screens/album_screen_mobile.dart';
 import 'package:audio_service/audio_service.dart';
-import 'package:flex_color_scheme/flex_color_scheme.dart';
-import 'package:fluro/fluro.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_app/global_configuration.dart';
 import 'package:tlmc_player_app/models/oidc_configuration.dart';
@@ -170,7 +168,7 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
                     path: 'radio',
                     name: 'explore_radio',
                     builder: (BuildContext context, GoRouterState state) =>
-                        const RadioScreenMobile(),
+                        RadioScreenMobile(),
                   ),
                 ],
               ),
@@ -185,16 +183,7 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
                 path: '/library',
                 builder: (BuildContext context, GoRouterState state) =>
                     const Placeholder(),
-                routes: <RouteBase>[
-                  GoRoute(
-                    path: 'details',
-                    builder: (BuildContext context, GoRouterState state) =>
-                        DetailsScreen(
-                      label: 'C',
-                      extra: state.extra,
-                    ),
-                  ),
-                ],
+                routes: <RouteBase>[],
               ),
             ],
           ),
@@ -207,9 +196,8 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: AppTheme.light,
+      darkTheme: AppTheme.dark,
       routerConfig: _router,
     );
   }
@@ -234,20 +222,17 @@ class ScaffoldWithNavBar extends StatelessWidget {
       // The StatefulNavigationShell from the associated StatefulShellRoute is
       // directly passed as the body of the Scaffold.
       body: navigationShell,
-      bottomNavigationBar: BottomNavigationBar(
-        // Here, the items of BottomNavigationBar are hard coded. In a real
-        // world scenario, the items would most likely be generated from the
-        // branches of the shell route, which can be fetched using
-        // `navigationShell.route.branches`.
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Section A'),
-          BottomNavigationBarItem(icon: Icon(Icons.work), label: 'Section B'),
-          BottomNavigationBarItem(icon: Icon(Icons.tab), label: 'Section C'),
+      bottomNavigationBar: NavigationBar(
+        destinations: const <NavigationDestination>[
+          NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
+          NavigationDestination(icon: Icon(Icons.explore), label: 'Explore'),
+          NavigationDestination(
+              icon: Icon(Icons.library_music), label: 'Library'),
         ],
-        currentIndex: navigationShell.currentIndex,
+        selectedIndex: navigationShell.currentIndex,
         // Navigate to the current location of the branch at the provided index
         // when tapping an item in the BottomNavigationBar.
-        onTap: (int index) => navigationShell.goBranch(index),
+        onDestinationSelected: (int index) => navigationShell.goBranch(index),
       ),
     );
   }
@@ -268,154 +253,6 @@ class ScaffoldWithNavBar extends StatelessWidget {
       // already active. This example demonstrates how to support this behavior,
       // using the initialLocation parameter of goBranch.
       initialLocation: index == navigationShell.currentIndex,
-    );
-  }
-}
-
-/// Widget for the root/initial pages in the bottom navigation bar.
-class RootScreen extends StatelessWidget {
-  /// Creates a RootScreen
-  const RootScreen({
-    required this.label,
-    required this.detailsPath,
-    this.secondDetailsPath,
-    super.key,
-  });
-
-  /// The label
-  final String label;
-
-  /// The path to the detail page
-  final String detailsPath;
-
-  /// The path to another detail page
-  final String? secondDetailsPath;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Root of section $label'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Text('Screen $label',
-                style: Theme.of(context).textTheme.titleLarge),
-            const Padding(padding: EdgeInsets.all(4)),
-            TextButton(
-              onPressed: () {
-                GoRouter.of(context).go(detailsPath, extra: '$label-XYZ');
-              },
-              child: const Text('View details'),
-            ),
-            const Padding(padding: EdgeInsets.all(4)),
-            TextButton(
-              onPressed: () {
-                GoRouter.of(context).go('/a/album');
-              },
-              child: const Text('Album'),
-            ),
-            const Padding(padding: EdgeInsets.all(4)),
-            if (secondDetailsPath != null)
-              TextButton(
-                onPressed: () {
-                  GoRouter.of(context).go(secondDetailsPath!);
-                },
-                child: const Text('View more details'),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// The details screen for either the A or B screen.
-class DetailsScreen extends StatefulWidget {
-  /// Constructs a [DetailsScreen].
-  const DetailsScreen({
-    required this.label,
-    this.param,
-    this.extra,
-    this.withScaffold = true,
-    super.key,
-  });
-
-  /// The label to display in the center of the screen.
-  final String label;
-
-  /// Optional param
-  final String? param;
-
-  /// Optional extra object
-  final Object? extra;
-
-  /// Wrap in scaffold
-  final bool withScaffold;
-
-  @override
-  State<StatefulWidget> createState() => DetailsScreenState();
-}
-
-/// The state for DetailsScreen
-class DetailsScreenState extends State<DetailsScreen> {
-  int _counter = 0;
-
-  @override
-  Widget build(BuildContext context) {
-    if (widget.withScaffold) {
-      return Scaffold(
-        appBar: AppBar(
-          title: Text('Details Screen - ${widget.label}'),
-        ),
-        body: _build(context),
-      );
-    } else {
-      return ColoredBox(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        child: _build(context),
-      );
-    }
-  }
-
-  Widget _build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Text('Details for ${widget.label} - Counter: $_counter',
-              style: Theme.of(context).textTheme.titleLarge),
-          const Padding(padding: EdgeInsets.all(4)),
-          TextButton(
-            onPressed: () {
-              setState(() {
-                _counter++;
-              });
-            },
-            child: const Text('Increment counter'),
-          ),
-          const Padding(padding: EdgeInsets.all(8)),
-          if (widget.param != null)
-            Text('Parameter: ${widget.param!}',
-                style: Theme.of(context).textTheme.titleMedium),
-          const Padding(padding: EdgeInsets.all(8)),
-          if (widget.extra != null)
-            Text('Extra: ${widget.extra!}',
-                style: Theme.of(context).textTheme.titleMedium),
-          if (!widget.withScaffold) ...<Widget>[
-            const Padding(padding: EdgeInsets.all(16)),
-            TextButton(
-              onPressed: () {
-                GoRouter.of(context).pop();
-              },
-              child: const Text('< Back',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            ),
-          ]
-        ],
-      ),
     );
   }
 }

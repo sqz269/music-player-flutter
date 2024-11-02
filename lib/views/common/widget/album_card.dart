@@ -88,7 +88,7 @@ class AlbumCard extends StatelessWidget {
       elevation: 2,
       child: InkWell(
         onTap: () {
-          GoRouter.of(context).goNamed('a_album', pathParameters: {
+          GoRouter.of(context).goNamed('home_album', pathParameters: {
             'albumId': albumData.id.toString(),
           });
         },

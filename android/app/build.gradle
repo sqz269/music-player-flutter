@@ -58,6 +58,11 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+
+    // Disable deprecated warnings
+    lintOptions {
+        disable 'Deprecated'
+    }
 }
 
 flutter {
