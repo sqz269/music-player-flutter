@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class DateInput extends StatelessWidget {
   final TextEditingController controller;
@@ -31,13 +32,14 @@ class DateInput extends StatelessWidget {
   Future<void> _showDatePickerAndSubmit(BuildContext context) async {
     final date = await _showDatePicker(context);
     if (date != null) {
-      controller.text = date.toString();
+      controller.text = DateFormat('yyyy-MM-dd').format(date);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: true,
       controller: controller,
       decoration: decoration?.copyWith(label: Text(label)) ??
           InputDecoration(

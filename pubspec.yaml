@@ -67,6 +67,7 @@ dependencies:
   uuid: ^3.0.7
   logger: ^2.0.2+1
   async: ^2.11.0
+  intl: ^0.19.0
 
   # API Client
   backend_client_api:
