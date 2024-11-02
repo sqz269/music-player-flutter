@@ -39,7 +39,6 @@ sealed class AppTheme {
       navigationRailLabelType: NavigationRailLabelType.all,
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
-    cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
   );
   // The defined dark theme.
   static ThemeData dark = FlexThemeData.dark(
@@ -63,6 +62,5 @@ sealed class AppTheme {
       navigationRailLabelType: NavigationRailLabelType.all,
     ),
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
-    cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
   );
 }
