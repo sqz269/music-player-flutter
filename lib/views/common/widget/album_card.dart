@@ -65,7 +65,7 @@ class AlbumCard extends StatelessWidget {
           text: TextSpan(
             children: [
               TextSpan(
-                text: albumData.albumArtist![0].name,
+                text: albumData.albumArtist?.firstOrNull?.name ?? "",
                 style: Theme.of(context)
                     .textTheme
                     .bodySmall!
