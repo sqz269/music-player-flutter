@@ -1,3 +1,4 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:just_audio/just_audio.dart';
@@ -45,8 +46,23 @@ class JustAudioAudioService implements IAudioService {
   @override
   Future<void> play(TrackInfo track) async {
     _logger.d('Playing track: ${track.trackId} ${track.trackAudioUrl}');
-    await _audioPlayer.setUrl(track.trackAudioUrl);
-    return _audioPlayer.play();
+    var source = HlsAudioSource(
+      Uri.parse(track.trackAudioUrl),
+      // tag: MediaItem(
+      //   // Specify a unique ID for each media item:
+      //   id: track.id.toString(),
+      //   // Metadata to display in the notification:
+      //   album: track.album!.albumName!.default_,
+      //   title: track.name!.default_,
+      //   artist: track.album!.albumArtist![0].name!,
+      //   artUri: Uri.parse(
+      //     track.album!.thumbnail!.medium!.url!,
+      //   ),
+      // ),
+    );
+    await _audioPlayer.setAudioSource(source);
+    await _audioPlayer.play();
+    _logger.d("Playing track: ${track.trackId} ${track.trackAudioUrl}");
   }
 
   @override

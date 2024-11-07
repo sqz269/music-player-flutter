@@ -13,16 +13,6 @@ class RadioScreenMobile extends StatefulWidget {
 }
 
 class _RadioScreenMobileState extends State<RadioScreenMobile> {
-  Future<DateTime?> _showDatePicker(
-      BuildContext context, DateTime? initialDate) async {
-    return await showDatePicker(
-      context: context,
-      initialDate: initialDate ?? DateTime.now(),
-      firstDate: DateTime(1970, 1, 1),
-      lastDate: DateTime.now(),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -54,7 +54,7 @@ dependencies:
   shared_preferences: ^2.2.0
 
   # Audio Services
-  just_audio: ^0.9.33
+  just_audio: ^0.9.42
   audio_service: ^0.18.10
   smtc_windows: ^0.1.2
   just_audio_platform_interface: ^4.2.1

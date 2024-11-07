@@ -97,13 +97,13 @@ Future<void> main() async {
   Get.put<IPlaylistService>(OndemandPlaylistService());
   Get.put<StaticDataProvider>(StaticDataProvider());
 
-  runApp(NestedTabNavigationExampleApp());
+  runApp(Application());
 }
 
 /// An example demonstrating how to use nested navigators
-class NestedTabNavigationExampleApp extends StatelessWidget {
+class Application extends StatelessWidget {
   /// Creates a NestedTabNavigationExampleApp
-  NestedTabNavigationExampleApp({super.key});
+  Application({super.key});
 
   final GoRouter _router = GoRouter(
     navigatorKey: _rootNavigatorKey,
@@ -201,7 +201,7 @@ class NestedTabNavigationExampleApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'Flutter Demo',
+      title: 'Tlmc Player',
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
