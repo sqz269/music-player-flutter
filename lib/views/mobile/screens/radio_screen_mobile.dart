@@ -10,7 +10,9 @@ class RadioScreenMobile extends StatefulWidget {
 
   DateTime? startRange;
   DateTime? endRange;
-  GlobalKey inputKey = GlobalKey();
+  GlobalKey originalAlbumsKey = GlobalKey();
+  GlobalKey originalTracksKey = GlobalKey();
+  GlobalKey circlesKey = GlobalKey();
 
   @override
   State<RadioScreenMobile> createState() => _RadioScreenMobileState();
@@ -69,11 +71,78 @@ class _RadioScreenMobileState extends State<RadioScreenMobile> {
                 ),
                 const SizedBox(height: 16),
                 ChipsInput<String>(
-                  key: widget.inputKey,
+                  key: widget.circlesKey,
+                  decoration: InputDecoration(
+                    labelText: "Select Circles",
+                  ),
+                  initialValue: const [],
+                  chipBuilder: (context, state, string) {
+                    return InputChip(
+                      key: ObjectKey(string),
+                      label: Text(string),
+                      onDeleted: () => state.deleteChip(string),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    );
+                  },
+                  suggestionBuilder: (context, state, str) {
+                    return ListTile(
+                      key: ObjectKey(str),
+                      title: Text(str),
+                      onTap: () => state.selectSuggestion(str),
+                    );
+                  },
+                  findSuggestions: (String query) {
+                    return staticDataProvider.state?.circles
+                            .map<String>((e) => e.name ?? "")
+                            .toList() ??
+                        [];
+                  },
+                  onChanged: (data) {
+                    inputHeight =
+                        widget.circlesKey.currentContext?.size?.height ?? 0;
+                  },
+                ),
+                const SizedBox(height: 16),
+                ChipsInput<String>(
+                  key: widget.originalAlbumsKey,
+                  decoration: InputDecoration(
+                    labelText: "Select Original Albums",
+                  ),
+                  initialValue: const [],
+                  chipBuilder: (context, state, string) {
+                    return InputChip(
+                      key: ObjectKey(string),
+                      label: Text(string),
+                      onDeleted: () => state.deleteChip(string),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    );
+                  },
+                  suggestionBuilder: (context, state, str) {
+                    return ListTile(
+                      key: ObjectKey(str),
+                      title: Text(str),
+                      onTap: () => state.selectSuggestion(str),
+                    );
+                  },
+                  findSuggestions: (String query) {
+                    return staticDataProvider.state?.originalAlbums
+                            .map<String>((e) => e.shortName?.default_ ?? "")
+                            .toList() ??
+                        [];
+                  },
+                  onChanged: (data) {
+                    inputHeight =
+                        widget.originalAlbumsKey.currentContext?.size?.height ??
+                            0;
+                  },
+                ),
+                const SizedBox(height: 16),
+                ChipsInput<String>(
+                  key: widget.originalTracksKey,
                   decoration: InputDecoration(
                     labelText: "Select Original Tracks",
                   ),
-                  initialValue: ["Test"],
+                  initialValue: const [],
                   chipBuilder: (context, state, string) {
                     return InputChip(
                       key: ObjectKey(string),
@@ -97,15 +166,39 @@ class _RadioScreenMobileState extends State<RadioScreenMobile> {
                   },
                   onChanged: (data) {
                     inputHeight =
-                        widget.inputKey.currentContext?.size?.height ?? 0;
-                    print(inputHeight);
-                    print(keyboardHeight);
+                        widget.originalTracksKey.currentContext?.size?.height ??
+                            0;
                   },
                 ),
                 if (isKeyboardVisible)
                   SizedBox(
                     height: inputHeight + keyboardHeight,
                   ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text("Apply Radio Filters"),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text("Clear Radio Filters"),
+                  ),
+                ),
+                const SizedBox(height: 8),
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    child: const Text("Start Radio"),
+                  ),
+                ),
               ],
             ),
           ),
