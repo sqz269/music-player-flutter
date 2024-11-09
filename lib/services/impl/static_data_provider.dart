@@ -36,20 +36,68 @@ class StaticDataProvider extends GetxController
     var circlesApi = CircleApi(apiClient);
     var originalAlbumsApi = OriginalAlbumApi(apiClient);
 
-    var circles = await circlesApi.getCircles();
-    var originalAlbums = await originalAlbumsApi.getOriginalAlbums();
-    var originalTracks = await originalAlbumsApi.getOriginalTracks();
+    var hasError = false;
 
-    if (circles == null || originalAlbums == null || originalTracks == null) {
+    var allCircles = <CircleReadDto>[];
+    {
+      var offset = 0;
+      var limit = 100;
+      while (true) {
+        var circles = await circlesApi.getCircles(start: offset, limit: limit);
+        if (circles == null || circles.isEmpty) {
+          break;
+        }
+        allCircles.addAll(circles);
+        _logger.i("Loaded ${circles.length} circles");
+        offset += limit;
+      }
+      _logger.i("Loaded ${allCircles.length} circles");
+    }
+
+    var allOriginalAlbums = <OriginalAlbumReadDto>[];
+    {
+      var offset = 0;
+      var limit = 100;
+      while (true) {
+        var originalAlbums = await originalAlbumsApi.getOriginalAlbums(
+            start: offset, limit: limit);
+        if (originalAlbums == null || originalAlbums.isEmpty) {
+          break;
+        }
+        allOriginalAlbums.addAll(originalAlbums);
+        _logger.i("Loaded ${originalAlbums.length} original albums");
+        offset += limit;
+      }
+      _logger.i("Loaded ${allOriginalAlbums.length} original albums");
+    }
+
+    var allOriginalTracks = <OriginalTrackReadDto>[];
+    {
+      var offset = 0;
+      var limit = 100;
+      while (true) {
+        var originalTracks = await originalAlbumsApi.getOriginalTracks(
+            start: offset, limit: limit);
+        if (originalTracks == null || originalTracks.isEmpty) {
+          break;
+        }
+        allOriginalTracks.addAll(originalTracks);
+        _logger.i("Loaded ${originalTracks.length} original tracks");
+        offset += limit;
+      }
+      _logger.i("Loaded ${allOriginalTracks.length} original tracks");
+    }
+
+    if (hasError) {
       change(null, status: RxStatus.error("Failed to load static data"));
       return;
     }
 
     change(
       StaticDataProviderStates(
-        circles: circles,
-        originalAlbums: originalAlbums,
-        originalTracks: originalTracks,
+        circles: allCircles,
+        originalAlbums: allOriginalAlbums,
+        originalTracks: allOriginalTracks,
       ),
       status: RxStatus.success(),
     );

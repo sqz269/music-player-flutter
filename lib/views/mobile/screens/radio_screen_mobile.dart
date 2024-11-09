@@ -1,6 +1,8 @@
+import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
+import 'package:tlmc_player_app/services/impl/logging_service.dart';
 import 'package:tlmc_player_app/services/impl/static_data_provider.dart';
 import 'package:tlmc_player_app/views/common/widget/date_input.dart';
 import 'package:choose_input_chips/choose_input_chips.dart';
@@ -14,11 +16,15 @@ class RadioScreenMobile extends StatefulWidget {
   GlobalKey originalTracksKey = GlobalKey();
   GlobalKey circlesKey = GlobalKey();
 
+  bool isKeyboardVisible = false;
+
   @override
   State<RadioScreenMobile> createState() => _RadioScreenMobileState();
 }
 
 class _RadioScreenMobileState extends State<RadioScreenMobile> {
+  final _logging = Get.find<LoggingService>().getLogger("RadioScreenMobile");
+
   var inputHeight = 0.0;
   var keyboardHeight = 0.0;
   @override
@@ -38,10 +44,121 @@ class _RadioScreenMobileState extends State<RadioScreenMobile> {
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
+  List<Widget> _buildRadioFilterInputs(
+      BuildContext context, bool isKeyboardVisible) {
     final staticDataProvider = Get.find<StaticDataProvider>();
 
+    return [
+      ChipsInput<CircleReadDto>(
+        key: widget.circlesKey,
+        decoration: const InputDecoration(
+          labelText: "Select Circles",
+        ),
+        initialValue: const [],
+        chipBuilder: (context, state, value) {
+          return InputChip(
+            key: ObjectKey(value.name ?? ""),
+            label: Text(value.name ?? ""),
+            onDeleted: () => state.deleteChip(value),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          );
+        },
+        suggestionBuilder: (context, state, value) {
+          return ListTile(
+            key: ObjectKey(value.name ?? ""),
+            title: Text(value.name ?? ""),
+            onTap: () => state.selectSuggestion(value),
+          );
+        },
+        findSuggestions: (String query) {
+          return staticDataProvider.state?.circles
+                  .where(
+                      (e) => e.name?.isCaseInsensitiveContains(query) ?? false)
+                  .toList() ??
+              [];
+        },
+        onChanged: (data) {
+          inputHeight = widget.circlesKey.currentContext?.size?.height ?? 0;
+        },
+      ),
+      const SizedBox(height: 16),
+      ChipsInput<OriginalAlbumReadDto>(
+        key: widget.originalAlbumsKey,
+        decoration: const InputDecoration(
+          labelText: "Select Original Albums",
+        ),
+        initialValue: const [],
+        chipBuilder: (context, state, value) {
+          return InputChip(
+            key: ObjectKey(value.shortName?.en ?? ""),
+            label: Text(value.shortName?.en ?? ""),
+            onDeleted: () => state.deleteChip(value),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          );
+        },
+        suggestionBuilder: (context, state, value) {
+          return ListTile(
+            key: ObjectKey(value.shortName?.en ?? ""),
+            title: Text(value.shortName?.en ?? ""),
+            onTap: () => state.selectSuggestion(value),
+          );
+        },
+        findSuggestions: (String query) {
+          return staticDataProvider.state?.originalAlbums
+                  .where((e) =>
+                      e.fullName?.en?.isCaseInsensitiveContains(query) ?? false)
+                  .toList() ??
+              [];
+        },
+        onChanged: (data) {
+          inputHeight =
+              widget.originalAlbumsKey.currentContext?.size?.height ?? 0;
+        },
+      ),
+      const SizedBox(height: 16),
+      ChipsInput<OriginalTrackReadDto>(
+        key: widget.originalTracksKey,
+        decoration: const InputDecoration(
+          labelText: "Select Original Tracks",
+        ),
+        initialValue: const [],
+        chipBuilder: (context, state, value) {
+          return InputChip(
+            key: ObjectKey(value.title?.en ?? ""),
+            label: Text(value.title?.en ?? ""),
+            onDeleted: () => state.deleteChip(value),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          );
+        },
+        suggestionBuilder: (context, state, value) {
+          return ListTile(
+            key: ObjectKey(value.title?.en ?? ""),
+            title: Text(value.title?.en ?? ""),
+            subtitle: Text(value.album?.shortName?.en ?? ""),
+            onTap: () => state.selectSuggestion(value),
+          );
+        },
+        findSuggestions: (String query) async {
+          return staticDataProvider.state?.originalTracks
+                  .where((e) =>
+                      e.title?.en?.isCaseInsensitiveContains(query) ?? false)
+                  .toList() ??
+              [];
+        },
+        onChanged: (data) {
+          inputHeight =
+              widget.originalTracksKey.currentContext?.size?.height ?? 0;
+        },
+      ),
+      if (isKeyboardVisible)
+        SizedBox(
+          height: inputHeight + keyboardHeight,
+        ),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return KeyboardVisibilityBuilder(
       builder: (context, isKeyboardVisible) => Scaffold(
         resizeToAvoidBottomInset: true,
@@ -70,111 +187,11 @@ class _RadioScreenMobileState extends State<RadioScreenMobile> {
                   lastDate: DateTime.now(),
                 ),
                 const SizedBox(height: 16),
-                ChipsInput<String>(
-                  key: widget.circlesKey,
-                  decoration: InputDecoration(
-                    labelText: "Select Circles",
-                  ),
-                  initialValue: const [],
-                  chipBuilder: (context, state, string) {
-                    return InputChip(
-                      key: ObjectKey(string),
-                      label: Text(string),
-                      onDeleted: () => state.deleteChip(string),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    );
-                  },
-                  suggestionBuilder: (context, state, str) {
-                    return ListTile(
-                      key: ObjectKey(str),
-                      title: Text(str),
-                      onTap: () => state.selectSuggestion(str),
-                    );
-                  },
-                  findSuggestions: (String query) {
-                    return staticDataProvider.state?.circles
-                            .map<String>((e) => e.name ?? "")
-                            .toList() ??
-                        [];
-                  },
-                  onChanged: (data) {
-                    inputHeight =
-                        widget.circlesKey.currentContext?.size?.height ?? 0;
-                  },
+                ..._buildRadioFilterInputs(context, isKeyboardVisible),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Divider(),
                 ),
-                const SizedBox(height: 16),
-                ChipsInput<String>(
-                  key: widget.originalAlbumsKey,
-                  decoration: InputDecoration(
-                    labelText: "Select Original Albums",
-                  ),
-                  initialValue: const [],
-                  chipBuilder: (context, state, string) {
-                    return InputChip(
-                      key: ObjectKey(string),
-                      label: Text(string),
-                      onDeleted: () => state.deleteChip(string),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    );
-                  },
-                  suggestionBuilder: (context, state, str) {
-                    return ListTile(
-                      key: ObjectKey(str),
-                      title: Text(str),
-                      onTap: () => state.selectSuggestion(str),
-                    );
-                  },
-                  findSuggestions: (String query) {
-                    return staticDataProvider.state?.originalAlbums
-                            .map<String>((e) => e.shortName?.default_ ?? "")
-                            .toList() ??
-                        [];
-                  },
-                  onChanged: (data) {
-                    inputHeight =
-                        widget.originalAlbumsKey.currentContext?.size?.height ??
-                            0;
-                  },
-                ),
-                const SizedBox(height: 16),
-                ChipsInput<String>(
-                  key: widget.originalTracksKey,
-                  decoration: InputDecoration(
-                    labelText: "Select Original Tracks",
-                  ),
-                  initialValue: const [],
-                  chipBuilder: (context, state, string) {
-                    return InputChip(
-                      key: ObjectKey(string),
-                      label: Text(string),
-                      onDeleted: () => state.deleteChip(string),
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    );
-                  },
-                  suggestionBuilder: (context, state, str) {
-                    return ListTile(
-                      key: ObjectKey(str),
-                      title: Text(str),
-                      onTap: () => state.selectSuggestion(str),
-                    );
-                  },
-                  findSuggestions: (String query) {
-                    return staticDataProvider.state?.originalTracks
-                            .map<String>((e) => e.title?.default_ ?? "")
-                            .toList() ??
-                        [];
-                  },
-                  onChanged: (data) {
-                    inputHeight =
-                        widget.originalTracksKey.currentContext?.size?.height ??
-                            0;
-                  },
-                ),
-                if (isKeyboardVisible)
-                  SizedBox(
-                    height: inputHeight + keyboardHeight,
-                  ),
-                const SizedBox(height: 24),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
@@ -199,6 +216,7 @@ class _RadioScreenMobileState extends State<RadioScreenMobile> {
                     child: const Text("Start Radio"),
                   ),
                 ),
+                const SizedBox(height: 16),
               ],
             ),
           ),
