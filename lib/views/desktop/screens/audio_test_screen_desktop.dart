@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_app/controllers/desktop/screens/audio_test_screen_desktop.dart';
+import 'package:tlmc_player_app/views/controllers/desktop/screens/audio_test_screen_desktop.dart';
 import 'package:tlmc_player_app/extensions/api_object_extension.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';
 import 'package:tlmc_player_app/views/common/widget/group_box.dart';

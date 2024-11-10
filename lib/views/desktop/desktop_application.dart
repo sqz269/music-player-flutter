@@ -1,7 +1,7 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_app/controllers/common/application_controller.dart';
+import 'package:tlmc_player_app/views/controllers/common/application_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/models/application_pages.dart';
 import 'package:tlmc_player_app/views/desktop/screens/explore_screen_desktop.dart';

@@ -14,4 +14,8 @@ class RadioFilters {
     this.originalAlbums,
     this.originalTracks,
   });
+
+  static RadioFilters empty() {
+    return RadioFilters();
+  }
 }

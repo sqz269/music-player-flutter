@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:tlmc_player_app/controllers/desktop/screens/playlist_screen_desktop_controller.dart';
+import 'package:tlmc_player_app/views/controllers/desktop/screens/playlist_screen_desktop_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/views/common/widget/track_tile_with_thumbnail.dart';
 

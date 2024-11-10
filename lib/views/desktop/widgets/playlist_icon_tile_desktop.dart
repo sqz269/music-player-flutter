@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_app/controllers/common/application_controller.dart';
+import 'package:tlmc_player_app/views/controllers/common/application_controller.dart';
 
 class PlaylistIconTileDesktop extends StatelessWidget {
   final String playlistName;

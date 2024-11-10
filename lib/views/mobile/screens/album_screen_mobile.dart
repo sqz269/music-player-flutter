@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_app/controllers/desktop/screens/album_screen_desktop_controller.dart';
+import 'package:tlmc_player_app/views/controllers/desktop/screens/album_screen_desktop_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/views/mobile/widgets/track_tile.dart';
 

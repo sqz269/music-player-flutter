@@ -1,7 +1,7 @@
 import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_app/controllers/common/widget/sliver_album_grid_view_controller.dart';
+import 'package:tlmc_player_app/views/controllers/common/widget/sliver_album_grid_view_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/services/impl/api_client_provider.dart';
 import 'package:tlmc_player_app/services/impl/authentication_service.dart';

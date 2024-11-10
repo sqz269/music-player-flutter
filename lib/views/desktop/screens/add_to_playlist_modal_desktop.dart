@@ -1,7 +1,7 @@
 import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:tlmc_player_app/controllers/desktop/screens/add_to_playlist_modal_desktop_controller.dart';
+import 'package:tlmc_player_app/views/controllers/desktop/screens/add_to_playlist_modal_desktop_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/services/api/i_playlist_service.dart';
 

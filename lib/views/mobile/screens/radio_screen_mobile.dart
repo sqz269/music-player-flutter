@@ -2,47 +2,19 @@ import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:get/get.dart';
+import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/services/impl/logging_service.dart';
 import 'package:tlmc_player_app/services/impl/static_data_provider.dart';
 import 'package:tlmc_player_app/views/common/widget/date_input.dart';
 import 'package:choose_input_chips/choose_input_chips.dart';
+import 'package:tlmc_player_app/views/controllers/mobile/radio_screen_controller.dart';
 
-class RadioScreenMobile extends StatefulWidget {
-  RadioScreenMobile({super.key});
-
-  DateTime? startRange;
-  DateTime? endRange;
-  GlobalKey originalAlbumsKey = GlobalKey();
-  GlobalKey originalTracksKey = GlobalKey();
-  GlobalKey circlesKey = GlobalKey();
-
-  bool isKeyboardVisible = false;
-
-  @override
-  State<RadioScreenMobile> createState() => _RadioScreenMobileState();
-}
-
-class _RadioScreenMobileState extends State<RadioScreenMobile> {
+class RadioScreenMobile extends StatelessWidget {
   final _logging = Get.find<LoggingService>().getLogger("RadioScreenMobile");
+  final RadioScreenController controller;
 
-  var inputHeight = 0.0;
-  var keyboardHeight = 0.0;
-  @override
-  void initState() {
-    super.initState();
-    // Subscribe to keyboard visibility changes
-    KeyboardVisibilityController().onChange.listen((bool visible) {
-      if (visible) {
-        setState(() {
-          keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
-        });
-      } else {
-        setState(() {
-          keyboardHeight = 0;
-        });
-      }
-    });
-  }
+  RadioScreenMobile({super.key})
+      : controller = Get.getOrPut(RadioScreenController());
 
   List<Widget> _buildRadioFilterInputs(
       BuildContext context, bool isKeyboardVisible) {
@@ -50,11 +22,11 @@ class _RadioScreenMobileState extends State<RadioScreenMobile> {
 
     return [
       ChipsInput<CircleReadDto>(
-        key: widget.circlesKey,
+        key: controller.circlesKey,
         decoration: const InputDecoration(
           labelText: "Select Circles",
         ),
-        initialValue: const [],
+        initialValue: controller.circles.value ?? [],
         chipBuilder: (context, state, value) {
           return InputChip(
             key: ObjectKey(value.name ?? ""),
@@ -78,16 +50,18 @@ class _RadioScreenMobileState extends State<RadioScreenMobile> {
               [];
         },
         onChanged: (data) {
-          inputHeight = widget.circlesKey.currentContext?.size?.height ?? 0;
+          controller.circles.value = data;
+          controller.inputHeight.value =
+              controller.circlesKey.currentContext?.size?.height ?? 0;
         },
       ),
       const SizedBox(height: 16),
       ChipsInput<OriginalAlbumReadDto>(
-        key: widget.originalAlbumsKey,
+        key: controller.originalAlbumsKey,
         decoration: const InputDecoration(
           labelText: "Select Original Albums",
         ),
-        initialValue: const [],
+        initialValue: controller.originalAlbums.value ?? [],
         chipBuilder: (context, state, value) {
           return InputChip(
             key: ObjectKey(value.shortName?.en ?? ""),
@@ -111,17 +85,18 @@ class _RadioScreenMobileState extends State<RadioScreenMobile> {
               [];
         },
         onChanged: (data) {
-          inputHeight =
-              widget.originalAlbumsKey.currentContext?.size?.height ?? 0;
+          controller.originalAlbums.value = data;
+          controller.inputHeight.value =
+              controller.originalAlbumsKey.currentContext?.size?.height ?? 0;
         },
       ),
       const SizedBox(height: 16),
       ChipsInput<OriginalTrackReadDto>(
-        key: widget.originalTracksKey,
+        key: controller.originalTracksKey,
         decoration: const InputDecoration(
           labelText: "Select Original Tracks",
         ),
-        initialValue: const [],
+        initialValue: controller.originalTracks.value ?? [],
         chipBuilder: (context, state, value) {
           return InputChip(
             key: ObjectKey(value.title?.en ?? ""),
@@ -146,13 +121,15 @@ class _RadioScreenMobileState extends State<RadioScreenMobile> {
               [];
         },
         onChanged: (data) {
-          inputHeight =
-              widget.originalTracksKey.currentContext?.size?.height ?? 0;
+          controller.originalTracks.value = data;
+          controller.inputHeight.value =
+              controller.originalTracksKey.currentContext?.size?.height ?? 0;
         },
       ),
       if (isKeyboardVisible)
         SizedBox(
-          height: inputHeight + keyboardHeight,
+          height:
+              controller.inputHeight.value + controller.keyboardHeight.value,
         ),
     ];
   }
@@ -168,21 +145,20 @@ class _RadioScreenMobileState extends State<RadioScreenMobile> {
         body: Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
           child: SingleChildScrollView(
-            // physics: const NeverScrollableScrollPhysics(),
             child: Column(
               children: [
                 DateInput(
-                  controller: TextEditingController(),
+                  controller: controller.startRangeController,
                   label: 'Release Date (After)',
-                  initialDate: widget.startRange,
+                  initialDate: controller.startRange.value,
                   firstDate: DateTime(1970, 1, 1),
                   lastDate: DateTime.now(),
                 ),
                 const SizedBox(height: 16),
                 DateInput(
-                  controller: TextEditingController(),
+                  controller: controller.endRangeController,
                   label: 'Release Date (Before)',
-                  initialDate: widget.endRange,
+                  initialDate: controller.endRange.value,
                   firstDate: DateTime(1970, 1, 1),
                   lastDate: DateTime.now(),
                 ),

@@ -4,7 +4,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:sliver_tools/sliver_tools.dart';
-import 'package:tlmc_player_app/controllers/common/widget/sliver_album_grid_view_controller.dart';
+import 'package:tlmc_player_app/views/controllers/common/widget/sliver_album_grid_view_controller.dart';
 import 'package:tlmc_player_app/views/common/widget/album_card.dart';
 
 class SliverAlbumAlignedGridView extends StatelessWidget {
