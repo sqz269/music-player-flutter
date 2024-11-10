@@ -15,8 +15,6 @@ class RadioScreenController extends GetxController
 
   RadioScreenController() : _radioService = Get.find<RadioService>();
 
-  
-
   @override
   void onInit() {
     super.onInit();

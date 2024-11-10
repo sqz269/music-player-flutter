@@ -58,7 +58,15 @@ class RadioService {
   Future _loadTracks() async {
     var client = Get.find<ApiClientProvider>();
     var trackApi = TrackApi(client.getApiClient());
-    var tracks = await trackApi.getRandomSampleTrack(limit: 10);
+    var tracks = await trackApi.getRandomSampleTrack(
+        limit: 10,
+        releaseDateBegin: filters.value.releaseDateBegin,
+        releaseDateEnd: filters.value.releaseDateEnd,
+        circleIds: filters.value.circles?.map((e) => e.id!).toList(),
+        originalAlbumIds:
+            filters.value.originalAlbums?.map((e) => e.id!).toList(),
+        originalTrackIds:
+            filters.value.originalTracks?.map((e) => e.id!).toList());
 
     var trackIds = tracks!.tracks?.map((e) => e.id!).toList();
 
