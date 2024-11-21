@@ -67,7 +67,13 @@ class HomeScreenMobile extends StatelessWidget {
                   //     .isTrue) {
                   //   options = ['Account', 'Settings', 'Logout'];
                   // } else {
-                  options = ['Login', 'Audio Debug'];
+                  options = [
+                    'Login',
+                    'Audio Debug',
+                    'URL Debug',
+                    'URL Debug 2',
+                    'URL Debug 3'
+                  ];
                   // }
                   return options
                       .map(
