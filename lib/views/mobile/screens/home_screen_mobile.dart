@@ -2,6 +2,7 @@ import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tlmc_player_app/utils/url_util.dart';
 import 'package:tlmc_player_app/views/controllers/common/widget/sliver_album_grid_view_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/services/impl/api_client_provider.dart';
@@ -46,6 +47,15 @@ class HomeScreenMobile extends StatelessWidget {
                       break;
                     case 'Audio Debug':
                       GoRouter.of(context).pushNamed('home_audio_debug');
+                      break;
+                    case 'URL Debug':
+                      UrlUtil.openYoutubeSearch('test');
+                      break;
+                    case 'URL Debug 2':
+                      UrlUtil.openYoutubeSearchV2('test 2');
+                      break;
+                    case 'URL Debug 3':
+                      UrlUtil.openYoutubeSearchV3('test 3');
                       break;
                   }
                 },
