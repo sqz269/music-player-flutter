@@ -26,12 +26,14 @@ import 'package:tlmc_player_app/services/impl/queue_service.dart';
 import 'package:tlmc_player_app/services/impl/radio_service.dart';
 import 'package:tlmc_player_app/views/common/screen_size_dependent.dart';
 import 'package:tlmc_player_app/views/desktop/desktop_application.dart';
+import 'package:miniplayer/miniplayer.dart';
 
 import 'package:media_kit/media_kit.dart';
 import 'package:tlmc_player_app/views/mobile/screens/audio_debug_page.dart';
 import 'package:tlmc_player_app/views/mobile/screens/explore_screen_mobile.dart';
 import 'package:tlmc_player_app/views/mobile/screens/home_screen_mobile.dart';
 import 'package:tlmc_player_app/views/mobile/screens/radio_screen_mobile.dart';
+import 'package:tlmc_player_app/views/mobile/widgets/miniplayer_bottom.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -228,7 +230,15 @@ class ScaffoldWithNavBar extends StatelessWidget {
     return Scaffold(
       // The StatefulNavigationShell from the associated StatefulShellRoute is
       // directly passed as the body of the Scaffold.
-      body: navigationShell,
+      body: Column(
+        children: [
+          Expanded(child: navigationShell),
+          Container(
+            color: Theme.of(context).colorScheme.surface,
+            child: MobileMiniplayerBar(),
+          ),
+        ],
+      ),
       bottomNavigationBar: NavigationBar(
         destinations: const <NavigationDestination>[
           NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
