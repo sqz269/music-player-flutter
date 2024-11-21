@@ -2,6 +2,8 @@ import 'package:backend_client_api/api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
+import 'package:tlmc_player_app/views/mobile/widgets/bottom_sheet/track/track_bottom_sheet_builder.dart';
+import 'package:tlmc_player_app/views/mobile/widgets/bottom_sheet/track/track_bttom_sheet_options.dart';
 
 class TrackTile extends StatelessWidget {
   final TrackReadDto trackData;
@@ -21,7 +23,17 @@ class TrackTile extends StatelessWidget {
             .addTrackById(trackData.id!, playImmediately: true);
       },
       onLongPress: () {
-        Get.find<QueueService>().addTrackById(trackData.id!);
+        TrackBottomSheetBuilder(
+          albumData: albumData,
+          trackData: trackData,
+        )
+            .withPlayNext()
+            .withAddToQueue()
+            .withAddToPlaylist()
+            .withGoToAlbum()
+            .withGoToArtist()
+            .withSearchOnYoutube()
+            .show(context);
       },
       leading: Text(
         trackData.index.toString(),
