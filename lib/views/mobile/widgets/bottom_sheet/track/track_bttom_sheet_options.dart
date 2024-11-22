@@ -106,7 +106,9 @@ class TrackBottomSheetOptionGoToArtist extends ITrackBottomSheetOption {
 
 class TrackBottomSheetOptionSearchOnYoutube extends ITrackBottomSheetOption {
   final TrackReadDto trackData;
-  TrackBottomSheetOptionSearchOnYoutube({super.key, required this.trackData});
+  final AlbumReadDto albumData;
+  TrackBottomSheetOptionSearchOnYoutube(
+      {super.key, required this.trackData, required this.albumData});
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +117,7 @@ class TrackBottomSheetOptionSearchOnYoutube extends ITrackBottomSheetOption {
       title: const Text('Search on YouTube'),
       onTap: () {
         final String query =
-            '${trackData.name!.default_} ${trackData.album!.name!.default_}';
+            '${trackData.name!.default_} ${albumData.name!.default_}';
         UrlUtil.openYoutubeSearch(query);
       },
     );
@@ -193,6 +195,7 @@ extension TrackBotSheetOptions on TrackBottomSheetBuilder {
     return addOption(
       TrackBottomSheetOptionSearchOnYoutube(
         trackData: trackData,
+        albumData: albumData,
       ),
     );
   }
