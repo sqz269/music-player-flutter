@@ -117,7 +117,7 @@ class TrackBottomSheetOptionSearchOnYoutube extends ITrackBottomSheetOption {
       title: const Text('Search on YouTube'),
       onTap: () {
         final String query =
-            '${trackData.name!.default_} ${albumData.name!.default_}';
+            '${trackData.name!.default_} ${albumData.name!.default_}, ${albumData.albumArtist!.first.name}';
         UrlUtil.openYoutubeSearch(query);
       },
     );
