@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
+import 'package:tlmc_player_app/utils/url_util.dart';
 import 'package:tlmc_player_app/views/mobile/widgets/bottom_sheet/track/i_track_bottom_sheet_options.dart';
 import 'package:tlmc_player_app/views/mobile/widgets/bottom_sheet/track/track_bottom_sheet_builder.dart';
 
@@ -112,7 +113,11 @@ class TrackBottomSheetOptionSearchOnYoutube extends ITrackBottomSheetOption {
     return ListTile(
       leading: const Icon(FontAwesomeIcons.youtube),
       title: const Text('Search on YouTube'),
-      onTap: () {},
+      onTap: () {
+        final String query =
+            '${trackData.name!.default_} ${trackData.album!.name!.default_}';
+        UrlUtil.openYoutubeSearch(query);
+      },
     );
   }
 

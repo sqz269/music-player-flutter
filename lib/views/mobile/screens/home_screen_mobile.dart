@@ -51,12 +51,6 @@ class HomeScreenMobile extends StatelessWidget {
                     case 'URL Debug':
                       UrlUtil.openYoutubeSearch('test');
                       break;
-                    case 'URL Debug 2':
-                      UrlUtil.openYoutubeSearchV2('test 2');
-                      break;
-                    case 'URL Debug 3':
-                      UrlUtil.openYoutubeSearchV3('test 3');
-                      break;
                   }
                 },
                 itemBuilder: (BuildContext context) {
@@ -71,8 +65,6 @@ class HomeScreenMobile extends StatelessWidget {
                     'Login',
                     'Audio Debug',
                     'URL Debug',
-                    'URL Debug 2',
-                    'URL Debug 3'
                   ];
                   // }
                   return options
