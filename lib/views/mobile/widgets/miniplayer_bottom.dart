@@ -6,6 +6,7 @@ import 'package:miniplayer/miniplayer.dart';
 import 'package:tlmc_player_app/services/api/i_audio_service.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
 import 'package:tlmc_player_app/utils/duration_utils.dart';
+import 'package:tlmc_player_app/utils/utils.dart';
 
 final playerExpandProgressPerc = 0.0.obs;
 double valueFromPercentageInRange(
@@ -49,7 +50,7 @@ class _MobileMiniplayerBarState extends State<MobileMiniplayerBar> {
   Widget build(BuildContext context) {
     return Obx(
       () {
-        if (queueService.currentIndex.value == -1) {
+        if (!Utils.isMiniplayerVisible()) {
           return const SizedBox.shrink();
         }
 

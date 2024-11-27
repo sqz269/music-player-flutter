@@ -15,6 +15,20 @@ class TrackTile extends StatelessWidget {
     required this.albumData,
   }) : super(key: key);
 
+  void _showBottomSheet(BuildContext context) {
+    TrackBottomSheetBuilder(
+      albumData: albumData,
+      trackData: trackData,
+    )
+        .withPlayNext()
+        .withAddToQueue()
+        .withAddToPlaylist()
+        .withGoToAlbum()
+        .withGoToArtist()
+        .withSearchOnYoutube()
+        .show(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
@@ -23,17 +37,7 @@ class TrackTile extends StatelessWidget {
             .addTrackById(trackData.id!, playImmediately: true);
       },
       onLongPress: () {
-        TrackBottomSheetBuilder(
-          albumData: albumData,
-          trackData: trackData,
-        )
-            .withPlayNext()
-            .withAddToQueue()
-            .withAddToPlaylist()
-            .withGoToAlbum()
-            .withGoToArtist()
-            .withSearchOnYoutube()
-            .show(context);
+        _showBottomSheet(context);
       },
       leading: Text(
         trackData.index.toString(),
@@ -45,7 +49,9 @@ class TrackTile extends StatelessWidget {
         albumData.name!.default_,
       ),
       trailing: IconButton(
-        onPressed: () {},
+        onPressed: () {
+          _showBottomSheet(context);
+        },
         icon: const Icon(Icons.more_vert),
       ),
     );

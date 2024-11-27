@@ -48,9 +48,6 @@ class HomeScreenMobile extends StatelessWidget {
                     case 'Audio Debug':
                       GoRouter.of(context).pushNamed('home_audio_debug');
                       break;
-                    case 'URL Debug':
-                      UrlUtil.openYoutubeSearch('test');
-                      break;
                   }
                 },
                 itemBuilder: (BuildContext context) {

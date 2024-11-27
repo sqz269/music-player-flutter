@@ -30,6 +30,7 @@ import 'package:miniplayer/miniplayer.dart';
 
 import 'package:media_kit/media_kit.dart';
 import 'package:tlmc_player_app/views/mobile/screens/audio_debug_page.dart';
+import 'package:tlmc_player_app/views/mobile/screens/circle_screen_mobile.dart';
 import 'package:tlmc_player_app/views/mobile/screens/explore_screen_mobile.dart';
 import 'package:tlmc_player_app/views/mobile/screens/home_screen_mobile.dart';
 import 'package:tlmc_player_app/views/mobile/screens/radio_screen_mobile.dart';
@@ -150,6 +151,14 @@ class Application extends StatelessWidget {
                     },
                   ),
                   GoRoute(
+                    path: 'circle/:circleId',
+                    name: 'home_circle',
+                    builder: (context, state) {
+                      return CircleScreenMobile(
+                          circleId: state.pathParameters['circleId']!);
+                    },
+                  ),
+                  GoRoute(
                     path: 'audio_debug',
                     name: 'home_audio_debug',
                     builder: (context, state) => AudioDebugPage(),
@@ -202,12 +211,16 @@ class Application extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
+    return GetMaterialApp.router(
       title: 'Tlmc Player',
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
-      routerConfig: _router,
+      // routerConfig: _router,
+      routerDelegate: _router.routerDelegate,
+      routeInformationParser: _router.routeInformationParser,
+      routeInformationProvider: _router.routeInformationProvider,
+      backButtonDispatcher: _router.backButtonDispatcher,
     );
   }
 }

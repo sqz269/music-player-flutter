@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
 import 'package:tlmc_player_app/utils/url_util.dart';
+import 'package:tlmc_player_app/utils/utils.dart';
 import 'package:tlmc_player_app/views/mobile/widgets/bottom_sheet/track/i_track_bottom_sheet_options.dart';
 import 'package:tlmc_player_app/views/mobile/widgets/bottom_sheet/track/track_bottom_sheet_builder.dart';
 
@@ -24,14 +25,14 @@ class TrackBottomSheetOptionPlayNext extends ITrackBottomSheetOption {
       onTap: () {
         queueService.addTrackById(trackData.id!).then(
           (value) {
-            Navigator.of(context).pop();
-            // MobileMiniplayerBarController.to.expand();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Added to queue'),
-                behavior: SnackBarBehavior.floating,
-              ),
-            );
+            if (context.mounted) {
+              Navigator.of(context).pop();
+              // MobileMiniplayerBarController.to.expand();
+              Utils.showSnackBar(
+                  ScaffoldMessenger.of(context), 'Added to queue');
+            } else {
+              // TODO: handle error
+            }
           },
         );
       },
@@ -118,7 +119,7 @@ class TrackBottomSheetOptionSearchOnYoutube extends ITrackBottomSheetOption {
       onTap: () {
         final String query =
             '${trackData.name!.default_} ${albumData.name!.default_}, ${albumData.albumArtist!.first.name}';
-        UrlUtil.openYoutubeSearch(query);
+        UrlUtil.openYoutubeSearch(ScaffoldMessenger.of(context), query);
       },
     );
   }

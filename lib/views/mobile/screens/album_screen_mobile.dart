@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tlmc_player_app/views/controllers/desktop/screens/album_screen_desktop_controller.dart';
 import 'package:tlmc_player_app/extensions/get_x_extension.dart';
 import 'package:tlmc_player_app/views/mobile/widgets/track_tile.dart';
@@ -95,7 +96,12 @@ class _AlbumScreenMobileState extends State<AlbumScreenMobile> {
           horizontal: MediaQuery.of(context).size.width * 0.2,
           vertical: 8.0,
         ),
-        child: AbsorbPointer(
+        child: GestureDetector(
+          onTap: () {
+            GoRouter.of(context).goNamed('home_circle', pathParameters: {
+              'circleId': state.masterAlbum.albumArtist!.first.id.toString(),
+            });
+          },
           child: Column(
             children: [
               RichText(
