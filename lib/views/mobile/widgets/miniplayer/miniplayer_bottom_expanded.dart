@@ -143,6 +143,13 @@ class _MiniplayerExpandedCurrentlyPlayingState
             stream: audioService.position.stream,
             builder: (context, snapshot) {
               var perc = 0.0;
+              if (audioService.duration.value != null) {
+                perc = Utils.percentageFromValueInRange(
+                  min: 0,
+                  max: audioService.duration.value!.inMilliseconds.toDouble(),
+                  value: audioService.position.value!.inMilliseconds.toDouble(),
+                );
+              }
               return Slider(
                 value: _isDragging ? _dragPosition : perc,
                 onChangeStart: (perc) {

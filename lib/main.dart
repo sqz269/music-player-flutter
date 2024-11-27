@@ -211,16 +211,16 @@ class Application extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp.router(
+    return MaterialApp.router(
       title: 'Tlmc Player',
       theme: AppTheme.light,
       darkTheme: AppTheme.dark,
       themeMode: ThemeMode.system,
-      // routerConfig: _router,
-      routerDelegate: _router.routerDelegate,
-      routeInformationParser: _router.routeInformationParser,
-      routeInformationProvider: _router.routeInformationProvider,
-      backButtonDispatcher: _router.backButtonDispatcher,
+      routerConfig: _router,
+      // routerDelegate: _router.routerDelegate,
+      // routeInformationParser: _router.routeInformationParser,
+      // routeInformationProvider: _router.routeInformationProvider,
+      // backButtonDispatcher: _router.backButtonDispatcher,
     );
   }
 }
