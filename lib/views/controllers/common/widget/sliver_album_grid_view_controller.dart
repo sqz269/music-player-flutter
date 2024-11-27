@@ -18,7 +18,7 @@ class SliverAlbumGridViewController extends GetxController
   final Future<AlbumsListResult?> Function(int start, int limit,
       AlbumOrderOptions sortField, SortOrder sortDirection) fetchAlbums;
 
-  var orderOptions = AlbumOrderOptions.id.obs;
+  var orderOptions = AlbumOrderOptions.date.obs;
   var sortOrder = SortOrder.ascending.obs;
   var pageSize = 50.obs;
 

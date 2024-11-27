@@ -38,6 +38,32 @@ class JustAudioAudioService implements IAudioService {
   @override
   Rx<double> get volume => _volume;
 
+  Future<void> _debugPrintState() async {
+    position.stream.listen((value) {
+      _logger.d('position: $value');
+    });
+
+    duration.stream.listen((value) {
+      _logger.d('duration: $value');
+    });
+
+    bufferedPosition.stream.listen((value) {
+      _logger.d('bufferedPosition: $value');
+    });
+
+    isPlaying.stream.listen((value) {
+      _logger.d('isPlaying: $value');
+    });
+  }
+
+  JustAudioAudioService() {
+    _duration.bindStream(_audioPlayer.durationStream);
+    _bufferedPosition.bindStream(_audioPlayer.bufferedPositionStream);
+    _position.bindStream(_audioPlayer.positionStream);
+    _isPlaying.bindStream(_audioPlayer.playingStream);
+    // _debugPrintState();
+  }
+
   @override
   Future<void> pause() async {
     return _audioPlayer.pause();

@@ -34,7 +34,7 @@ import 'package:tlmc_player_app/views/mobile/screens/circle_screen_mobile.dart';
 import 'package:tlmc_player_app/views/mobile/screens/explore_screen_mobile.dart';
 import 'package:tlmc_player_app/views/mobile/screens/home_screen_mobile.dart';
 import 'package:tlmc_player_app/views/mobile/screens/radio_screen_mobile.dart';
-import 'package:tlmc_player_app/views/mobile/widgets/miniplayer_bottom.dart';
+import 'package:tlmc_player_app/views/mobile/widgets/miniplayer/miniplayer_bottom.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');

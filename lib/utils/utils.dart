@@ -3,6 +3,16 @@ import 'package:get/get.dart';
 import 'package:tlmc_player_app/services/impl/queue_service.dart';
 
 class Utils {
+  static double valueFromPercentageInRange(
+      {required final double min, max, percentage}) {
+    return percentage * (max - min) + min;
+  }
+
+  static double percentageFromValueInRange(
+      {required final double min, max, value}) {
+    return (value - min) / (max - min);
+  }
+
   static bool isMiniplayerVisible() {
     final queueService = Get.find<QueueService>();
 
